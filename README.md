@@ -18,6 +18,7 @@ Will be updated as I go.
 Will be updated as I go.
 
 ## Documentation:
-OneNote here: https://livecsupomona-my.sharepoint.com/:o:/g/personal/georgeyu_cpp_edu/EsdrZqUCATlOs_IW7uZltlMBf9s61p3XAIeNPWgkGv5AwA?e=ZoctIG
+OneNote here: 
+https://livecsupomona-my.sharepoint.com/:o:/g/personal/georgeyu_cpp_edu/EsdrZqUCATlOs_IW7uZltlMBf9s61p3XAIeNPWgkGv5AwA?e=ZoctIG
 
 Will probably include a short writeup as well.
