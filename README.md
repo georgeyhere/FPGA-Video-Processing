@@ -5,13 +5,17 @@ The objective of this project is to take 640x480 VGA data from an OV7670 camera 
 ## Topics Covered:
 
 SCCB (Serial Camera Control Bus) Protocol
+
 - i2c compliant 2-wire protocol used for configurint the OV7670 camera
 
 IEEE-754 Floating Point Protocol
+
 -binary representation of floating-point values
+
 -floating point multiply and add
 
 Xilinx Floating-Point IP
+
 -used in multiply and fused multiply-add configurations
 
 Will be updated as I go.
