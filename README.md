@@ -18,6 +18,12 @@ Xilinx Floating-Point IP
 
 - used in multiply and fused multiply-add configurations
 
+Image Filtering Algorithms
+
+- Gaussian Blur using 3x3 kernel
+
+- Sobel Edge Detection in x and y directions using two 3x3 kernels
+
 Will be updated as I go.
 
 ## Timeline:
