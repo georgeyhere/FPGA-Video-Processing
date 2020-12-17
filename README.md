@@ -18,9 +18,11 @@ Will be updated as I go.
 
 ## Timeline:
 
-12/20: Complete greyscale block
-12/25: Complete RTL blocks (byte_combine and byte_convert)
-1/10: Complete memory configuration
+-12/20: Complete greyscale block
+
+-12/25: Complete RTL blocks (byte_combine and byte_convert)
+
+-1/10: Complete memory configuration
 
 Will be updated as I go.
 
