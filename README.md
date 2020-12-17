@@ -10,23 +10,23 @@ SCCB (Serial Camera Control Bus) Protocol
 
 IEEE-754 Floating Point Protocol
 
--binary representation of floating-point values
+- binary representation of floating-point values
 
--floating point multiply and add
+- floating point multiply and add
 
 Xilinx Floating-Point IP
 
--used in multiply and fused multiply-add configurations
+- used in multiply and fused multiply-add configurations
 
 Will be updated as I go.
 
 ## Timeline:
 
--12/20: Complete greyscale block
+- 12/20: Complete greyscale block
 
--12/25: Complete RTL blocks (byte_combine and byte_convert)
+- 12/25: Complete RTL blocks (byte_combine and byte_convert)
 
--1/10: Complete memory configuration
+- 1/10: Complete memory configuration
 
 Will be updated as I go.
 
