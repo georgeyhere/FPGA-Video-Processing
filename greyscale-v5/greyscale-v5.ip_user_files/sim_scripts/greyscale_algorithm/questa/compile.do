@@ -61,6 +61,9 @@ vcom -work xil_defaultlib -64 -93 \
 vlog -work xil_defaultlib -64 \
 "../../../bd/greyscale_algorithm/sim/greyscale_algorithm.v" \
 
+vcom -work xil_defaultlib -64 -93 \
+"../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_6_0/sim/greyscale_algorithm_floating_point_6_0.vhd" \
+
 vlog -work xil_defaultlib \
 "glbl.v"
 

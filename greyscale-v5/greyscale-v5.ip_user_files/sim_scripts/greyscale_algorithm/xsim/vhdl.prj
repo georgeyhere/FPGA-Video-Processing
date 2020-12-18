@@ -5,5 +5,6 @@ vhdl xil_defaultlib  \
 "../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_3_0/sim/greyscale_algorithm_floating_point_3_0.vhd" \
 "../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_4_0/sim/greyscale_algorithm_floating_point_4_0.vhd" \
 "../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_5_0/sim/greyscale_algorithm_floating_point_5_0.vhd" \
+"../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_6_0/sim/greyscale_algorithm_floating_point_6_0.vhd" \
 
 nosort

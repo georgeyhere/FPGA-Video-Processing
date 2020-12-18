@@ -344,6 +344,20 @@ proc create_root_design { parentCell } {
    CONFIG.Result_Precision_Type {Single} \
  ] $floating_point_5
 
+  # Create instance: floating_point_6, and set properties
+  set floating_point_6 [ create_bd_cell -type ip -vlnv xilinx.com:ip:floating_point:7.1 floating_point_6 ]
+  set_property -dict [ list \
+   CONFIG.C_Latency {1} \
+   CONFIG.C_Mult_Usage {No_Usage} \
+   CONFIG.C_Rate {1} \
+   CONFIG.C_Result_Exponent_Width {32} \
+   CONFIG.C_Result_Fraction_Width {0} \
+   CONFIG.Has_ARESETn {true} \
+   CONFIG.Maximum_Latency {false} \
+   CONFIG.Operation_Type {Float_to_fixed} \
+   CONFIG.Result_Precision_Type {Int32} \
+ ] $floating_point_6
+
   # Create interface connections
   connect_bd_intf_net -intf_net S_AXIS_A_0_1 [get_bd_intf_ports S_AXIS_A_0] [get_bd_intf_pins floating_point_2/S_AXIS_A]
   connect_bd_intf_net -intf_net S_AXIS_A_1_1 [get_bd_intf_ports S_AXIS_A_1] [get_bd_intf_pins floating_point_1/S_AXIS_A]
@@ -356,11 +370,12 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net floating_point_2_M_AXIS_RESULT [get_bd_intf_pins floating_point_2/M_AXIS_RESULT] [get_bd_intf_pins floating_point_5/S_AXIS_A]
   connect_bd_intf_net -intf_net floating_point_3_M_AXIS_RESULT [get_bd_intf_pins floating_point_3/M_AXIS_RESULT] [get_bd_intf_pins floating_point_4/S_AXIS_C]
   connect_bd_intf_net -intf_net floating_point_4_M_AXIS_RESULT [get_bd_intf_pins floating_point_4/M_AXIS_RESULT] [get_bd_intf_pins floating_point_5/S_AXIS_C]
-  connect_bd_intf_net -intf_net floating_point_5_M_AXIS_RESULT [get_bd_intf_ports M_AXIS_RESULT_0] [get_bd_intf_pins floating_point_5/M_AXIS_RESULT]
+  connect_bd_intf_net -intf_net floating_point_5_M_AXIS_RESULT [get_bd_intf_pins floating_point_5/M_AXIS_RESULT] [get_bd_intf_pins floating_point_6/S_AXIS_A]
+  connect_bd_intf_net -intf_net floating_point_6_M_AXIS_RESULT [get_bd_intf_ports M_AXIS_RESULT_0] [get_bd_intf_pins floating_point_6/M_AXIS_RESULT]
 
   # Create port connections
-  connect_bd_net -net aclk_0_1 [get_bd_ports aclk_0] [get_bd_pins floating_point_0/aclk] [get_bd_pins floating_point_1/aclk] [get_bd_pins floating_point_2/aclk] [get_bd_pins floating_point_3/aclk] [get_bd_pins floating_point_4/aclk] [get_bd_pins floating_point_5/aclk]
-  connect_bd_net -net aresetn_0_1 [get_bd_ports aresetn_0] [get_bd_pins floating_point_0/aresetn] [get_bd_pins floating_point_1/aresetn] [get_bd_pins floating_point_2/aresetn] [get_bd_pins floating_point_3/aresetn] [get_bd_pins floating_point_4/aresetn] [get_bd_pins floating_point_5/aresetn]
+  connect_bd_net -net aclk_0_1 [get_bd_ports aclk_0] [get_bd_pins floating_point_0/aclk] [get_bd_pins floating_point_1/aclk] [get_bd_pins floating_point_2/aclk] [get_bd_pins floating_point_3/aclk] [get_bd_pins floating_point_4/aclk] [get_bd_pins floating_point_5/aclk] [get_bd_pins floating_point_6/aclk]
+  connect_bd_net -net aresetn_0_1 [get_bd_ports aresetn_0] [get_bd_pins floating_point_0/aresetn] [get_bd_pins floating_point_1/aresetn] [get_bd_pins floating_point_2/aresetn] [get_bd_pins floating_point_3/aresetn] [get_bd_pins floating_point_4/aresetn] [get_bd_pins floating_point_5/aresetn] [get_bd_pins floating_point_6/aresetn]
 
   # Create address segments
 

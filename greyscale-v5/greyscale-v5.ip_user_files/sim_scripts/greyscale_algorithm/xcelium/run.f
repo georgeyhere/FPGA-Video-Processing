@@ -37,6 +37,9 @@
   "../../../bd/greyscale_algorithm/sim/greyscale_algorithm.v" \
 -endlib
 -makelib xcelium_lib/xil_defaultlib \
+  "../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_6_0/sim/greyscale_algorithm_floating_point_6_0.vhd" \
+-endlib
+-makelib xcelium_lib/xil_defaultlib \
   glbl.v
 -endlib
 
