@@ -1,0 +1,41 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"0.868966",
+   "Default View_TopLeft":"-261,-518",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 non-TLS
+#  -string -flagsOSRD
+preplace port S_AXIS_B_0 -pg 1 -lvl 0 -x -100 -y -500 -defaultsOSRD
+preplace port S_AXIS_B_1 -pg 1 -lvl 0 -x -100 -y -300 -defaultsOSRD
+preplace port S_AXIS_B_2 -pg 1 -lvl 0 -x -100 -y -110 -defaultsOSRD
+preplace port S_AXIS_A_0 -pg 1 -lvl 0 -x -100 -y -50 -defaultsOSRD
+preplace port S_AXIS_A_1 -pg 1 -lvl 0 -x -100 -y -240 -defaultsOSRD
+preplace port S_AXIS_A_2 -pg 1 -lvl 0 -x -100 -y -440 -defaultsOSRD
+preplace port M_AXIS_RESULT_0 -pg 1 -lvl 3 -x 930 -y -30 -defaultsOSRD
+preplace port aresetn_0 -pg 1 -lvl 0 -x -100 -y -10 -defaultsOSRD
+preplace port aclk_0 -pg 1 -lvl 0 -x -100 -y -30 -defaultsOSRD
+preplace inst floating_point_0 -pg 1 -lvl 1 -x 400 -y -420 -defaultsOSRD
+preplace inst floating_point_1 -pg 1 -lvl 1 -x 400 -y -220 -defaultsOSRD
+preplace inst floating_point_2 -pg 1 -lvl 1 -x 400 -y -30 -defaultsOSRD
+preplace inst floating_point_3 -pg 1 -lvl 2 -x 750 -y -420 -defaultsOSRD
+preplace inst floating_point_4 -pg 1 -lvl 2 -x 750 -y -220 -defaultsOSRD
+preplace inst floating_point_5 -pg 1 -lvl 2 -x 750 -y -30 -defaultsOSRD
+preplace netloc aresetn_0_1 1 0 2 -70 -310 570
+preplace netloc aclk_0_1 1 0 2 -80 -510 550
+preplace netloc floating_point_0_M_AXIS_RESULT 1 1 1 540 -450n
+preplace netloc S_AXIS_B_0_1 1 0 2 NJ -500 570J
+preplace netloc S_AXIS_B_1_1 1 0 2 NJ -300 540J
+preplace netloc S_AXIS_B_2_1 1 0 2 NJ -110 540J
+preplace netloc floating_point_1_M_AXIS_RESULT 1 1 1 560 -260n
+preplace netloc floating_point_2_M_AXIS_RESULT 1 1 1 580 -70n
+preplace netloc S_AXIS_A_0_1 1 0 1 N -50
+preplace netloc S_AXIS_A_1_1 1 0 1 N -240
+preplace netloc S_AXIS_A_2_1 1 0 1 N -440
+preplace netloc floating_point_3_M_AXIS_RESULT 1 1 2 580 -510 890
+preplace netloc floating_point_4_M_AXIS_RESULT 1 1 2 590 -320 890
+preplace netloc floating_point_5_M_AXIS_RESULT 1 2 1 N -30
+levelinfo -pg 1 -100 400 750 930
+pagesize -pg 1 -db -bbox -sgen -240 -530 1120 180
+"
+}
+
