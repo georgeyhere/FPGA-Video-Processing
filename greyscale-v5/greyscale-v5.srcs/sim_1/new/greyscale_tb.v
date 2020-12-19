@@ -29,9 +29,9 @@ reg [7:0] red = 8'b00011100; //test values
 reg [7:0] green = 8'b00000111;
 reg [7:0] blue = 8'b00011100;
 
-reg byte_convert_valid = 0;
+reg byte_convert_valid = 1;
 
-wire M_AXIS_RESULT_0_tready;
+reg M_AXIS_RESULT_0_tready = 1;
 wire [31:0] M_AXIS_RESULT_0_tdata;
 wire M_AXIS_RESULT_0_tvalid;
 
@@ -50,11 +50,12 @@ greyscale_top UUT (
 always begin
 
 #1 clk = ~clk;
-#3 byte_convert_valid = ~byte_convert_valid;
-
 
 end
-
+initial begin
+#40 byte_convert_valid = 0;
+#40 byte_convert_valid = 1;
+end
 
     
 endmodule

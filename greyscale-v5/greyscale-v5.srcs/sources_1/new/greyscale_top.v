@@ -31,8 +31,8 @@ input [7:0] blue,
 input byte_convert_valid,
 input M_AXIS_RESULT_0_tready, //output AXI ready
 
-output reg [31:0] M_AXIS_RESULT_0_tdata, //output, 32-bit fixed-point greyscale value
-output reg M_AXIS_RESULT_0_tvalid //used as feedback to the input module
+output wire [31:0] M_AXIS_RESULT_0_tdata, //output, 32-bit fixed-point greyscale value
+output wire M_AXIS_RESULT_0_tvalid //used as feedback to the input module
     );
 
 wire S_AXIS_A_0_tready; //AXI protocol 
