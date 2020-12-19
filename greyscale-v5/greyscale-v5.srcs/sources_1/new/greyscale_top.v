@@ -29,13 +29,13 @@ input [7:0] red,
 input [7:0] green,
 input [7:0] blue,
 input byte_convert_valid,
-input M_AXIS_RESULT_0_tready,
+input M_AXIS_RESULT_0_tready, //output AXI ready
 
-output reg [31:0] M_AXIS_RESULT_0_tdata,
-output reg M_AXIS_RESULT_0_tvalid
+output reg [31:0] M_AXIS_RESULT_0_tdata, //output, 32-bit fixed-point greyscale value
+output reg M_AXIS_RESULT_0_tvalid //used as feedback to the input module
     );
 
-wire S_AXIS_A_0_tready;
+wire S_AXIS_A_0_tready; //AXI protocol 
 wire S_AXIS_A_1_tready;
 wire S_AXIS_A_2_tready;
 wire S_AXIS_B_0_tready;
@@ -54,8 +54,7 @@ wire S_AXIS_B_0_tvalid;
 wire S_AXIS_B_1_tvalid;
 wire S_AXIS_B_2_tvalid;
 
-        
-    
+     
 greyscale_input UUT1 (
 .clk(clk),
 .reset_n(reset_n),
@@ -108,14 +107,6 @@ greyscale_algorithm UUT2 (
 .S_AXIS_B_2_tdata(S_AXIS_B_2_tdata),
 .S_AXIS_B_2_tready(S_AXIS_B_2_tready),
 .S_AXIS_B_2_tvalid(S_AXIS_B_2_tvalid)
-);
-
-
-
-);
-    
-    
-    
-    
+); 
     
 endmodule
