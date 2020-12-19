@@ -122,7 +122,7 @@ case(fsm_state)
     s1_assign: begin
         S_AXIS_A_0_tdata [7:0] <= red; //rgb will always be integer values
         S_AXIS_A_1_tdata [7:0] <= green; //32-bit fixed point number integer part is in [31:17]
-        S_AXIS_A_1_tdata [7:0] <= blue; //we need the first 8 bits, hence [24:17]
+        S_AXIS_A_2_tdata [7:0] <= blue; //we need the first 8 bits, hence [24:17]
         
         S_AXIS_A_0_tvalid <= (S_AXIS_A_0_tready) ? 1:0; //feed data to IP whenever it is ready
         S_AXIS_A_1_tvalid <= (S_AXIS_A_1_tready) ? 1:0;

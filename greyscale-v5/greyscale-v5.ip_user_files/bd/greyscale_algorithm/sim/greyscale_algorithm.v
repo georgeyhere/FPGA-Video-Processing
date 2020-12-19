@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-//Date        : Fri Dec 18 15:40:11 2020
+//Date        : Fri Dec 18 17:56:29 2020
 //Host        : DESKTOP-MB5IJCE running 64-bit major release  (build 9200)
 //Command     : generate_target greyscale_algorithm.bd
 //Design      : greyscale_algorithm
@@ -129,9 +129,9 @@ module greyscale_algorithm
         .m_axis_result_tdata(floating_point_0_M_AXIS_RESULT_TDATA),
         .m_axis_result_tready(floating_point_0_M_AXIS_RESULT_TREADY),
         .m_axis_result_tvalid(floating_point_0_M_AXIS_RESULT_TVALID),
-        .s_axis_a_tdata(S_AXIS_A_2_1_TDATA),
-        .s_axis_a_tready(S_AXIS_A_2_1_TREADY),
-        .s_axis_a_tvalid(S_AXIS_A_2_1_TVALID));
+        .s_axis_a_tdata(S_AXIS_A_0_1_TDATA),
+        .s_axis_a_tready(S_AXIS_A_0_1_TREADY),
+        .s_axis_a_tvalid(S_AXIS_A_0_1_TVALID));
   greyscale_algorithm_floating_point_1_0 floating_point_1
        (.aclk(aclk_0_1),
         .aresetn(aresetn_0_1),
@@ -147,9 +147,9 @@ module greyscale_algorithm
         .m_axis_result_tdata(floating_point_2_M_AXIS_RESULT_TDATA),
         .m_axis_result_tready(floating_point_2_M_AXIS_RESULT_TREADY),
         .m_axis_result_tvalid(floating_point_2_M_AXIS_RESULT_TVALID),
-        .s_axis_a_tdata(S_AXIS_A_0_1_TDATA),
-        .s_axis_a_tready(S_AXIS_A_0_1_TREADY),
-        .s_axis_a_tvalid(S_AXIS_A_0_1_TVALID));
+        .s_axis_a_tdata(S_AXIS_A_2_1_TDATA),
+        .s_axis_a_tready(S_AXIS_A_2_1_TREADY),
+        .s_axis_a_tvalid(S_AXIS_A_2_1_TVALID));
   greyscale_algorithm_floating_point_3_0 floating_point_3
        (.aclk(aclk_0_1),
         .aresetn(aresetn_0_1),

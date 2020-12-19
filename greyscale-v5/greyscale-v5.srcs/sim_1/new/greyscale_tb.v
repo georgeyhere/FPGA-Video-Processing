@@ -25,9 +25,10 @@ module greyscale_tb();
 reg clk = 0;
 reg reset_n = 1;
 
-reg [7:0] red = 8'b00011100; //test values
-reg [7:0] green = 8'b00000111;
-reg [7:0] blue = 8'b00011100;
+//0-256
+reg [7:0] red = 75; 
+reg [7:0] green = 50; 
+reg [7:0] blue = 100; 
 
 reg byte_convert_valid = 1;
 

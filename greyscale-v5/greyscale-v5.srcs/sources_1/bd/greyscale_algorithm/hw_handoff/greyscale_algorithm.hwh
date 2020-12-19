@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Fri Dec 18 15:40:11 2020" VIVADOVERSION="2019.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Fri Dec 18 17:56:30 2020" VIVADOVERSION="2019.2">
 
   <SYSTEMINFO ARCH="artix7" DEVICE="7a50t" NAME="greyscale_algorithm" PACKAGE="csg324" SPEEDGRADE="-1"/>
 
@@ -49,19 +49,19 @@
         <CONNECTION INSTANCE="floating_point_5" PORT="s_axis_b_tvalid"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" LEFT="31" NAME="S_AXIS_A_0_tdata" RIGHT="0" SIGIS="undef" SIGNAME="floating_point_2_s_axis_a_tdata">
+    <PORT DIR="I" LEFT="31" NAME="S_AXIS_A_0_tdata" RIGHT="0" SIGIS="undef" SIGNAME="floating_point_0_s_axis_a_tdata">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="floating_point_2" PORT="s_axis_a_tdata"/>
+        <CONNECTION INSTANCE="floating_point_0" PORT="s_axis_a_tdata"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" NAME="S_AXIS_A_0_tready" SIGIS="undef" SIGNAME="floating_point_2_s_axis_a_tready">
+    <PORT DIR="O" NAME="S_AXIS_A_0_tready" SIGIS="undef" SIGNAME="floating_point_0_s_axis_a_tready">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="floating_point_2" PORT="s_axis_a_tready"/>
+        <CONNECTION INSTANCE="floating_point_0" PORT="s_axis_a_tready"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" NAME="S_AXIS_A_0_tvalid" SIGIS="undef" SIGNAME="floating_point_2_s_axis_a_tvalid">
+    <PORT DIR="I" NAME="S_AXIS_A_0_tvalid" SIGIS="undef" SIGNAME="floating_point_0_s_axis_a_tvalid">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="floating_point_2" PORT="s_axis_a_tvalid"/>
+        <CONNECTION INSTANCE="floating_point_0" PORT="s_axis_a_tvalid"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" LEFT="31" NAME="S_AXIS_A_1_tdata" RIGHT="0" SIGIS="undef" SIGNAME="floating_point_1_s_axis_a_tdata">
@@ -79,19 +79,19 @@
         <CONNECTION INSTANCE="floating_point_1" PORT="s_axis_a_tvalid"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" LEFT="31" NAME="S_AXIS_A_2_tdata" RIGHT="0" SIGIS="undef" SIGNAME="floating_point_0_s_axis_a_tdata">
+    <PORT DIR="I" LEFT="31" NAME="S_AXIS_A_2_tdata" RIGHT="0" SIGIS="undef" SIGNAME="floating_point_2_s_axis_a_tdata">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="floating_point_0" PORT="s_axis_a_tdata"/>
+        <CONNECTION INSTANCE="floating_point_2" PORT="s_axis_a_tdata"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" NAME="S_AXIS_A_2_tready" SIGIS="undef" SIGNAME="floating_point_0_s_axis_a_tready">
+    <PORT DIR="O" NAME="S_AXIS_A_2_tready" SIGIS="undef" SIGNAME="floating_point_2_s_axis_a_tready">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="floating_point_0" PORT="s_axis_a_tready"/>
+        <CONNECTION INSTANCE="floating_point_2" PORT="s_axis_a_tready"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" NAME="S_AXIS_A_2_tvalid" SIGIS="undef" SIGNAME="floating_point_0_s_axis_a_tvalid">
+    <PORT DIR="I" NAME="S_AXIS_A_2_tvalid" SIGIS="undef" SIGNAME="floating_point_2_s_axis_a_tvalid">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="floating_point_0" PORT="s_axis_a_tvalid"/>
+        <CONNECTION INSTANCE="floating_point_2" PORT="s_axis_a_tvalid"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" NAME="aresetn_0" SIGIS="rst" SIGNAME="External_Ports_aresetn_0">
@@ -416,17 +416,17 @@
         </PORT>
         <PORT DIR="I" NAME="s_axis_a_tvalid" SIGIS="undef" SIGNAME="floating_point_0_s_axis_a_tvalid">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_2_tvalid"/>
+            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_0_tvalid"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="s_axis_a_tready" SIGIS="undef" SIGNAME="floating_point_0_s_axis_a_tready">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_2_tready"/>
+            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_0_tready"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" LEFT="31" NAME="s_axis_a_tdata" RIGHT="0" SIGIS="undef" SIGNAME="floating_point_0_s_axis_a_tdata">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_2_tdata"/>
+            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_0_tdata"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="m_axis_result_tvalid" SIGIS="undef" SIGNAME="floating_point_0_m_axis_result_tvalid">
@@ -446,7 +446,7 @@
         </PORT>
       </PORTS>
       <BUSINTERFACES>
-        <BUSINTERFACE BUSNAME="External_Interface_S_AXIS_A_2" NAME="S_AXIS_A" TYPE="TARGET" VLNV="xilinx.com:interface:axis:1.0">
+        <BUSINTERFACE BUSNAME="External_Interface_S_AXIS_A_0" NAME="S_AXIS_A" TYPE="TARGET" VLNV="xilinx.com:interface:axis:1.0">
           <PARAMETER NAME="TDATA_NUM_BYTES" VALUE="4"/>
           <PARAMETER NAME="TDEST_WIDTH" VALUE="0"/>
           <PARAMETER NAME="TID_WIDTH" VALUE="0"/>
@@ -838,17 +838,17 @@
         </PORT>
         <PORT DIR="I" NAME="s_axis_a_tvalid" SIGIS="undef" SIGNAME="floating_point_2_s_axis_a_tvalid">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_0_tvalid"/>
+            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_2_tvalid"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="s_axis_a_tready" SIGIS="undef" SIGNAME="floating_point_2_s_axis_a_tready">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_0_tready"/>
+            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_2_tready"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" LEFT="31" NAME="s_axis_a_tdata" RIGHT="0" SIGIS="undef" SIGNAME="floating_point_2_s_axis_a_tdata">
           <CONNECTIONS>
-            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_0_tdata"/>
+            <CONNECTION INSTANCE="greyscale_algorithm_imp" PORT="S_AXIS_A_2_tdata"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="m_axis_result_tvalid" SIGIS="undef" SIGNAME="floating_point_2_m_axis_result_tvalid">
@@ -868,7 +868,7 @@
         </PORT>
       </PORTS>
       <BUSINTERFACES>
-        <BUSINTERFACE BUSNAME="External_Interface_S_AXIS_A_0" NAME="S_AXIS_A" TYPE="TARGET" VLNV="xilinx.com:interface:axis:1.0">
+        <BUSINTERFACE BUSNAME="External_Interface_S_AXIS_A_2" NAME="S_AXIS_A" TYPE="TARGET" VLNV="xilinx.com:interface:axis:1.0">
           <PARAMETER NAME="TDATA_NUM_BYTES" VALUE="4"/>
           <PARAMETER NAME="TDEST_WIDTH" VALUE="0"/>
           <PARAMETER NAME="TID_WIDTH" VALUE="0"/>
