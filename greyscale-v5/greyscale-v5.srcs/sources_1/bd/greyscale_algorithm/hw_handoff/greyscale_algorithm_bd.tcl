@@ -359,9 +359,9 @@ proc create_root_design { parentCell } {
  ] $floating_point_6
 
   # Create interface connections
-  connect_bd_intf_net -intf_net S_AXIS_A_0_1 [get_bd_intf_ports S_AXIS_A_0] [get_bd_intf_pins floating_point_0/S_AXIS_A]
+  connect_bd_intf_net -intf_net S_AXIS_A_0_1 [get_bd_intf_ports S_AXIS_A_0] [get_bd_intf_pins floating_point_2/S_AXIS_A]
   connect_bd_intf_net -intf_net S_AXIS_A_1_1 [get_bd_intf_ports S_AXIS_A_1] [get_bd_intf_pins floating_point_1/S_AXIS_A]
-  connect_bd_intf_net -intf_net S_AXIS_A_2_1 [get_bd_intf_ports S_AXIS_A_2] [get_bd_intf_pins floating_point_2/S_AXIS_A]
+  connect_bd_intf_net -intf_net S_AXIS_A_2_1 [get_bd_intf_ports S_AXIS_A_2] [get_bd_intf_pins floating_point_0/S_AXIS_A]
   connect_bd_intf_net -intf_net S_AXIS_B_0_1 [get_bd_intf_ports S_AXIS_B_0] [get_bd_intf_pins floating_point_3/S_AXIS_B]
   connect_bd_intf_net -intf_net S_AXIS_B_1_1 [get_bd_intf_ports S_AXIS_B_1] [get_bd_intf_pins floating_point_4/S_AXIS_B]
   connect_bd_intf_net -intf_net S_AXIS_B_2_1 [get_bd_intf_ports S_AXIS_B_2] [get_bd_intf_pins floating_point_5/S_AXIS_B]

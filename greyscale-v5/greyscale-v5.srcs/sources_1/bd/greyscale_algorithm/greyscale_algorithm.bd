@@ -688,34 +688,16 @@
           "floating_point_6/M_AXIS_RESULT"
         ]
       },
-      "S_AXIS_B_0_1": {
-        "interface_ports": [
-          "S_AXIS_B_0",
-          "floating_point_3/S_AXIS_B"
-        ]
-      },
-      "S_AXIS_A_0_1": {
-        "interface_ports": [
-          "S_AXIS_A_0",
-          "floating_point_0/S_AXIS_A"
-        ]
-      },
-      "S_AXIS_A_2_1": {
-        "interface_ports": [
-          "S_AXIS_A_2",
-          "floating_point_2/S_AXIS_A"
-        ]
-      },
-      "S_AXIS_B_1_1": {
-        "interface_ports": [
-          "S_AXIS_B_1",
-          "floating_point_4/S_AXIS_B"
-        ]
-      },
       "S_AXIS_B_2_1": {
         "interface_ports": [
           "S_AXIS_B_2",
           "floating_point_5/S_AXIS_B"
+        ]
+      },
+      "S_AXIS_B_0_1": {
+        "interface_ports": [
+          "S_AXIS_B_0",
+          "floating_point_3/S_AXIS_B"
         ]
       },
       "floating_point_4_M_AXIS_RESULT": {
@@ -742,6 +724,18 @@
           "floating_point_3/S_AXIS_A"
         ]
       },
+      "S_AXIS_B_1_1": {
+        "interface_ports": [
+          "S_AXIS_B_1",
+          "floating_point_4/S_AXIS_B"
+        ]
+      },
+      "S_AXIS_A_2_1": {
+        "interface_ports": [
+          "S_AXIS_A_2",
+          "floating_point_0/S_AXIS_A"
+        ]
+      },
       "floating_point_2_M_AXIS_RESULT": {
         "interface_ports": [
           "floating_point_2/M_AXIS_RESULT",
@@ -752,6 +746,12 @@
         "interface_ports": [
           "S_AXIS_A_1",
           "floating_point_1/S_AXIS_A"
+        ]
+      },
+      "S_AXIS_A_0_1": {
+        "interface_ports": [
+          "S_AXIS_A_0",
+          "floating_point_2/S_AXIS_A"
         ]
       }
     },
