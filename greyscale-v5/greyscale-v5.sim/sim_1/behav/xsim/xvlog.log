@@ -6,3 +6,5 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/George/Edge-Detection/grey
 INFO: [VRFC 10-311] analyzing module greyscale_top
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sim_1/new/greyscale_tb.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module greyscale_tb
+INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl
