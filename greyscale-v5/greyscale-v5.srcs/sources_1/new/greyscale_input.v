@@ -63,7 +63,7 @@ localparam s1_assign = 1;
 always@(posedge clk, negedge reset_n) begin
 
 if(reset_n == 1'b0) begin //asynchronous reset (active low)
-    S_AXIS_A_0_tvalid <= 0; 
+    S_AXIS_A_0_tvalid <= 0; //resets
     S_AXIS_A_1_tvalid <= 0;
     S_AXIS_A_2_tvalid <= 0;
     S_AXIS_B_0_tvalid <= 0;
@@ -78,7 +78,7 @@ end
 case(fsm_state)
     
     s0_idle: begin
-        S_AXIS_A_0_tvalid <= 0;//reset 
+        S_AXIS_A_0_tvalid <= 0; //resets
         S_AXIS_A_1_tvalid <= 0;
         S_AXIS_A_2_tvalid <= 0;
         S_AXIS_B_0_tvalid <= 0;
@@ -87,16 +87,16 @@ case(fsm_state)
         S_AXIS_A_0_tdata <= 0;
         S_AXIS_A_1_tdata <= 0;
         S_AXIS_A_2_tdata <= 0;
-        fsm_state <= (byte_convert_valid) ? s1_assign:s0_idle;//new pixel to process, go to assign
+        fsm_state <= (byte_convert_valid) ? s1_assign:s0_idle; //new pixel to process, go to assign
     end
     
     s1_assign: begin
         S_AXIS_A_0_tdata [24:17] <= red; //rgb will always be integer values
         S_AXIS_A_1_tdata [24:17] <= green; //32-bit fixed point number integer part is in [31:17]
         S_AXIS_A_1_tdata [24:17] <= blue; //we need the first 8 bits, hence [24:17]
-        S_AXIS_B_0_tdata <= 32'b00111110100110011001100110011010;// IEEE-754 floating point 0.3
-        S_AXIS_B_1_tdata <= 32'b00111111000110011001100110011010;// IEEE-754 floating point 0.6
-        S_AXIS_B_2_tdata <= 32'b00111101110011001100110011001101;// IEEE-754 floating point 0.1
+        S_AXIS_B_0_tdata <= 32'b00111110100110011001100110011010; // IEEE-754 floating point 0.3
+        S_AXIS_B_1_tdata <= 32'b00111111000110011001100110011010; // IEEE-754 floating point 0.6
+        S_AXIS_B_2_tdata <= 32'b00111101110011001100110011001101; // IEEE-754 floating point 0.1
         S_AXIS_A_0_tvalid <= (S_AXIS_A_0_tready) ? 1:0; //feed data to IP whenever it is ready
         S_AXIS_A_1_tvalid <= (S_AXIS_A_1_tready) ? 1:0;
         S_AXIS_A_2_tvalid <= (S_AXIS_A_2_tready) ? 1:0;
