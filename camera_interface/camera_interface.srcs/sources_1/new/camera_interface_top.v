@@ -21,6 +21,7 @@
 
 module camera_fifo_top(
 input clk,
+input pclk,
 input reset_n,
 
 input href,
@@ -73,6 +74,7 @@ BRAM_1_FIFO UUT2 (
 
 camera_fifo_output UUT3 (
 .clk(clk),
+.pclk(pclk),
 .reset_n(reset_n),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),
 .FIFO_READ_0_rd_data(FIFO_READ_0_rd_data),

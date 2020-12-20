@@ -4,6 +4,7 @@ Running: D:/Xilinx/Vivado/2019.2/bin/unwrapped/win64.o/xelab.exe -wto c698809d61
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-5021] port 'pclk' is not connected on this instance [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sim_1/new/top_tb.v:36]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis

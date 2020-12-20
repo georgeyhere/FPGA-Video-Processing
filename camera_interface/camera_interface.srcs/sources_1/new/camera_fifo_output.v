@@ -22,6 +22,7 @@
 
 module camera_fifo_output(
 input clk,
+input pclk,
 input reset_n,
 input FIFO_READ_0_empty,
 input [7:0] FIFO_READ_0_rd_data,
@@ -65,12 +66,12 @@ always@(posedge clk, negedge reset_n) begin
         
     s0_idle: begin
         FIFO_READ_0_rd_en <= 0;     
-        fsm_state <= (FIFO_WRITE_0_wr_en) ? s1_read:s0_idle; //new byte will be written to FIFO next clock
+        fsm_state <= (pclk == 1'b1) ? s1_read:s0_idle; //new byte will be written to FIFO next clock
     end
     
     s1_read: begin //initiate FIFO read operation
-        FIFO_READ_0_rd_en <= (rd_rst_busy_0 == 0 & greyscaler_ready == 1) ? 1:0;
-        fsm_state <= (rd_rst_busy_0 == 0 & greyscaler_ready == 1)? s2_combine1:s0_idle; //don't read from FIFO if busy
+        FIFO_READ_0_rd_en <= ((rd_rst_busy_0 == 1) & (greyscaler_ready == 1)) ? 1:0;
+        fsm_state <= (rd_rst_busy_0 == 1 & greyscaler_ready == 1)? s2_combine1:s0_idle; //don't read from FIFO if busy
     end
     
     s2_combine1: begin //decode the first byte of the pixel

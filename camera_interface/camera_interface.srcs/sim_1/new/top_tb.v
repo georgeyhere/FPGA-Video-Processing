@@ -23,6 +23,7 @@
 module top_tb();
 
 reg clk = 0;
+reg pclk = 0;
 reg reset_n = 1;
 reg href = 1;
 reg [7:0] camera_data;
@@ -46,6 +47,7 @@ camera_fifo_top UUT(
 
 always begin
 #1 clk = ~clk;
+#5 pclk = ~pclk;
 end
 initial begin
 href = 1; camera_data = 8'b11110000; 
