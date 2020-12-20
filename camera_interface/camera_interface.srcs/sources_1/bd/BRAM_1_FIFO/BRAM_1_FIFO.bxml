@@ -2,10 +2,10 @@
 <Root MajorVersion="0" MinorVersion="39">
   <CompositeFile CompositeFileTopName="BRAM_1_FIFO" CanBeSetAsTop="true" CanDisplayChildGraph="true">
     <Description>Composite Fileset</Description>
-    <Generation Name="SYNTHESIS" State="GENERATED" Timestamp="1608418155"/>
-    <Generation Name="IMPLEMENTATION" State="GENERATED" Timestamp="1608418155"/>
-    <Generation Name="SIMULATION" State="GENERATED" Timestamp="1608418155"/>
-    <Generation Name="HW_HANDOFF" State="GENERATED" Timestamp="1608418155"/>
+    <Generation Name="SYNTHESIS" State="GENERATED" Timestamp="1608439566"/>
+    <Generation Name="IMPLEMENTATION" State="GENERATED" Timestamp="1608439566"/>
+    <Generation Name="SIMULATION" State="GENERATED" Timestamp="1608439566"/>
+    <Generation Name="HW_HANDOFF" State="GENERATED" Timestamp="1608439566"/>
     <FileCollection Name="SOURCES" Type="SOURCES">
       <File Name="ip\BRAM_1_FIFO_fifo_generator_0_0\BRAM_1_FIFO_fifo_generator_0_0.xci" Type="IP">
         <Instance HierarchyPath="fifo_generator_0"/>

@@ -1,9 +1,29 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sat Dec 19 14:49:15 2020" VIVADOVERSION="2019.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sat Dec 19 20:43:06 2020" VIVADOVERSION="2019.2">
 
   <SYSTEMINFO ARCH="artix7" DEVICE="7a50t" NAME="BRAM_1_FIFO" PACKAGE="csg324" SPEEDGRADE="-1"/>
 
   <EXTERNALPORTS>
+    <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk_0" SIGIS="clk" SIGNAME="External_Ports_clk_0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="clk"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="rst_0" SIGIS="undef" SIGNAME="External_Ports_rst_0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="rst"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="wr_rst_busy_0" SIGIS="undef" SIGNAME="fifo_generator_0_wr_rst_busy">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="wr_rst_busy"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="rd_rst_busy_0" SIGIS="undef" SIGNAME="fifo_generator_0_rd_rst_busy">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="rd_rst_busy"/>
+      </CONNECTIONS>
+    </PORT>
     <PORT DIR="O" NAME="FIFO_WRITE_0_full" SIGIS="undef" SIGNAME="fifo_generator_0_full">
       <CONNECTIONS>
         <CONNECTION INSTANCE="fifo_generator_0" PORT="full"/>
@@ -32,26 +52,6 @@
     <PORT DIR="I" NAME="FIFO_READ_0_rd_en" SIGIS="undef" SIGNAME="fifo_generator_0_rd_en">
       <CONNECTIONS>
         <CONNECTION INSTANCE="fifo_generator_0" PORT="rd_en"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk_0" SIGIS="clk" SIGNAME="External_Ports_clk_0">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="clk"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="I" NAME="rst_0" SIGIS="undef" SIGNAME="External_Ports_rst_0">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="rst"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="O" NAME="wr_rst_busy_0" SIGIS="undef" SIGNAME="fifo_generator_0_wr_rst_busy">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="wr_rst_busy"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="O" NAME="rd_rst_busy_0" SIGIS="undef" SIGNAME="fifo_generator_0_rd_rst_busy">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="rd_rst_busy"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>

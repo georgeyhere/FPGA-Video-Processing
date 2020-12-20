@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module camera_read(
+module camera_read_input(
 input clk, //logic runs at 96Mhz clock
 input reset_n,
 
@@ -63,7 +63,7 @@ case(fsm_state)
     end
     
     s1_assign: begin
-        if(FIFO_WRITE_0_full==0 & wr_rst_busy_0==0) begin //if FIFO is not full and not busy, write as normal
+        if(FIFO_WRITE_0_full==1 & wr_rst_busy_0==1) begin //if FIFO is not full and not busy, write as normal
             FIFO_WRITE_0_wr_en <= 1;
             FIFO_WRITE_0_wr_data <= camera_data; 
         end
