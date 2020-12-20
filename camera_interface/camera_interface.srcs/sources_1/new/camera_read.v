@@ -19,13 +19,11 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module OV7670_read(
+module camera_read(
 input clk, //logic runs at 96Mhz clock
 input reset_n,
 
-input pclk,
 input href,
-input vsync,
 input [7:0] camera_data,
 
 input FIFO_WRITE_0_full,
@@ -44,14 +42,15 @@ localparam s2_full = 2;
 
 initial begin
     fsm_state <= 0;
-    half_identifier <= 0;
+    FIFO_WRITE_0_wr_data <= 0;
+    FIFO_WRITE_0_wr_en <= 0;
 end
 
 always@(posedge clk, negedge reset_n) begin
 
 if(reset_n == 1'b0) begin
     FIFO_WRITE_0_wr_en <= 0; //resets
-    FIFO_WRITE_0_wr_data <= 0;
+    FIFO_WRITE_0_wr_data <= camera_data;
     fsm_state <= 0;
 end
 
@@ -64,11 +63,11 @@ case(fsm_state)
     end
     
     s1_assign: begin
-        if(FIFO_WRITE_0_full==0) begin //if FIFO is not full, write as normal
+        if(FIFO_WRITE_0_full==0 & wr_rst_busy_0==0) begin //if FIFO is not full and not busy, write as normal
             FIFO_WRITE_0_wr_en <= 1;
             FIFO_WRITE_0_wr_data <= camera_data; 
         end
-        else fsm_state <= s0_idle; //if FIFO is full, skip the pixel
+        else fsm_state <= s0_idle; //if FIFO is full or busy, skip the byte
     end
        
 endcase

@@ -1,0 +1,7 @@
+Running: xsim.dir/OV7670_read_behav/xsimk.exe -simmode gui -wdb OV7670_read_behav.wdb -simrunnum 0 -socket 58725
+Design successfully loaded
+Design Loading Memory Usage: 5880 KB (Peak: 5880 KB)
+Design Loading CPU Usage: 31 ms
+Simulation completed
+Simulation Memory Usage: 6540 KB (Peak: 6540 KB)
+Simulation CPU Usage: 31 ms
