@@ -8,6 +8,7 @@ SCCB (Serial Camera Control Bus) Protocol
 
 - i2c compliant 2-wire protocol used for configurint the OV7670 camera
 
+
 IEEE-754 Floating Point Protocol
 
 - binary representation of floating-point values
@@ -16,13 +17,23 @@ IEEE-754 Floating Point Protocol
 
 Xilinx Floating-Point IP
 
-- used in multiply and fused multiply-add configurations
+- multiply and fused multiply-add configurations
+
+- fixed-point to floating-point conversion 
+
+- floating-point to fixed-point conversion
 
 Image Filtering Algorithms
 
 - Gaussian Blur using 3x3 kernel
 
 - Sobel Edge Detection in x and y directions using two 3x3 kernels
+
+Misc
+
+- Xilinx FIFO Generator IP
+
+- multiple clock domains
 
 Will be updated as I go.
 
