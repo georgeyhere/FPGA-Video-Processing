@@ -161,30 +161,46 @@ proc create_root_design { parentCell } {
 
 
   # Create ports
-  set clk_0 [ create_bd_port -dir I -type clk clk_0 ]
+  set rd_clk_0 [ create_bd_port -dir I -type clk rd_clk_0 ]
   set rd_rst_busy_0 [ create_bd_port -dir O rd_rst_busy_0 ]
   set rst_0 [ create_bd_port -dir I rst_0 ]
+  set valid_0 [ create_bd_port -dir O valid_0 ]
+  set wr_ack_0 [ create_bd_port -dir O wr_ack_0 ]
+  set wr_clk_0 [ create_bd_port -dir I -type clk wr_clk_0 ]
   set wr_rst_busy_0 [ create_bd_port -dir O wr_rst_busy_0 ]
 
   # Create instance: fifo_generator_0, and set properties
   set fifo_generator_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:fifo_generator:13.2 fifo_generator_0 ]
   set_property -dict [ list \
-   CONFIG.Data_Count_Width {6} \
+   CONFIG.Data_Count_Width {5} \
    CONFIG.Empty_Threshold_Assert_Value {4} \
+   CONFIG.Empty_Threshold_Assert_Value_rach {1022} \
+   CONFIG.Empty_Threshold_Assert_Value_wach {1022} \
+   CONFIG.Empty_Threshold_Assert_Value_wrch {1022} \
    CONFIG.Empty_Threshold_Negate_Value {5} \
    CONFIG.Enable_Safety_Circuit {true} \
+   CONFIG.FIFO_Implementation_rach {Common_Clock_Distributed_RAM} \
+   CONFIG.FIFO_Implementation_wach {Common_Clock_Distributed_RAM} \
+   CONFIG.FIFO_Implementation_wrch {Common_Clock_Distributed_RAM} \
+   CONFIG.Fifo_Implementation {Independent_Clocks_Block_RAM} \
    CONFIG.Full_Flags_Reset_Value {1} \
    CONFIG.Full_Threshold_Assert_Value {31} \
+   CONFIG.Full_Threshold_Assert_Value_rach {1023} \
+   CONFIG.Full_Threshold_Assert_Value_wach {1023} \
+   CONFIG.Full_Threshold_Assert_Value_wrch {1023} \
    CONFIG.Full_Threshold_Negate_Value {30} \
+   CONFIG.INTERFACE_TYPE {Native} \
    CONFIG.Input_Data_Width {8} \
    CONFIG.Input_Depth {32} \
    CONFIG.Output_Data_Width {8} \
    CONFIG.Output_Depth {32} \
    CONFIG.Performance_Options {First_Word_Fall_Through} \
-   CONFIG.Read_Data_Count_Width {6} \
+   CONFIG.Read_Data_Count_Width {5} \
    CONFIG.Reset_Type {Asynchronous_Reset} \
-   CONFIG.Use_Extra_Logic {true} \
-   CONFIG.Write_Data_Count_Width {6} \
+   CONFIG.Use_Extra_Logic {false} \
+   CONFIG.Valid_Flag {true} \
+   CONFIG.Write_Acknowledge_Flag {true} \
+   CONFIG.Write_Data_Count_Width {5} \
  ] $fifo_generator_0
 
   # Create interface connections
@@ -192,10 +208,13 @@ proc create_root_design { parentCell } {
   connect_bd_intf_net -intf_net FIFO_WRITE_0_1 [get_bd_intf_ports FIFO_WRITE_0] [get_bd_intf_pins fifo_generator_0/FIFO_WRITE]
 
   # Create port connections
-  connect_bd_net -net clk_0_1 [get_bd_ports clk_0] [get_bd_pins fifo_generator_0/clk]
   connect_bd_net -net fifo_generator_0_rd_rst_busy [get_bd_ports rd_rst_busy_0] [get_bd_pins fifo_generator_0/rd_rst_busy]
+  connect_bd_net -net fifo_generator_0_valid [get_bd_ports valid_0] [get_bd_pins fifo_generator_0/valid]
+  connect_bd_net -net fifo_generator_0_wr_ack [get_bd_ports wr_ack_0] [get_bd_pins fifo_generator_0/wr_ack]
   connect_bd_net -net fifo_generator_0_wr_rst_busy [get_bd_ports wr_rst_busy_0] [get_bd_pins fifo_generator_0/wr_rst_busy]
+  connect_bd_net -net rd_clk_0_1 [get_bd_ports rd_clk_0] [get_bd_pins fifo_generator_0/rd_clk]
   connect_bd_net -net rst_0_1 [get_bd_ports rst_0] [get_bd_pins fifo_generator_0/rst]
+  connect_bd_net -net wr_clk_0_1 [get_bd_ports wr_clk_0] [get_bd_pins fifo_generator_0/wr_clk]
 
   # Create address segments
 

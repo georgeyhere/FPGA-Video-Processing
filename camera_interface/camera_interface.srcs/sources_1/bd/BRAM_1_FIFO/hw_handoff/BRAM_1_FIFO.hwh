@@ -1,22 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sat Dec 19 14:49:15 2020" VIVADOVERSION="2019.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Fri Dec 25 14:31:49 2020" VIVADOVERSION="2019.2">
 
   <SYSTEMINFO ARCH="artix7" DEVICE="7a50t" NAME="BRAM_1_FIFO" PACKAGE="csg324" SPEEDGRADE="-1"/>
 
   <EXTERNALPORTS>
-    <PORT DIR="O" NAME="FIFO_WRITE_0_full" SIGIS="undef" SIGNAME="fifo_generator_0_full">
+    <PORT DIR="O" NAME="wr_rst_busy_0" SIGIS="undef" SIGNAME="fifo_generator_0_wr_rst_busy">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="full"/>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="wr_rst_busy"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="I" LEFT="7" NAME="FIFO_WRITE_0_wr_data" RIGHT="0" SIGIS="undef" SIGNAME="fifo_generator_0_din">
+    <PORT DIR="O" NAME="rd_rst_busy_0" SIGIS="undef" SIGNAME="fifo_generator_0_rd_rst_busy">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="din"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="I" NAME="FIFO_WRITE_0_wr_en" SIGIS="undef" SIGNAME="fifo_generator_0_wr_en">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="wr_en"/>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="rd_rst_busy"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="O" NAME="FIFO_READ_0_empty" SIGIS="undef" SIGNAME="fifo_generator_0_empty">
@@ -34,24 +29,44 @@
         <CONNECTION INSTANCE="fifo_generator_0" PORT="rd_en"/>
       </CONNECTIONS>
     </PORT>
-    <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk_0" SIGIS="clk" SIGNAME="External_Ports_clk_0">
+    <PORT DIR="O" NAME="FIFO_WRITE_0_full" SIGIS="undef" SIGNAME="fifo_generator_0_full">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="clk"/>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="full"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" LEFT="7" NAME="FIFO_WRITE_0_wr_data" RIGHT="0" SIGIS="undef" SIGNAME="fifo_generator_0_din">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="din"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" NAME="FIFO_WRITE_0_wr_en" SIGIS="undef" SIGNAME="fifo_generator_0_wr_en">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="wr_en"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="wr_ack_0" SIGIS="undef" SIGNAME="fifo_generator_0_wr_ack">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="wr_ack"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="O" NAME="valid_0" SIGIS="undef" SIGNAME="fifo_generator_0_valid">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="valid"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT CLKFREQUENCY="100000000" DIR="I" NAME="rd_clk_0" SIGIS="clk" SIGNAME="External_Ports_rd_clk_0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="rd_clk"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT CLKFREQUENCY="100000000" DIR="I" NAME="wr_clk_0" SIGIS="clk" SIGNAME="External_Ports_wr_clk_0">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="fifo_generator_0" PORT="wr_clk"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" NAME="rst_0" SIGIS="undef" SIGNAME="External_Ports_rst_0">
       <CONNECTIONS>
         <CONNECTION INSTANCE="fifo_generator_0" PORT="rst"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="O" NAME="wr_rst_busy_0" SIGIS="undef" SIGNAME="fifo_generator_0_wr_rst_busy">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="wr_rst_busy"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="O" NAME="rd_rst_busy_0" SIGIS="undef" SIGNAME="fifo_generator_0_rd_rst_busy">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="fifo_generator_0" PORT="rd_rst_busy"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>
@@ -79,10 +94,10 @@
         <DOCUMENT SOURCE="http://www.xilinx.com/cgi-bin/docs/ipdoc?c=fifo_generator;v=v13_2;d=pg057-fifo-generator.pdf"/>
       </DOCUMENTS>
       <PARAMETERS>
-        <PARAMETER NAME="C_COMMON_CLOCK" VALUE="1"/>
+        <PARAMETER NAME="C_COMMON_CLOCK" VALUE="0"/>
         <PARAMETER NAME="C_SELECT_XPM" VALUE="0"/>
         <PARAMETER NAME="C_COUNT_TYPE" VALUE="0"/>
-        <PARAMETER NAME="C_DATA_COUNT_WIDTH" VALUE="6"/>
+        <PARAMETER NAME="C_DATA_COUNT_WIDTH" VALUE="5"/>
         <PARAMETER NAME="C_DEFAULT_VALUE" VALUE="BlankString"/>
         <PARAMETER NAME="C_DIN_WIDTH" VALUE="8"/>
         <PARAMETER NAME="C_DOUT_RST_VAL" VALUE="0"/>
@@ -102,11 +117,11 @@
         <PARAMETER NAME="C_HAS_RST" VALUE="1"/>
         <PARAMETER NAME="C_HAS_SRST" VALUE="0"/>
         <PARAMETER NAME="C_HAS_UNDERFLOW" VALUE="0"/>
-        <PARAMETER NAME="C_HAS_VALID" VALUE="0"/>
-        <PARAMETER NAME="C_HAS_WR_ACK" VALUE="0"/>
+        <PARAMETER NAME="C_HAS_VALID" VALUE="1"/>
+        <PARAMETER NAME="C_HAS_WR_ACK" VALUE="1"/>
         <PARAMETER NAME="C_HAS_WR_DATA_COUNT" VALUE="0"/>
         <PARAMETER NAME="C_HAS_WR_RST" VALUE="0"/>
-        <PARAMETER NAME="C_IMPLEMENTATION_TYPE" VALUE="0"/>
+        <PARAMETER NAME="C_IMPLEMENTATION_TYPE" VALUE="2"/>
         <PARAMETER NAME="C_INIT_WR_PNTR_VAL" VALUE="0"/>
         <PARAMETER NAME="C_MEMORY_TYPE" VALUE="1"/>
         <PARAMETER NAME="C_MIF_FILE_NAME" VALUE="BlankString"/>
@@ -121,7 +136,7 @@
         <PARAMETER NAME="C_PROG_FULL_THRESH_ASSERT_VAL" VALUE="31"/>
         <PARAMETER NAME="C_PROG_FULL_THRESH_NEGATE_VAL" VALUE="30"/>
         <PARAMETER NAME="C_PROG_FULL_TYPE" VALUE="0"/>
-        <PARAMETER NAME="C_RD_DATA_COUNT_WIDTH" VALUE="6"/>
+        <PARAMETER NAME="C_RD_DATA_COUNT_WIDTH" VALUE="5"/>
         <PARAMETER NAME="C_RD_DEPTH" VALUE="32"/>
         <PARAMETER NAME="C_RD_FREQ" VALUE="1"/>
         <PARAMETER NAME="C_RD_PNTR_WIDTH" VALUE="5"/>
@@ -132,10 +147,10 @@
         <PARAMETER NAME="C_USE_PIPELINE_REG" VALUE="0"/>
         <PARAMETER NAME="C_POWER_SAVING_MODE" VALUE="0"/>
         <PARAMETER NAME="C_USE_FIFO16_FLAGS" VALUE="0"/>
-        <PARAMETER NAME="C_USE_FWFT_DATA_COUNT" VALUE="1"/>
+        <PARAMETER NAME="C_USE_FWFT_DATA_COUNT" VALUE="0"/>
         <PARAMETER NAME="C_VALID_LOW" VALUE="0"/>
         <PARAMETER NAME="C_WR_ACK_LOW" VALUE="0"/>
-        <PARAMETER NAME="C_WR_DATA_COUNT_WIDTH" VALUE="6"/>
+        <PARAMETER NAME="C_WR_DATA_COUNT_WIDTH" VALUE="5"/>
         <PARAMETER NAME="C_WR_DEPTH" VALUE="32"/>
         <PARAMETER NAME="C_WR_FREQ" VALUE="1"/>
         <PARAMETER NAME="C_WR_PNTR_WIDTH" VALUE="5"/>
@@ -191,10 +206,10 @@
         <PARAMETER NAME="C_RACH_TYPE" VALUE="0"/>
         <PARAMETER NAME="C_RDCH_TYPE" VALUE="0"/>
         <PARAMETER NAME="C_AXIS_TYPE" VALUE="0"/>
-        <PARAMETER NAME="C_IMPLEMENTATION_TYPE_WACH" VALUE="1"/>
+        <PARAMETER NAME="C_IMPLEMENTATION_TYPE_WACH" VALUE="2"/>
         <PARAMETER NAME="C_IMPLEMENTATION_TYPE_WDCH" VALUE="1"/>
-        <PARAMETER NAME="C_IMPLEMENTATION_TYPE_WRCH" VALUE="1"/>
-        <PARAMETER NAME="C_IMPLEMENTATION_TYPE_RACH" VALUE="1"/>
+        <PARAMETER NAME="C_IMPLEMENTATION_TYPE_WRCH" VALUE="2"/>
+        <PARAMETER NAME="C_IMPLEMENTATION_TYPE_RACH" VALUE="2"/>
         <PARAMETER NAME="C_IMPLEMENTATION_TYPE_RDCH" VALUE="1"/>
         <PARAMETER NAME="C_IMPLEMENTATION_TYPE_AXIS" VALUE="1"/>
         <PARAMETER NAME="C_APPLICATION_TYPE_WACH" VALUE="0"/>
@@ -282,7 +297,7 @@
         <PARAMETER NAME="C_REG_SLICE_MODE_RDCH" VALUE="0"/>
         <PARAMETER NAME="C_REG_SLICE_MODE_AXIS" VALUE="0"/>
         <PARAMETER NAME="Component_Name" VALUE="BRAM_1_FIFO_fifo_generator_0_0"/>
-        <PARAMETER NAME="Fifo_Implementation" VALUE="Common_Clock_Block_RAM"/>
+        <PARAMETER NAME="Fifo_Implementation" VALUE="Independent_Clocks_Block_RAM"/>
         <PARAMETER NAME="synchronization_stages" VALUE="2"/>
         <PARAMETER NAME="synchronization_stages_axi" VALUE="2"/>
         <PARAMETER NAME="INTERFACE_TYPE" VALUE="Native"/>
@@ -303,24 +318,24 @@
         <PARAMETER NAME="dynamic_power_saving" VALUE="false"/>
         <PARAMETER NAME="Almost_Full_Flag" VALUE="false"/>
         <PARAMETER NAME="Almost_Empty_Flag" VALUE="false"/>
-        <PARAMETER NAME="Valid_Flag" VALUE="false"/>
+        <PARAMETER NAME="Valid_Flag" VALUE="true"/>
         <PARAMETER NAME="Valid_Sense" VALUE="Active_High"/>
         <PARAMETER NAME="Underflow_Flag" VALUE="false"/>
         <PARAMETER NAME="Underflow_Sense" VALUE="Active_High"/>
-        <PARAMETER NAME="Write_Acknowledge_Flag" VALUE="false"/>
+        <PARAMETER NAME="Write_Acknowledge_Flag" VALUE="true"/>
         <PARAMETER NAME="Write_Acknowledge_Sense" VALUE="Active_High"/>
         <PARAMETER NAME="Overflow_Flag" VALUE="false"/>
         <PARAMETER NAME="Overflow_Sense" VALUE="Active_High"/>
         <PARAMETER NAME="Inject_Sbit_Error" VALUE="false"/>
         <PARAMETER NAME="Inject_Dbit_Error" VALUE="false"/>
         <PARAMETER NAME="ecc_pipeline_reg" VALUE="false"/>
-        <PARAMETER NAME="Use_Extra_Logic" VALUE="true"/>
+        <PARAMETER NAME="Use_Extra_Logic" VALUE="false"/>
         <PARAMETER NAME="Data_Count" VALUE="false"/>
-        <PARAMETER NAME="Data_Count_Width" VALUE="6"/>
+        <PARAMETER NAME="Data_Count_Width" VALUE="5"/>
         <PARAMETER NAME="Write_Data_Count" VALUE="false"/>
-        <PARAMETER NAME="Write_Data_Count_Width" VALUE="6"/>
+        <PARAMETER NAME="Write_Data_Count_Width" VALUE="5"/>
         <PARAMETER NAME="Read_Data_Count" VALUE="false"/>
-        <PARAMETER NAME="Read_Data_Count_Width" VALUE="6"/>
+        <PARAMETER NAME="Read_Data_Count_Width" VALUE="5"/>
         <PARAMETER NAME="Disable_Timing_Violations" VALUE="false"/>
         <PARAMETER NAME="Read_Clock_Frequency" VALUE="1"/>
         <PARAMETER NAME="Write_Clock_Frequency" VALUE="1"/>
@@ -354,7 +369,7 @@
         <PARAMETER NAME="HAS_TKEEP" VALUE="false"/>
         <PARAMETER NAME="TKEEP_WIDTH" VALUE="1"/>
         <PARAMETER NAME="wach_type" VALUE="FIFO"/>
-        <PARAMETER NAME="FIFO_Implementation_wach" VALUE="Common_Clock_Block_RAM"/>
+        <PARAMETER NAME="FIFO_Implementation_wach" VALUE="Common_Clock_Distributed_RAM"/>
         <PARAMETER NAME="FIFO_Application_Type_wach" VALUE="Data_FIFO"/>
         <PARAMETER NAME="Enable_ECC_wach" VALUE="false"/>
         <PARAMETER NAME="Inject_Sbit_Error_wach" VALUE="false"/>
@@ -378,7 +393,7 @@
         <PARAMETER NAME="Programmable_Empty_Type_wdch" VALUE="No_Programmable_Empty_Threshold"/>
         <PARAMETER NAME="Empty_Threshold_Assert_Value_wdch" VALUE="1022"/>
         <PARAMETER NAME="wrch_type" VALUE="FIFO"/>
-        <PARAMETER NAME="FIFO_Implementation_wrch" VALUE="Common_Clock_Block_RAM"/>
+        <PARAMETER NAME="FIFO_Implementation_wrch" VALUE="Common_Clock_Distributed_RAM"/>
         <PARAMETER NAME="FIFO_Application_Type_wrch" VALUE="Data_FIFO"/>
         <PARAMETER NAME="Enable_ECC_wrch" VALUE="false"/>
         <PARAMETER NAME="Inject_Sbit_Error_wrch" VALUE="false"/>
@@ -390,7 +405,7 @@
         <PARAMETER NAME="Programmable_Empty_Type_wrch" VALUE="No_Programmable_Empty_Threshold"/>
         <PARAMETER NAME="Empty_Threshold_Assert_Value_wrch" VALUE="1022"/>
         <PARAMETER NAME="rach_type" VALUE="FIFO"/>
-        <PARAMETER NAME="FIFO_Implementation_rach" VALUE="Common_Clock_Block_RAM"/>
+        <PARAMETER NAME="FIFO_Implementation_rach" VALUE="Common_Clock_Distributed_RAM"/>
         <PARAMETER NAME="FIFO_Application_Type_rach" VALUE="Data_FIFO"/>
         <PARAMETER NAME="Enable_ECC_rach" VALUE="false"/>
         <PARAMETER NAME="Inject_Sbit_Error_rach" VALUE="false"/>
@@ -451,14 +466,19 @@
         <PARAMETER NAME="EDK_IPTYPE" VALUE="PERIPHERAL"/>
       </PARAMETERS>
       <PORTS>
-        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="clk" SIGIS="clk" SIGNAME="External_Ports_clk_0">
-          <CONNECTIONS>
-            <CONNECTION INSTANCE="External_Ports" PORT="clk_0"/>
-          </CONNECTIONS>
-        </PORT>
         <PORT DIR="I" NAME="rst" SIGIS="undef" SIGNAME="External_Ports_rst_0">
           <CONNECTIONS>
             <CONNECTION INSTANCE="External_Ports" PORT="rst_0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="wr_clk" SIGIS="clk" SIGNAME="External_Ports_wr_clk_0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="wr_clk_0"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT CLKFREQUENCY="100000000" DIR="I" NAME="rd_clk" SIGIS="clk" SIGNAME="External_Ports_rd_clk_0">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="rd_clk_0"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="I" LEFT="7" NAME="din" RIGHT="0" SIGIS="undef" SIGNAME="fifo_generator_0_din">
@@ -486,9 +506,19 @@
             <CONNECTION INSTANCE="BRAM_1_FIFO_imp" PORT="FIFO_WRITE_0_full"/>
           </CONNECTIONS>
         </PORT>
+        <PORT DIR="O" NAME="wr_ack" SIGIS="undef" SIGNAME="fifo_generator_0_wr_ack">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="wr_ack_0"/>
+          </CONNECTIONS>
+        </PORT>
         <PORT DIR="O" NAME="empty" SIGIS="undef" SIGNAME="fifo_generator_0_empty">
           <CONNECTIONS>
             <CONNECTION INSTANCE="BRAM_1_FIFO_imp" PORT="FIFO_READ_0_empty"/>
+          </CONNECTIONS>
+        </PORT>
+        <PORT DIR="O" NAME="valid" SIGIS="undef" SIGNAME="fifo_generator_0_valid">
+          <CONNECTIONS>
+            <CONNECTION INSTANCE="External_Ports" PORT="valid_0"/>
           </CONNECTIONS>
         </PORT>
         <PORT DIR="O" NAME="wr_rst_busy" SIGIS="undef" SIGNAME="fifo_generator_0_wr_rst_busy">

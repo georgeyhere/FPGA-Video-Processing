@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-//Date        : Sat Dec 19 14:49:14 2020
+//Date        : Fri Dec 25 14:31:49 2020
 //Host        : DESKTOP-MB5IJCE running 64-bit major release  (build 9200)
 //Command     : generate_target BRAM_1_FIFO.bd
 //Design      : BRAM_1_FIFO
@@ -17,9 +17,12 @@ module BRAM_1_FIFO
     FIFO_WRITE_0_full,
     FIFO_WRITE_0_wr_data,
     FIFO_WRITE_0_wr_en,
-    clk_0,
+    rd_clk_0,
     rd_rst_busy_0,
     rst_0,
+    valid_0,
+    wr_ack_0,
+    wr_clk_0,
     wr_rst_busy_0);
   (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_read:1.0 FIFO_READ_0 EMPTY" *) output FIFO_READ_0_empty;
   (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_read:1.0 FIFO_READ_0 RD_DATA" *) output [7:0]FIFO_READ_0_rd_data;
@@ -27,9 +30,12 @@ module BRAM_1_FIFO
   (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE_0 FULL" *) output FIFO_WRITE_0_full;
   (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE_0 WR_DATA" *) input [7:0]FIFO_WRITE_0_wr_data;
   (* X_INTERFACE_INFO = "xilinx.com:interface:fifo_write:1.0 FIFO_WRITE_0 WR_EN" *) input FIFO_WRITE_0_wr_en;
-  (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.CLK_0 CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.CLK_0, CLK_DOMAIN BRAM_1_FIFO_clk_0, FREQ_HZ 100000000, INSERT_VIP 0, PHASE 0.000" *) input clk_0;
+  (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.RD_CLK_0 CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.RD_CLK_0, CLK_DOMAIN BRAM_1_FIFO_rd_clk_0, FREQ_HZ 100000000, INSERT_VIP 0, PHASE 0.000" *) input rd_clk_0;
   output rd_rst_busy_0;
   input rst_0;
+  output valid_0;
+  output wr_ack_0;
+  (* X_INTERFACE_INFO = "xilinx.com:signal:clock:1.0 CLK.WR_CLK_0 CLK" *) (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME CLK.WR_CLK_0, CLK_DOMAIN BRAM_1_FIFO_wr_clk_0, FREQ_HZ 100000000, INSERT_VIP 0, PHASE 0.000" *) input wr_clk_0;
   output wr_rst_busy_0;
 
   wire FIFO_READ_0_1_EMPTY;
@@ -38,10 +44,13 @@ module BRAM_1_FIFO
   wire FIFO_WRITE_0_1_FULL;
   wire [7:0]FIFO_WRITE_0_1_WR_DATA;
   wire FIFO_WRITE_0_1_WR_EN;
-  wire clk_0_1;
   wire fifo_generator_0_rd_rst_busy;
+  wire fifo_generator_0_valid;
+  wire fifo_generator_0_wr_ack;
   wire fifo_generator_0_wr_rst_busy;
+  wire rd_clk_0_1;
   wire rst_0_1;
+  wire wr_clk_0_1;
 
   assign FIFO_READ_0_1_RD_EN = FIFO_READ_0_rd_en;
   assign FIFO_READ_0_empty = FIFO_READ_0_1_EMPTY;
@@ -49,19 +58,25 @@ module BRAM_1_FIFO
   assign FIFO_WRITE_0_1_WR_DATA = FIFO_WRITE_0_wr_data[7:0];
   assign FIFO_WRITE_0_1_WR_EN = FIFO_WRITE_0_wr_en;
   assign FIFO_WRITE_0_full = FIFO_WRITE_0_1_FULL;
-  assign clk_0_1 = clk_0;
+  assign rd_clk_0_1 = rd_clk_0;
   assign rd_rst_busy_0 = fifo_generator_0_rd_rst_busy;
   assign rst_0_1 = rst_0;
+  assign valid_0 = fifo_generator_0_valid;
+  assign wr_ack_0 = fifo_generator_0_wr_ack;
+  assign wr_clk_0_1 = wr_clk_0;
   assign wr_rst_busy_0 = fifo_generator_0_wr_rst_busy;
   BRAM_1_FIFO_fifo_generator_0_0 fifo_generator_0
-       (.clk(clk_0_1),
-        .din(FIFO_WRITE_0_1_WR_DATA),
+       (.din(FIFO_WRITE_0_1_WR_DATA),
         .dout(FIFO_READ_0_1_RD_DATA),
         .empty(FIFO_READ_0_1_EMPTY),
         .full(FIFO_WRITE_0_1_FULL),
+        .rd_clk(rd_clk_0_1),
         .rd_en(FIFO_READ_0_1_RD_EN),
         .rd_rst_busy(fifo_generator_0_rd_rst_busy),
         .rst(rst_0_1),
+        .valid(fifo_generator_0_valid),
+        .wr_ack(fifo_generator_0_wr_ack),
+        .wr_clk(wr_clk_0_1),
         .wr_en(FIFO_WRITE_0_1_WR_EN),
         .wr_rst_busy(fifo_generator_0_wr_rst_busy));
 endmodule

@@ -2,6 +2,11 @@
 2019.2
 Nov  6 2019
 21:57:16
-C:/Users/George/Edge-Detection/camera_interface/camera_interface.sim/sim_1/behav/xsim/glbl.v,1573089660,verilog,,,,glbl,,,,,,,,
-C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sim_1/new/camera_read_tb.v,1608430593,verilog,,,,camera_read_tb,,,,,,,,
-C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_read.v,1608431251,verilog,,C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sim_1/new/camera_read_tb.v,,camera_read,,,,,,,,
+C:/Users/George/Edge-Detection/camera_interface/camera_interface.ip_user_files/bd/BRAM_1_FIFO/ip/BRAM_1_FIFO_fifo_generator_0_0/sim/BRAM_1_FIFO_fifo_generator_0_0.v,1608935495,verilog,,C:/Users/George/Edge-Detection/camera_interface/camera_interface.ip_user_files/bd/BRAM_1_FIFO/sim/BRAM_1_FIFO.v,,BRAM_1_FIFO_fifo_generator_0_0,,,,,,,,
+C:/Users/George/Edge-Detection/camera_interface/camera_interface.ip_user_files/bd/BRAM_1_FIFO/sim/BRAM_1_FIFO.v,1608935509,verilog,,C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_input.v,,BRAM_1_FIFO,,,,,,,,
+C:/Users/George/Edge-Detection/camera_interface/camera_interface.sim/sim_1/behav/xsim/glbl.v,1608431378,verilog,,,,glbl,,,,,,,,
+C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sim_1/new/camera_read_tb.v,1608431378,verilog,,,,camera_read_tb,,,,,,,,
+C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sim_1/new/top_tb.v,1608937624,verilog,,,,top_tb,,,,,,,,
+C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_input.v,1608937438,verilog,,C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_output.v,,camera_interface_input,,,,,,,,
+C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_output.v,1608937959,verilog,,C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_top.v,,camera_interface_output,,,,,,,,
+C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_top.v,1608936248,verilog,,C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sim_1/new/top_tb.v,,camera_interface_top,,,,,,,,
