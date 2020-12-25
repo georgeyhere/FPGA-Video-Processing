@@ -84,11 +84,11 @@ always@(posedge clk, negedge reset_n) begin
         end
         
         s1_read: begin
-            if(rd_rst_busy_0 + FIFO_READ_0_empty) begin 
+            if(rd_rst_busy_0 == 0) begin 
                 FIFO_READ_0_rd_en <= 1; //initiate read, go to next state
                 fsm_state <= (half_identifier) ? s3_assign2 : s2_assign1; //go to next state depending on current data byte
             end
-            else begin //prevent reading from busy or empty FIFO
+            else begin //prevent reading from busy FIFO
                 fsm_state <= s0_idle; //go back to idle
                 read_fail <= 1; //for diagnostic purposes only
             end
