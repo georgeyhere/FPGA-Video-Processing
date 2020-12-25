@@ -28,26 +28,29 @@ reg reset_n = 1;
 reg href = 1;
 reg [7:0] camera_data;
 reg greyscaler_ready = 1;
-wire byte_convert_valid;
+wire byte_converted_valid;
 wire [7:0] red;
 wire [7:0] green;
 wire [7:0] blue;
+wire read_fail;
 
-camera_fifo_top UUT(
+camera_interface_top UUT(
 .clk(clk),
 .reset_n(reset_n),
 .href(href),
-.camera_data(camera_data),
+.pclk(pclk),
+.dout_camera(dout_camera),
 .greyscaler_ready(greyscaler_ready),
-.byte_convert_valid(byte_convert_valid),
+.byte_converted_valid(byte_converted_valid),
 .red(red),
 .green(green),
-.blue(blue)
+.blue(blue),
+.read_fail(read_fail)
 );
 
 always begin
 #1 clk = ~clk;
-#5 pclk = ~pclk;
+#4 pclk = ~pclk;
 end
 initial begin
 href = 1; camera_data = 8'b11110000; 

@@ -59,7 +59,7 @@ always@(posedge clk, negedge reset_n) begin
     end
     
     s1_assign: begin
-        FIFO_WRITE_0_wr_en <= (pclk==0) ? 1:0; //write enable on pclk negative edge
+        FIFO_WRITE_0_wr_en <= (pclk==0) ? 1:0; //write enable only on pclk negative edge
         FIFO_WRITE_0_wr_data <= dout_camera; //assign output data
         fsm_state <= (href == 0) ? s0_idle : s1_assign; //data is only sent when href is high
     end

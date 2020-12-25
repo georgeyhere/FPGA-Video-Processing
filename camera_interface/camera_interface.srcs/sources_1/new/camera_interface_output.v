@@ -30,7 +30,7 @@ input rd_rst_busy_0,
 input greyscale_ready,
 
 output reg FIFO_READ_0_rd_en,
-output reg byte_convert_valid,
+output reg byte_converted_valid,
 output reg [7:0] red,
 output reg [7:0] green,
 output reg [7:0] blue,
@@ -48,7 +48,7 @@ reg half_identifier;
 
 initial begin
     FIFO_READ_0_rd_en <= 0; //resets
-    byte_convert_valid <= 0;
+    byte_converted_valid <= 0;
     red <= 0;
     green <= 0;
     blue <= 0;
@@ -61,7 +61,7 @@ end
 always@(posedge clk, negedge reset_n) begin
     if(reset_n == 1'b0) begin //asynchronous active low reset
         FIFO_READ_0_rd_en <= 0; //resets 
-        byte_convert_valid <= 0;
+        byte_converted_valid <= 0;
         red <= 0;
         green <= 0;
         blue <= 0;
@@ -75,7 +75,7 @@ always@(posedge clk, negedge reset_n) begin
         
         s0_idle: begin
             FIFO_READ_0_rd_en <= 0; //resets 
-            byte_convert_valid <= 0;
+            byte_converted_valid <= 0;
             red <= 0;
             green <= 0;
             blue <= 0;
@@ -106,6 +106,7 @@ always@(posedge clk, negedge reset_n) begin
         s3_assign2: begin
             green [4:3] <= FIFO_READ_0_rd_data[7:5]; //no don't care, 3 bits of green
             blue [7:3] <= FIFO_READ_0_rd_data[4:0]; //5 bits of blue
+            byte_converted_valid <= 1;
             fsm_state <= (greyscale_ready) ? s3_assign2 : s0_idle; //hold until greyscale doesn't need them anymore
         end
         
