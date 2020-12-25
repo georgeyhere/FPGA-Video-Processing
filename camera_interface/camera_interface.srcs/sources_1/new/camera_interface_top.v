@@ -33,7 +33,9 @@ output [7:0] red,
 output [7:0] green,
 output [7:0] blue,
 
-output read_fail
+output read_fail,
+output wr_ack_0,
+output valid_0
     );
     
 wire FIFO_READ_0_empty;
@@ -45,6 +47,7 @@ wire FIFO_WRITE_0_wr_en;
 wire clk_0;
 wire rd_rst_busy_0;
 wire wr_rst_busy_0;
+
     
 camera_interface_input UUT1 (
 .clk(clk),
@@ -59,22 +62,25 @@ camera_interface_input UUT1 (
 );
 
 BRAM_1_FIFO UUT2 (
+.rd_clk_0(clk),
+.wr_clk_0(clk),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),
 .FIFO_READ_0_rd_data(FIFO_READ_0_rd_data),
 .FIFO_READ_0_rd_en(FIFO_READ_0_rd_en),
 .FIFO_WRITE_0_full(FIFO_WRITE_0_full),
 .FIFO_WRITE_0_wr_data(FIFO_WRITE_0_wr_data),
 .FIFO_WRITE_0_wr_en(FIFO_WRITE_0_wr_en),
-.clk_0(clk),
 .rd_rst_busy_0(rd_rst_busy_0),
-.rst_0(reset_n),
-.wr_rst_busy_0(wr_rst_busy_0)
+.rst_0(~reset_n),
+.wr_rst_busy_0(wr_rst_busy_0),
+.valid_0(valid_0),
+.wr_ack_0(wr_ack_0)
 );
 
 camera_interface_output UUT3 (
 .clk(clk),
 .reset_n(reset_n),
-.FIFO_WRITE_0_wr_en(FIFO_WRITE_0_wr_en),
+.wr_ack_0(wr_ack_0),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),
 .FIFO_READ_0_rd_data(FIFO_READ_0_rd_data),
 .rd_rst_busy_0(rd_rst_busy_0),
@@ -84,7 +90,8 @@ camera_interface_output UUT3 (
 .red(red),
 .green(green),
 .blue(blue),
-.read_fail(read_fail)
+.read_fail(read_fail),
+.valid_0(valid_0)
 );
 
     

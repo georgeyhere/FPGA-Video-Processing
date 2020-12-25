@@ -3,13 +3,9 @@
 <!--The data in this file is primarily intended for consumption by Xilinx tools.
 The structure and the elements are likely to change over the next few releases.
 This means code written to parse this file will need to be revisited each subsequent release.-->
-<<<<<<< Updated upstream
-<application name="pa" timeStamp="Thu Dec 24 16:53:15 2020">
-=======
-<application name="pa" timeStamp="Thu Dec 24 19:00:07 2020">
->>>>>>> Stashed changes
+<application name="pa" timeStamp="Thu Dec 24 19:57:05 2020">
 <section name="Project Information" visible="false">
-<property name="ProjectID" value="cd9b16caab7c4ed393a07e321c5c66ab" type="ProjectID"/>
+<property name="ProjectID" value="22a4137538d8400d91d974d28c51baad" type="ProjectID"/>
 <property name="ProjectIteration" value="1" type="ProjectIteration"/>
 </section>
 <section name="PlanAhead Usage" visible="true">
@@ -20,129 +16,13 @@ This means code written to parse this file will need to be revisited each subseq
 <property name="SynthesisStrategy" value="Vivado Synthesis Defaults" type="SynthesisStrategy"/>
 <property name="ImplStrategy" value="Vivado Implementation Defaults" type="ImplStrategy"/>
 </item>
-<item name="Java Command Handlers">
-<<<<<<< Updated upstream
-<property name="AddSources" value="9" type="JavaHandler"/>
-<property name="CustomizeRSBBlock" value="12" type="JavaHandler"/>
-<property name="EditDelete" value="13" type="JavaHandler"/>
-=======
-<property name="AddSources" value="6" type="JavaHandler"/>
-<property name="CustomizeRSBBlock" value="13" type="JavaHandler"/>
-<property name="EditDelete" value="10" type="JavaHandler"/>
->>>>>>> Stashed changes
-<property name="EditProperties" value="1" type="JavaHandler"/>
-<property name="ManageCompositeTargets" value="2" type="JavaHandler"/>
-<property name="OpenBlockDesign" value="6" type="JavaHandler"/>
-<property name="ReportIPStatus" value="4" type="JavaHandler"/>
-<property name="SetSourceEnabled" value="4" type="JavaHandler"/>
-<property name="ShowView" value="1" type="JavaHandler"/>
-<<<<<<< Updated upstream
-<property name="SimulationRelaunch" value="20" type="JavaHandler"/>
-<property name="SimulationRun" value="13" type="JavaHandler"/>
-</item>
 <item name="Gui Handlers">
-<property name="BaseDialog_CANCEL" value="2" type="GuiHandlerData"/>
-<property name="BaseDialog_OK" value="23" type="GuiHandlerData"/>
-<property name="CmdMsgDialog_OK" value="9" type="GuiHandlerData"/>
-<property name="CommandsInput_TYPE_TCL_COMMAND_HERE" value="2" type="GuiHandlerData"/>
-<property name="CreateSrcFileDialog_FILE_NAME" value="7" type="GuiHandlerData"/>
-<property name="FileSetPanel_FILE_SET_PANEL_TREE" value="142" type="GuiHandlerData"/>
-<property name="FileSetPanel_MESSAGES" value="1" type="GuiHandlerData"/>
-<property name="FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE" value="27" type="GuiHandlerData"/>
-<property name="GraphicalView_ZOOM_IN" value="4" type="GuiHandlerData"/>
-<property name="GraphicalView_ZOOM_OUT" value="43" type="GuiHandlerData"/>
-=======
-<property name="SimulationRelaunch" value="15" type="JavaHandler"/>
-<property name="SimulationRun" value="9" type="JavaHandler"/>
-</item>
-<item name="Gui Handlers">
-<property name="BaseDialog_CANCEL" value="3" type="GuiHandlerData"/>
-<property name="BaseDialog_OK" value="13" type="GuiHandlerData"/>
-<property name="CmdMsgDialog_OK" value="5" type="GuiHandlerData"/>
-<property name="CommandsInput_TYPE_TCL_COMMAND_HERE" value="2" type="GuiHandlerData"/>
-<property name="CreateSrcFileDialog_FILE_NAME" value="4" type="GuiHandlerData"/>
-<property name="FileSetPanel_FILE_SET_PANEL_TREE" value="116" type="GuiHandlerData"/>
-<property name="FileSetPanel_MESSAGES" value="1" type="GuiHandlerData"/>
-<property name="FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE" value="26" type="GuiHandlerData"/>
-<property name="GraphicalView_ZOOM_IN" value="7" type="GuiHandlerData"/>
-<property name="GraphicalView_ZOOM_OUT" value="38" type="GuiHandlerData"/>
->>>>>>> Stashed changes
-<property name="HPopupTitle_CLOSE" value="2" type="GuiHandlerData"/>
-<property name="IPStatusTablePanel_IP_STATUS_TABLE" value="24" type="GuiHandlerData"/>
-<property name="IPStatusTablePanel_MORE_INFO" value="11" type="GuiHandlerData"/>
-<property name="MainMenuMgr_FLOW" value="3" type="GuiHandlerData"/>
-<property name="MainMenuMgr_REPORTS" value="10" type="GuiHandlerData"/>
-<property name="MainMenuMgr_SETTINGS" value="1" type="GuiHandlerData"/>
-<property name="MainMenuMgr_TOOLS" value="10" type="GuiHandlerData"/>
-<property name="MainMenuMgr_VIEW" value="2" type="GuiHandlerData"/>
-<property name="MainMenuMgr_WINDOW" value="6" type="GuiHandlerData"/>
-<property name="PACommandNames_ADD_SOURCES" value="9" type="GuiHandlerData"/>
-<property name="PACommandNames_AUTO_UPDATE_HIER" value="12" type="GuiHandlerData"/>
-<property name="PACommandNames_PROPERTIES_WINDOW" value="1" type="GuiHandlerData"/>
-<property name="PACommandNames_REPORT_IP_STATUS" value="4" type="GuiHandlerData"/>
-<property name="PACommandNames_SHOW_ALL_IP_HIER" value="1" type="GuiHandlerData"/>
-<<<<<<< Updated upstream
-<property name="PACommandNames_SIMULATION_RELAUNCH" value="22" type="GuiHandlerData"/>
-<property name="PACommandNames_SIMULATION_RUN_BEHAVIORAL" value="13" type="GuiHandlerData"/>
-<property name="PACommandNames_SRC_DISABLE" value="2" type="GuiHandlerData"/>
-<property name="PACommandNames_SRC_ENABLE" value="2" type="GuiHandlerData"/>
-=======
-<property name="PACommandNames_SIMULATION_RELAUNCH" value="17" type="GuiHandlerData"/>
-<property name="PACommandNames_SIMULATION_RUN_BEHAVIORAL" value="9" type="GuiHandlerData"/>
-<property name="PACommandNames_SRC_DISABLE" value="1" type="GuiHandlerData"/>
-<property name="PACommandNames_SRC_ENABLE" value="1" type="GuiHandlerData"/>
->>>>>>> Stashed changes
-<property name="PAViews_CODE" value="1" type="GuiHandlerData"/>
-<property name="PAViews_PROJECT_SUMMARY" value="5" type="GuiHandlerData"/>
-<property name="ProgressDialog_CANCEL" value="1" type="GuiHandlerData"/>
-<property name="RDICommands_CUSTOM_COMMANDS" value="2" type="GuiHandlerData"/>
-<property name="RDICommands_DELETE" value="10" type="GuiHandlerData"/>
-<property name="RDICommands_PROPERTIES" value="1" type="GuiHandlerData"/>
-<<<<<<< Updated upstream
-<property name="RDICommands_SAVE_FILE" value="47" type="GuiHandlerData"/>
-<property name="RDIViews_WAVEFORM_VIEWER" value="32" type="GuiHandlerData"/>
-<property name="RemoveSourcesDialog_ALSO_DELETE" value="2" type="GuiHandlerData"/>
-<property name="SaveProjectUtils_SAVE" value="3" type="GuiHandlerData"/>
-<property name="SimpleOutputProductDialog_GENERATE_OUTPUT_PRODUCTS_IMMEDIATELY" value="2" type="GuiHandlerData"/>
-<property name="SimulationObjectsPanel_SIMULATION_OBJECTS_TREE_TABLE" value="35" type="GuiHandlerData"/>
-<property name="SimulationScopesPanel_SIMULATE_SCOPE_TABLE" value="9" type="GuiHandlerData"/>
-<property name="SrcChooserPanel_CREATE_FILE" value="7" type="GuiHandlerData"/>
-<property name="SrcFilePropPanels_ENABLED" value="1" type="GuiHandlerData"/>
-<property name="SrcMenu_IP_DOCUMENTATION" value="4" type="GuiHandlerData"/>
-<property name="SrcMenu_IP_HIERARCHY" value="13" type="GuiHandlerData"/>
-=======
-<property name="RDICommands_SAVE_FILE" value="26" type="GuiHandlerData"/>
-<property name="RDIViews_WAVEFORM_VIEWER" value="3" type="GuiHandlerData"/>
-<property name="RemoveSourcesDialog_ALSO_DELETE" value="1" type="GuiHandlerData"/>
-<property name="SaveProjectUtils_SAVE" value="3" type="GuiHandlerData"/>
-<property name="SimpleOutputProductDialog_GENERATE_OUTPUT_PRODUCTS_IMMEDIATELY" value="2" type="GuiHandlerData"/>
-<property name="SimulationObjectsPanel_SIMULATION_OBJECTS_TREE_TABLE" value="24" type="GuiHandlerData"/>
-<property name="SimulationScopesPanel_SIMULATE_SCOPE_TABLE" value="6" type="GuiHandlerData"/>
-<property name="SrcChooserPanel_CREATE_FILE" value="4" type="GuiHandlerData"/>
-<property name="SrcFilePropPanels_ENABLED" value="1" type="GuiHandlerData"/>
-<property name="SrcMenu_IP_DOCUMENTATION" value="4" type="GuiHandlerData"/>
-<property name="SrcMenu_IP_HIERARCHY" value="8" type="GuiHandlerData"/>
->>>>>>> Stashed changes
-<property name="SyntheticaGettingStartedView_RECENT_PROJECTS" value="3" type="GuiHandlerData"/>
-<property name="TaskBanner_CLOSE" value="3" type="GuiHandlerData"/>
-<property name="TclConsoleView_TCL_CONSOLE_CODE_EDITOR" value="1" type="GuiHandlerData"/>
-<property name="TclObjectTreeTable_TREETABLE" value="33" type="GuiHandlerData"/>
-<property name="TclObjectView_SORT_PROPERTIES" value="1" type="GuiHandlerData"/>
-<<<<<<< Updated upstream
-<property name="WaveformNameTree_WAVEFORM_NAME_TREE" value="52" type="GuiHandlerData"/>
+<property name="SyntheticaGettingStartedView_RECENT_PROJECTS" value="1" type="GuiHandlerData"/>
 </item>
 <item name="Other">
-<property name="GuiMode" value="84" type="GuiMode"/>
+<property name="GuiMode" value="86" type="GuiMode"/>
 <property name="BatchMode" value="0" type="BatchMode"/>
-<property name="TclMode" value="60" type="TclMode"/>
-=======
-<property name="WaveformNameTree_WAVEFORM_NAME_TREE" value="25" type="GuiHandlerData"/>
-</item>
-<item name="Other">
-<property name="GuiMode" value="85" type="GuiMode"/>
-<property name="BatchMode" value="0" type="BatchMode"/>
-<property name="TclMode" value="61" type="TclMode"/>
->>>>>>> Stashed changes
+<property name="TclMode" value="62" type="TclMode"/>
 </item>
 </section>
 </application>

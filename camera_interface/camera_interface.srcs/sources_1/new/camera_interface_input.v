@@ -52,14 +52,14 @@ always@(posedge clk, negedge reset_n) begin
     else begin
     case(fsm_state) 
     
-    s0_idle: begin
+    s0_idle: begin //idle until href = 1, indicating VGA data transmission
         FIFO_WRITE_0_wr_en <= 0; //don't write if camera isn't outputting data
         FIFO_WRITE_0_wr_data <= 0; 
         fsm_state <= (href == 1)? s1_assign : s0_idle; //start writing when href goes high
     end
     
-    s1_assign: begin
-        FIFO_WRITE_0_wr_en <= (pclk==0) ? 1:0; //write enable only on pclk negative edge
+    s1_assign: begin //write to FIFO on every pclk negative edge
+        FIFO_WRITE_0_wr_en <= (wr_rst_busy_0 == 1) ? 0 : 1; //write enable only on when FIFO not busy
         FIFO_WRITE_0_wr_data <= dout_camera; //assign output data
         fsm_state <= (href == 0) ? s0_idle : s1_assign; //data is only sent when href is high
     end

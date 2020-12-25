@@ -23,11 +23,12 @@
 module camera_interface_output(
 input clk,//96Mhz clock
 input reset_n, //asynchronous active low reset
-input FIFO_WRITE_0_wr_en,
+input wr_ack_0,
 input FIFO_READ_0_empty, 
 input [7:0] FIFO_READ_0_rd_data,
 input rd_rst_busy_0,
 input greyscale_ready,
+input valid_0,
 
 output reg FIFO_READ_0_rd_en,
 output reg byte_converted_valid,
@@ -78,7 +79,7 @@ always@(posedge clk, negedge reset_n) begin
             green <= 0;
             blue <= 0;
             half_identifier <= 0;
-            fsm_state <= (FIFO_WRITE_0_wr_en == 1) ? s1_read : s0_idle;
+            fsm_state <= (wr_ack_0 == 1) ? s1_read : s0_idle;
             read_fail <= 0;
         end
         
@@ -93,18 +94,18 @@ always@(posedge clk, negedge reset_n) begin
             end
         end
         
-        s2_assign1: begin
-                                                     //first bit is a don't care
-            red [7:3] <=  FIFO_READ_0_rd_data [6:3]; //next is 5 bits of red
-            green [7:6] <= FIFO_READ_0_rd_data [2:0]; //then 2 bits of green
-            half_identifier <= 1;
-            fsm_state <= s1_read;
+        s2_assign1: begin //only assigns data if FIFO asserts valid flag
+                                                                     //first bit is a don't care
+            red [7:3] <=  (valid_0) ? FIFO_READ_0_rd_data [6:3] : 0; //next is 5 bits of red
+            green [7:6] <= (valid_0) ? FIFO_READ_0_rd_data [2:0] : 0; //then 2 bits of green
+            half_identifier <= (valid_0) ? 1 : 0;
+            fsm_state <= (valid_0) ? s1_read:s2_assign1;
         end
         
-        s3_assign2: begin
-            green [4:3] <= FIFO_READ_0_rd_data[7:5]; //no don't care, 3 bits of green
-            blue [7:3] <= FIFO_READ_0_rd_data[4:0]; //5 bits of blue
-            byte_converted_valid <= 1;
+        s3_assign2: begin //needs work
+            green [4:3] <= (valid_0) ? FIFO_READ_0_rd_data[7:5] : 0; //no don't care, 3 bits of green
+            blue [7:3] <= (valid_0) ? FIFO_READ_0_rd_data[4:0] : 0; //5 bits of blue
+            byte_converted_valid <= (valid_0)? 1:0;
             fsm_state <= (greyscale_ready) ? s3_assign2 : s0_idle; //hold until greyscale doesn't need them anymore
         end
         

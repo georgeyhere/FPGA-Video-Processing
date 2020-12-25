@@ -60,12 +60,14 @@ always #(PCLK_PERIOD/2) begin
 end
 
 initial begin
+    
     clk = 0;
-    dout_camera = 8'b00000000;
     href = 0;
+    #500;
+    dout_camera = 8'b00001111;
+    href = 1;
     //
-    @(negedge pclk);
-        href = 1;
+    #40;
     @(negedge pclk);
         dout_camera = 8'b11110000; 
     @(negedge pclk);
