@@ -22,7 +22,7 @@
 
 module top_tb();
 
-reg clk = 0;
+reg clk;
 reg pclk = 0;
 reg reset_n = 1;
 reg href;
@@ -60,6 +60,7 @@ always #(PCLK_PERIOD/2) begin
 end
 
 initial begin
+    clk = 0;
     dout_camera = 8'b00000000;
     href = 0;
     //

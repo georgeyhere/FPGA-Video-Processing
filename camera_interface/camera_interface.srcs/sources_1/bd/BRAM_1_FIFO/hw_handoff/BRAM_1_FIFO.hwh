@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Thu Dec 24 16:48:59 2020" VIVADOVERSION="2019.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Thu Dec 24 17:53:25 2020" VIVADOVERSION="2019.2">
 
   <SYSTEMINFO ARCH="artix7" DEVICE="7a50t" NAME="BRAM_1_FIFO" PACKAGE="csg324" SPEEDGRADE="-1"/>
 
@@ -82,7 +82,7 @@
         <PARAMETER NAME="C_COMMON_CLOCK" VALUE="1"/>
         <PARAMETER NAME="C_SELECT_XPM" VALUE="0"/>
         <PARAMETER NAME="C_COUNT_TYPE" VALUE="0"/>
-        <PARAMETER NAME="C_DATA_COUNT_WIDTH" VALUE="5"/>
+        <PARAMETER NAME="C_DATA_COUNT_WIDTH" VALUE="6"/>
         <PARAMETER NAME="C_DEFAULT_VALUE" VALUE="BlankString"/>
         <PARAMETER NAME="C_DIN_WIDTH" VALUE="8"/>
         <PARAMETER NAME="C_DOUT_RST_VAL" VALUE="0"/>
@@ -112,16 +112,16 @@
         <PARAMETER NAME="C_MIF_FILE_NAME" VALUE="BlankString"/>
         <PARAMETER NAME="C_OPTIMIZATION_MODE" VALUE="0"/>
         <PARAMETER NAME="C_OVERFLOW_LOW" VALUE="0"/>
-        <PARAMETER NAME="C_PRELOAD_LATENCY" VALUE="1"/>
-        <PARAMETER NAME="C_PRELOAD_REGS" VALUE="0"/>
+        <PARAMETER NAME="C_PRELOAD_LATENCY" VALUE="0"/>
+        <PARAMETER NAME="C_PRELOAD_REGS" VALUE="1"/>
         <PARAMETER NAME="C_PRIM_FIFO_TYPE" VALUE="512x36"/>
-        <PARAMETER NAME="C_PROG_EMPTY_THRESH_ASSERT_VAL" VALUE="2"/>
-        <PARAMETER NAME="C_PROG_EMPTY_THRESH_NEGATE_VAL" VALUE="3"/>
+        <PARAMETER NAME="C_PROG_EMPTY_THRESH_ASSERT_VAL" VALUE="4"/>
+        <PARAMETER NAME="C_PROG_EMPTY_THRESH_NEGATE_VAL" VALUE="5"/>
         <PARAMETER NAME="C_PROG_EMPTY_TYPE" VALUE="0"/>
-        <PARAMETER NAME="C_PROG_FULL_THRESH_ASSERT_VAL" VALUE="30"/>
-        <PARAMETER NAME="C_PROG_FULL_THRESH_NEGATE_VAL" VALUE="29"/>
+        <PARAMETER NAME="C_PROG_FULL_THRESH_ASSERT_VAL" VALUE="31"/>
+        <PARAMETER NAME="C_PROG_FULL_THRESH_NEGATE_VAL" VALUE="30"/>
         <PARAMETER NAME="C_PROG_FULL_TYPE" VALUE="0"/>
-        <PARAMETER NAME="C_RD_DATA_COUNT_WIDTH" VALUE="5"/>
+        <PARAMETER NAME="C_RD_DATA_COUNT_WIDTH" VALUE="6"/>
         <PARAMETER NAME="C_RD_DEPTH" VALUE="32"/>
         <PARAMETER NAME="C_RD_FREQ" VALUE="1"/>
         <PARAMETER NAME="C_RD_PNTR_WIDTH" VALUE="5"/>
@@ -132,10 +132,10 @@
         <PARAMETER NAME="C_USE_PIPELINE_REG" VALUE="0"/>
         <PARAMETER NAME="C_POWER_SAVING_MODE" VALUE="0"/>
         <PARAMETER NAME="C_USE_FIFO16_FLAGS" VALUE="0"/>
-        <PARAMETER NAME="C_USE_FWFT_DATA_COUNT" VALUE="0"/>
+        <PARAMETER NAME="C_USE_FWFT_DATA_COUNT" VALUE="1"/>
         <PARAMETER NAME="C_VALID_LOW" VALUE="0"/>
         <PARAMETER NAME="C_WR_ACK_LOW" VALUE="0"/>
-        <PARAMETER NAME="C_WR_DATA_COUNT_WIDTH" VALUE="5"/>
+        <PARAMETER NAME="C_WR_DATA_COUNT_WIDTH" VALUE="6"/>
         <PARAMETER NAME="C_WR_DEPTH" VALUE="32"/>
         <PARAMETER NAME="C_WR_FREQ" VALUE="1"/>
         <PARAMETER NAME="C_WR_PNTR_WIDTH" VALUE="5"/>
@@ -286,7 +286,7 @@
         <PARAMETER NAME="synchronization_stages" VALUE="2"/>
         <PARAMETER NAME="synchronization_stages_axi" VALUE="2"/>
         <PARAMETER NAME="INTERFACE_TYPE" VALUE="Native"/>
-        <PARAMETER NAME="Performance_Options" VALUE="Standard_FIFO"/>
+        <PARAMETER NAME="Performance_Options" VALUE="First_Word_Fall_Through"/>
         <PARAMETER NAME="asymmetric_port_width" VALUE="false"/>
         <PARAMETER NAME="Input_Data_Width" VALUE="8"/>
         <PARAMETER NAME="Input_Depth" VALUE="32"/>
@@ -314,22 +314,22 @@
         <PARAMETER NAME="Inject_Sbit_Error" VALUE="false"/>
         <PARAMETER NAME="Inject_Dbit_Error" VALUE="false"/>
         <PARAMETER NAME="ecc_pipeline_reg" VALUE="false"/>
-        <PARAMETER NAME="Use_Extra_Logic" VALUE="false"/>
+        <PARAMETER NAME="Use_Extra_Logic" VALUE="true"/>
         <PARAMETER NAME="Data_Count" VALUE="false"/>
-        <PARAMETER NAME="Data_Count_Width" VALUE="5"/>
+        <PARAMETER NAME="Data_Count_Width" VALUE="6"/>
         <PARAMETER NAME="Write_Data_Count" VALUE="false"/>
-        <PARAMETER NAME="Write_Data_Count_Width" VALUE="5"/>
+        <PARAMETER NAME="Write_Data_Count_Width" VALUE="6"/>
         <PARAMETER NAME="Read_Data_Count" VALUE="false"/>
-        <PARAMETER NAME="Read_Data_Count_Width" VALUE="5"/>
+        <PARAMETER NAME="Read_Data_Count_Width" VALUE="6"/>
         <PARAMETER NAME="Disable_Timing_Violations" VALUE="false"/>
         <PARAMETER NAME="Read_Clock_Frequency" VALUE="1"/>
         <PARAMETER NAME="Write_Clock_Frequency" VALUE="1"/>
         <PARAMETER NAME="Programmable_Full_Type" VALUE="No_Programmable_Full_Threshold"/>
-        <PARAMETER NAME="Full_Threshold_Assert_Value" VALUE="30"/>
-        <PARAMETER NAME="Full_Threshold_Negate_Value" VALUE="29"/>
+        <PARAMETER NAME="Full_Threshold_Assert_Value" VALUE="31"/>
+        <PARAMETER NAME="Full_Threshold_Negate_Value" VALUE="30"/>
         <PARAMETER NAME="Programmable_Empty_Type" VALUE="No_Programmable_Empty_Threshold"/>
-        <PARAMETER NAME="Empty_Threshold_Assert_Value" VALUE="2"/>
-        <PARAMETER NAME="Empty_Threshold_Negate_Value" VALUE="3"/>
+        <PARAMETER NAME="Empty_Threshold_Assert_Value" VALUE="4"/>
+        <PARAMETER NAME="Empty_Threshold_Negate_Value" VALUE="5"/>
         <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
         <PARAMETER NAME="Clock_Type_AXI" VALUE="Common_Clock"/>
         <PARAMETER NAME="HAS_ACLKEN" VALUE="false"/>

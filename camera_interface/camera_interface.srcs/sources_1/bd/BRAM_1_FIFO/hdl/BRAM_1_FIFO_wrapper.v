@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-//Date        : Thu Dec 24 16:48:59 2020
+//Date        : Thu Dec 24 17:53:25 2020
 //Host        : DESKTOP-MB5IJCE running 64-bit major release  (build 9200)
 //Command     : generate_target BRAM_1_FIFO_wrapper.bd
 //Design      : BRAM_1_FIFO_wrapper

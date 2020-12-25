@@ -75,7 +75,7 @@
             "value": "8"
           },
           "Performance_Options": {
-            "value": "Standard_FIFO"
+            "value": "First_Word_Fall_Through"
           },
           "Reset_Type": {
             "value": "Asynchronous_Reset"
