@@ -49,7 +49,7 @@ always@(posedge clk, negedge reset_n) begin
         FIFO_WRITE_0_wr_en <= 0;
         FIFO_WRITE_0_wr_data <= 0;
     end
-    
+    else begin
     case(fsm_state) 
     
     s0_idle: begin
@@ -65,7 +65,7 @@ always@(posedge clk, negedge reset_n) begin
     end
     
     endcase
-    
+    end
 end
     
     

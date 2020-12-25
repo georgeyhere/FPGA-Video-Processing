@@ -169,22 +169,22 @@ proc create_root_design { parentCell } {
   # Create instance: fifo_generator_0, and set properties
   set fifo_generator_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:fifo_generator:13.2 fifo_generator_0 ]
   set_property -dict [ list \
-   CONFIG.Data_Count_Width {6} \
-   CONFIG.Empty_Threshold_Assert_Value {4} \
-   CONFIG.Empty_Threshold_Negate_Value {5} \
+   CONFIG.Data_Count_Width {5} \
+   CONFIG.Empty_Threshold_Assert_Value {2} \
+   CONFIG.Empty_Threshold_Negate_Value {3} \
    CONFIG.Enable_Safety_Circuit {true} \
    CONFIG.Full_Flags_Reset_Value {1} \
-   CONFIG.Full_Threshold_Assert_Value {31} \
-   CONFIG.Full_Threshold_Negate_Value {30} \
+   CONFIG.Full_Threshold_Assert_Value {30} \
+   CONFIG.Full_Threshold_Negate_Value {29} \
    CONFIG.Input_Data_Width {8} \
    CONFIG.Input_Depth {32} \
    CONFIG.Output_Data_Width {8} \
    CONFIG.Output_Depth {32} \
-   CONFIG.Performance_Options {First_Word_Fall_Through} \
-   CONFIG.Read_Data_Count_Width {6} \
+   CONFIG.Performance_Options {Standard_FIFO} \
+   CONFIG.Read_Data_Count_Width {5} \
    CONFIG.Reset_Type {Asynchronous_Reset} \
-   CONFIG.Use_Extra_Logic {true} \
-   CONFIG.Write_Data_Count_Width {6} \
+   CONFIG.Use_Extra_Logic {false} \
+   CONFIG.Write_Data_Count_Width {5} \
  ] $fifo_generator_0
 
   # Create interface connections

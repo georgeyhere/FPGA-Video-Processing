@@ -4,20 +4,18 @@ Running: D:/Xilinx/Vivado/2019.2/bin/unwrapped/win64.o/xelab.exe -wto c698809d61
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
-WARNING: [VRFC 10-5021] port 'pclk' is not connected on this instance [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sim_1/new/top_tb.v:36]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.camera_read_input
+Compiling module xil_defaultlib.camera_interface_input
 Compiling module fifo_generator_v13_2_5.fifo_generator_v13_2_5_bhv_ver_s...
-Compiling module fifo_generator_v13_2_5.fifo_generator_v13_2_5_bhv_ver_p...
 Compiling module fifo_generator_v13_2_5.fifo_generator_v13_2_5_CONV_VER(...
 Compiling module fifo_generator_v13_2_5.fifo_generator_vlog_beh(C_COMMON...
 Compiling module xil_defaultlib.BRAM_1_FIFO_fifo_generator_0_0
 Compiling module xil_defaultlib.BRAM_1_FIFO
-Compiling module xil_defaultlib.camera_fifo_output
-Compiling module xil_defaultlib.camera_fifo_top
+Compiling module xil_defaultlib.camera_interface_output
+Compiling module xil_defaultlib.camera_interface_top
 Compiling module xil_defaultlib.top_tb
 Compiling module xil_defaultlib.glbl
 Built simulation snapshot top_tb_behav

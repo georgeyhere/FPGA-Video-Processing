@@ -55,7 +55,6 @@ initial begin
     fsm_state <= s0_idle;
     read_fail <= 0;
     half_identifier <= 0;
-    fsm_next_state <= 0;
 end 
 
 always@(posedge clk, negedge reset_n) begin
@@ -68,9 +67,8 @@ always@(posedge clk, negedge reset_n) begin
         fsm_state <= s0_idle;
         read_fail <= 0;
         half_identifier <= 0;
-        fsm_next_state <= 0;
     end
-    
+    else begin
     case(fsm_state) 
         
         s0_idle: begin
@@ -81,17 +79,17 @@ always@(posedge clk, negedge reset_n) begin
             blue <= 0;
             half_identifier <= 0;
             fsm_state <= (FIFO_WRITE_0_wr_en == 1) ? s1_read : s0_idle;
-            fsm_next_state <= 0;
+            read_fail <= 0;
         end
         
         s1_read: begin
-            if(rd_rst_busy_0 + FIFO_READ_0_empty) begin //I don't want this to ever be triggered
-                fsm_state <= s0_idle; 
-                read_fail <= 1; //goal is for this to never toggle, for diagnostic purposes only
-            end
-            else begin
-                FIFO_READ_0_rd_en <= 1; //else initiate read, go to next state
+            if(rd_rst_busy_0 + FIFO_READ_0_empty) begin 
+                FIFO_READ_0_rd_en <= 1; //initiate read, go to next state
                 fsm_state <= (half_identifier) ? s3_assign2 : s2_assign1; //go to next state depending on current data byte
+            end
+            else begin //prevent reading from busy or empty FIFO
+                fsm_state <= s0_idle; //go back to idle
+                read_fail <= 1; //for diagnostic purposes only
             end
         end
         
@@ -111,7 +109,7 @@ always@(posedge clk, negedge reset_n) begin
         end
         
     endcase
-    
+    end
     
     
 end
