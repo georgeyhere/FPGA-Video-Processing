@@ -31,7 +31,7 @@ reg href;
 wire [31:0] M_AXIS_RESULT_0_tdata;
 wire M_AXIS_RESULT_0_tvalid;
 
-parameter CLK_PERIOD = 10;
+parameter CLK_PERIOD = 5;
 parameter PCLK_PERIOD = 40;
 
 test_top UUT (

@@ -39,6 +39,8 @@ input S_AXIS_B_0_tready,
 input S_AXIS_B_1_tready,
 input S_AXIS_B_2_tready,
 
+output reg greyscale_ready,
+
 output reg [31:0] S_AXIS_A_0_tdata, //32-bit floating point 
 output reg [31:0] S_AXIS_A_1_tdata,
 output reg [31:0] S_AXIS_A_2_tdata,
@@ -116,10 +118,13 @@ case(fsm_state)
         S_AXIS_A_1_tdata <= 0;
         S_AXIS_A_2_tdata <= 0;
         
+        greyscale_ready <= 1;
         fsm_state <= (byte_converted_valid == 1) ? s1_assign:s0_idle; //new pixel to process, go to assign
     end
     
     s1_assign: begin
+        greyscale_ready <= 0;
+    
         S_AXIS_A_0_tdata [7:0] <= red; //rgb will always be integer values
         S_AXIS_A_1_tdata [7:0] <= green; //32-bit fixed point number integer part is in [31:17]
         S_AXIS_A_2_tdata [7:0] <= blue; //we need the first 8 bits, hence [24:17]
@@ -130,6 +135,7 @@ case(fsm_state)
         S_AXIS_B_0_tvalid <= (S_AXIS_B_0_tready) ? 1:0;
         S_AXIS_B_1_tvalid <= (S_AXIS_B_1_tready) ? 1:0;
         S_AXIS_B_2_tvalid <= (S_AXIS_B_2_tready) ? 1:0;
+        
         fsm_state <= (M_AXIS_RESULT_0_tvalid == 1) ? s0_idle : s1_assign; //if result valid, go back to idle to wait for next pixel
     end
 
