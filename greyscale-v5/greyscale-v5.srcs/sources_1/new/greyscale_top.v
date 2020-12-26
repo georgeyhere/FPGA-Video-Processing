@@ -28,7 +28,7 @@ input reset_n,
 input [7:0] red,
 input [7:0] green,
 input [7:0] blue,
-input byte_convert_valid,
+input byte_converted_valid,
 input M_AXIS_RESULT_0_tready, //output AXI ready
 
 output wire [31:0] M_AXIS_RESULT_0_tdata, //output, 32-bit fixed-point greyscale value
@@ -61,7 +61,7 @@ greyscale_input UUT1 (
 .red(red),
 .green(green),
 .blue(blue),
-.byte_convert_valid(byte_convert_valid),
+.byte_converted_valid(byte_converted_valid),
 .M_AXIS_RESULT_0_tvalid(M_AXIS_RESULT_0_tvalid),
 .S_AXIS_A_0_tready(S_AXIS_A_0_tready),
 .S_AXIS_A_1_tready(S_AXIS_A_1_tready),

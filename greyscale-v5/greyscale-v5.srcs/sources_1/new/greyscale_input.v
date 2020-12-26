@@ -28,7 +28,7 @@ input [7:0] red, //RGB888 data input
 input [7:0] green,
 input [7:0] blue,
 
-input byte_convert_valid, //byte_convert valid
+input byte_converted_valid, //byte_convert valid
 input M_AXIS_RESULT_0_tvalid, //ip result valid
 
 input S_AXIS_A_0_tready, //AXI protocol ready, data, valid
@@ -116,7 +116,7 @@ case(fsm_state)
         S_AXIS_A_1_tdata <= 0;
         S_AXIS_A_2_tdata <= 0;
         
-        fsm_state <= (byte_convert_valid == 1) ? s1_assign:s0_idle; //new pixel to process, go to assign
+        fsm_state <= (byte_converted_valid == 1) ? s1_assign:s0_idle; //new pixel to process, go to assign
     end
     
     s1_assign: begin

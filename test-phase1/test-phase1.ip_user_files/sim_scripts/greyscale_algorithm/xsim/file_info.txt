@@ -1,0 +1,9 @@
+greyscale_algorithm_floating_point_0_0.vhd,vhdl,xil_defaultlib,../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_0_0/sim/greyscale_algorithm_floating_point_0_0.vhd,
+greyscale_algorithm_floating_point_1_0.vhd,vhdl,xil_defaultlib,../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_1_0/sim/greyscale_algorithm_floating_point_1_0.vhd,
+greyscale_algorithm_floating_point_2_0.vhd,vhdl,xil_defaultlib,../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_2_0/sim/greyscale_algorithm_floating_point_2_0.vhd,
+greyscale_algorithm_floating_point_3_0.vhd,vhdl,xil_defaultlib,../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_3_0/sim/greyscale_algorithm_floating_point_3_0.vhd,
+greyscale_algorithm_floating_point_4_0.vhd,vhdl,xil_defaultlib,../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_4_0/sim/greyscale_algorithm_floating_point_4_0.vhd,
+greyscale_algorithm_floating_point_5_0.vhd,vhdl,xil_defaultlib,../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_5_0/sim/greyscale_algorithm_floating_point_5_0.vhd,
+greyscale_algorithm.v,verilog,xil_defaultlib,../../../bd/greyscale_algorithm/sim/greyscale_algorithm.v,
+greyscale_algorithm_floating_point_6_0.vhd,vhdl,xil_defaultlib,../../../bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_6_0/sim/greyscale_algorithm_floating_point_6_0.vhd,
+glbl.v,Verilog,xil_defaultlib,glbl.v
