@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Dec 27 13:24:21 2020" VIVADOVERSION="2019.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Dec 27 14:38:21 2020" VIVADOVERSION="2019.2">
 
   <SYSTEMINFO ARCH="artix7" DEVICE="7a50t" NAME="BRAM_1_FIFO" PACKAGE="csg324" SPEEDGRADE="-1"/>
 
@@ -127,14 +127,14 @@
         <PARAMETER NAME="C_MIF_FILE_NAME" VALUE="BlankString"/>
         <PARAMETER NAME="C_OPTIMIZATION_MODE" VALUE="0"/>
         <PARAMETER NAME="C_OVERFLOW_LOW" VALUE="0"/>
-        <PARAMETER NAME="C_PRELOAD_LATENCY" VALUE="1"/>
-        <PARAMETER NAME="C_PRELOAD_REGS" VALUE="0"/>
+        <PARAMETER NAME="C_PRELOAD_LATENCY" VALUE="0"/>
+        <PARAMETER NAME="C_PRELOAD_REGS" VALUE="1"/>
         <PARAMETER NAME="C_PRIM_FIFO_TYPE" VALUE="512x36"/>
-        <PARAMETER NAME="C_PROG_EMPTY_THRESH_ASSERT_VAL" VALUE="2"/>
-        <PARAMETER NAME="C_PROG_EMPTY_THRESH_NEGATE_VAL" VALUE="3"/>
+        <PARAMETER NAME="C_PROG_EMPTY_THRESH_ASSERT_VAL" VALUE="4"/>
+        <PARAMETER NAME="C_PROG_EMPTY_THRESH_NEGATE_VAL" VALUE="5"/>
         <PARAMETER NAME="C_PROG_EMPTY_TYPE" VALUE="0"/>
-        <PARAMETER NAME="C_PROG_FULL_THRESH_ASSERT_VAL" VALUE="29"/>
-        <PARAMETER NAME="C_PROG_FULL_THRESH_NEGATE_VAL" VALUE="28"/>
+        <PARAMETER NAME="C_PROG_FULL_THRESH_ASSERT_VAL" VALUE="31"/>
+        <PARAMETER NAME="C_PROG_FULL_THRESH_NEGATE_VAL" VALUE="30"/>
         <PARAMETER NAME="C_PROG_FULL_TYPE" VALUE="0"/>
         <PARAMETER NAME="C_RD_DATA_COUNT_WIDTH" VALUE="5"/>
         <PARAMETER NAME="C_RD_DEPTH" VALUE="32"/>
@@ -301,7 +301,7 @@
         <PARAMETER NAME="synchronization_stages" VALUE="2"/>
         <PARAMETER NAME="synchronization_stages_axi" VALUE="2"/>
         <PARAMETER NAME="INTERFACE_TYPE" VALUE="Native"/>
-        <PARAMETER NAME="Performance_Options" VALUE="Standard_FIFO"/>
+        <PARAMETER NAME="Performance_Options" VALUE="First_Word_Fall_Through"/>
         <PARAMETER NAME="asymmetric_port_width" VALUE="false"/>
         <PARAMETER NAME="Input_Data_Width" VALUE="8"/>
         <PARAMETER NAME="Input_Depth" VALUE="32"/>
@@ -340,11 +340,11 @@
         <PARAMETER NAME="Read_Clock_Frequency" VALUE="1"/>
         <PARAMETER NAME="Write_Clock_Frequency" VALUE="1"/>
         <PARAMETER NAME="Programmable_Full_Type" VALUE="No_Programmable_Full_Threshold"/>
-        <PARAMETER NAME="Full_Threshold_Assert_Value" VALUE="29"/>
-        <PARAMETER NAME="Full_Threshold_Negate_Value" VALUE="28"/>
+        <PARAMETER NAME="Full_Threshold_Assert_Value" VALUE="31"/>
+        <PARAMETER NAME="Full_Threshold_Negate_Value" VALUE="30"/>
         <PARAMETER NAME="Programmable_Empty_Type" VALUE="No_Programmable_Empty_Threshold"/>
-        <PARAMETER NAME="Empty_Threshold_Assert_Value" VALUE="2"/>
-        <PARAMETER NAME="Empty_Threshold_Negate_Value" VALUE="3"/>
+        <PARAMETER NAME="Empty_Threshold_Assert_Value" VALUE="4"/>
+        <PARAMETER NAME="Empty_Threshold_Negate_Value" VALUE="5"/>
         <PARAMETER NAME="PROTOCOL" VALUE="AXI4"/>
         <PARAMETER NAME="Clock_Type_AXI" VALUE="Common_Clock"/>
         <PARAMETER NAME="HAS_ACLKEN" VALUE="false"/>

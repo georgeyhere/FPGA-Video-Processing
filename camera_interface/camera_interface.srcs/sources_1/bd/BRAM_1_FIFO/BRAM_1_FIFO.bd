@@ -118,7 +118,10 @@
             "value": "8"
           },
           "Performance_Options": {
-            "value": "Standard_FIFO"
+            "value": "First_Word_Fall_Through"
+          },
+          "Use_Extra_Logic": {
+            "value": "false"
           },
           "Valid_Flag": {
             "value": "true"

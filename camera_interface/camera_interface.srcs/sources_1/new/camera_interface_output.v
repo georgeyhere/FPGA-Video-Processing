@@ -60,7 +60,7 @@ initial begin
     red <= 0;
     green <= 0;
     blue <= 0;
-    fsm_state <= s0_initial;
+    fsm_state <= s1_default;
     read_fail <= 0;
     half_identifier <= 0;
     byte_convert_valid <= 0;
@@ -75,7 +75,7 @@ always@(posedge clk, negedge reset_n) begin
         red <= 0;
         green <= 0;
         blue <= 0;
-        fsm_state <= s0_initial;
+        fsm_state <= s1_default;
         read_fail <= 0;
         half_identifier <= 0;
         byte_convert_valid <= 0;
@@ -86,34 +86,32 @@ always@(posedge clk, negedge reset_n) begin
     else begin
     case(fsm_state) 
     
-        s0_initial: begin
-            FIFO_READ_0_rd_en <= (valid_0) ? 0:1;
-            fsm_state <= (valid_0) ? s1_default : s0_initial;
-        end
-       
+      
         s1_default: begin
-            if(FIFO_WRITE_0_wr_en == 1) begin //start read operation on new write 
-                if(rd_rst_busy_0 == 0) begin //only if not busy
-                    FIFO_READ_0_rd_en <= (memory_initialize_done == 1) ? 1:0; //initiate read, go to next state
-                    if(memory_initialize_done == 0) fsm_state <= s1_default; //initial memory reset, don't process the data
-                    else fsm_state <= (half_identifier) ? s3_assign2 : s2_assign1; //go to next state depending on current data byte
-                end
-                else begin
-                    FIFO_READ_0_rd_en <= 0;
-                    fsm_state <= s1_default;
-                end
+        
+            if(rd_rst_busy_0 == 0) begin //only if not busy
+                FIFO_READ_0_rd_en <= 1; //initiate read, go to next state
+                fsm_state <= (half_identifier) ? s3_assign2 : s2_assign1; //go to next state depending on current data byte
             end
+            else begin
+                FIFO_READ_0_rd_en <= 0;
+                fsm_state <= s1_default;
+            end 
         end
         
         
         s2_assign1: begin //only assigns data if FIFO asserts valid flag
+        byte_convert_valid <= 0;
             if(valid_0) begin
                 red_latch [7:3] <= FIFO_READ_0_rd_data [6:1]; //first bit is don't care, then 5 bits of red
                 green_latch [7:6] <= FIFO_READ_0_rd_data [1:0]; //then 2 bits of green
                 half_identifier <= 1;
-                fsm_state <= s1_default;
+                fsm_state <= (href == 1) ? s3_assign2 : s1_default;
             end
-            else fsm_state <= s2_assign1;    
+            else begin
+                fsm_state <= s1_default; 
+                half_identifier <= 0;
+            end
         end
         
         s3_assign2: begin //needs work
