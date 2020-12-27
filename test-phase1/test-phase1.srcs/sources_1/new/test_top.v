@@ -33,7 +33,8 @@ output wire M_AXIS_RESULT_0_tvalid //used as feedback to the input module
 
     );
     
-wire byte_converted_valid;
+wire valid_0;
+wire byte_convert_valid;
 wire [7:0] red;
 wire [7:0] green;
 wire [7:0] blue;
@@ -51,7 +52,7 @@ camera_interface_top UUT1 (
 .dout_camera(dout_camera),
 .href(href),
 .greyscale_ready(greyscale_ready),
-.byte_converted_valid(byte_converted_valid),
+.byte_convert_valid(byte_convert_valid),
 .red(red),
 .green(green),
 .blue(blue),
@@ -66,7 +67,8 @@ greyscale_top UUT2 (
 .red(red),
 .green(green),
 .blue(blue),
-.byte_converted_valid(byte_converted_valid),
+.byte_convert_valid(byte_convert_valid),
+.greyscale_ready(greyscale_ready),
 .M_AXIS_RESULT_0_tready(M_AXIS_RESULT_0_tready),
 .M_AXIS_RESULT_0_tdata(M_AXIS_RESULT_0_tdata),
 .M_AXIS_RESULT_0_tvalid(M_AXIS_RESULT_0_tvalid)

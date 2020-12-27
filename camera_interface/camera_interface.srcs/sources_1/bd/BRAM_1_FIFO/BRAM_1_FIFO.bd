@@ -118,10 +118,7 @@
             "value": "8"
           },
           "Performance_Options": {
-            "value": "First_Word_Fall_Through"
-          },
-          "Use_Extra_Logic": {
-            "value": "false"
+            "value": "Standard_FIFO"
           },
           "Valid_Flag": {
             "value": "true"
@@ -133,16 +130,16 @@
       }
     },
     "interface_nets": {
-      "FIFO_READ_0_1": {
-        "interface_ports": [
-          "FIFO_READ_0",
-          "fifo_generator_0/FIFO_READ"
-        ]
-      },
       "FIFO_WRITE_0_1": {
         "interface_ports": [
           "FIFO_WRITE_0",
           "fifo_generator_0/FIFO_WRITE"
+        ]
+      },
+      "FIFO_READ_0_1": {
+        "interface_ports": [
+          "FIFO_READ_0",
+          "fifo_generator_0/FIFO_READ"
         ]
       }
     },

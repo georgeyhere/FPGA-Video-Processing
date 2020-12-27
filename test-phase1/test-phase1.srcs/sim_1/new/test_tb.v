@@ -31,8 +31,8 @@ reg href;
 wire [31:0] M_AXIS_RESULT_0_tdata;
 wire M_AXIS_RESULT_0_tvalid;
 
-parameter CLK_PERIOD = 5;
-parameter PCLK_PERIOD = 40;
+parameter CLK_PERIOD = 8; //~120 Mhz
+parameter PCLK_PERIOD = 40; //~24 Mhz
 
 test_top UUT (
 .clk(clk),
@@ -56,8 +56,8 @@ initial begin
     
     clk = 0;
     href = 0;
-    dout_camera = 8'b0;
-    #240;
+    dout_camera = 8'b11111111;
+    #360;
     
     dout_camera = 8'b00001111; href = 1;
     
