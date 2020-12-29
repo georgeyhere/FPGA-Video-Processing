@@ -56,23 +56,47 @@ initial begin
     
     clk = 0;
     href = 0;
-    dout_camera = 8'b11111111;
+    dout_camera = 8'b0;
+    reset_n = 0;
+    #80;
+    reset_n = 1;
     #360;
     
-    dout_camera = 8'b00001111; href = 1;
+    dout_camera = 8'b00001111; href = 1; 
     
     @(negedge pclk);
-        dout_camera = 8'b11110000; //f0
+        dout_camera = 8'b11110000; //1
         
     @(negedge pclk);
         dout_camera = 8'b11100010; 
         
     @(negedge pclk);
-        dout_camera = 8'b11110100;
+        dout_camera = 8'b11110100; //2
     
     @(negedge pclk);
         dout_camera = 8'b00110110;
     
+    @(negedge pclk);
+        dout_camera = 8'b10101010; //3
+        
+    @(negedge pclk);
+        dout_camera = 8'b00000001;
+        
+    @(negedge pclk);
+        dout_camera = 8'b00001001; //4
+        
+    @(negedge pclk);
+        dout_camera = 8'b01010100;
+        
+    @(negedge pclk);
+        dout_camera = 8'b10000000; //5
+        
+    @(negedge pclk);
+        dout_camera = 8'b00110110;
+        
+    @(negedge pclk);    
+        dout_camera = 8'b00110110; //6
+        
     @(negedge pclk);
         href = 0;
         dout_camera = 8'b0;

@@ -98,7 +98,8 @@ camera_interface_output UUT3 (
 .byte_convert_valid(byte_convert_valid),
 .href(href),
 .memory_initialize_done(memory_initialize_done),
-.wr_ack_0(wr_ack_0)
+.wr_ack_0(wr_ack_0),
+.pclk(pclk)
 );
 
     

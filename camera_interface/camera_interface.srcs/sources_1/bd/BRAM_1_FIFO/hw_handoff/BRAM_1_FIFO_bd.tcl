@@ -171,28 +171,28 @@ proc create_root_design { parentCell } {
   set fifo_generator_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:fifo_generator:13.2 fifo_generator_0 ]
   set_property -dict [ list \
    CONFIG.Data_Count_Width {5} \
-   CONFIG.Empty_Threshold_Assert_Value {4} \
+   CONFIG.Empty_Threshold_Assert_Value {2} \
    CONFIG.Empty_Threshold_Assert_Value_rach {1022} \
    CONFIG.Empty_Threshold_Assert_Value_wach {1022} \
    CONFIG.Empty_Threshold_Assert_Value_wrch {1022} \
-   CONFIG.Empty_Threshold_Negate_Value {5} \
+   CONFIG.Empty_Threshold_Negate_Value {3} \
    CONFIG.Enable_Safety_Circuit {true} \
    CONFIG.FIFO_Implementation_rach {Common_Clock_Distributed_RAM} \
    CONFIG.FIFO_Implementation_wach {Common_Clock_Distributed_RAM} \
    CONFIG.FIFO_Implementation_wrch {Common_Clock_Distributed_RAM} \
    CONFIG.Fifo_Implementation {Independent_Clocks_Block_RAM} \
    CONFIG.Full_Flags_Reset_Value {1} \
-   CONFIG.Full_Threshold_Assert_Value {31} \
+   CONFIG.Full_Threshold_Assert_Value {29} \
    CONFIG.Full_Threshold_Assert_Value_rach {1023} \
    CONFIG.Full_Threshold_Assert_Value_wach {1023} \
    CONFIG.Full_Threshold_Assert_Value_wrch {1023} \
-   CONFIG.Full_Threshold_Negate_Value {30} \
+   CONFIG.Full_Threshold_Negate_Value {28} \
    CONFIG.INTERFACE_TYPE {Native} \
    CONFIG.Input_Data_Width {8} \
    CONFIG.Input_Depth {32} \
    CONFIG.Output_Data_Width {8} \
    CONFIG.Output_Depth {32} \
-   CONFIG.Performance_Options {First_Word_Fall_Through} \
+   CONFIG.Performance_Options {Standard_FIFO} \
    CONFIG.Read_Data_Count_Width {5} \
    CONFIG.Reset_Type {Asynchronous_Reset} \
    CONFIG.Use_Extra_Logic {false} \

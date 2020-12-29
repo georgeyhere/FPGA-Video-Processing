@@ -32,6 +32,7 @@ input greyscale_ready,
 input valid_0, //FIFO output valid
 input href, //camera href, href = 1 at start of data transmission
 input memory_initialize_done,
+input pclk,
 
 output reg byte_convert_valid,
 output reg FIFO_READ_0_rd_en,
@@ -46,15 +47,18 @@ reg [2:0] fsm_next_state;
 localparam s0_initial = 0;
 localparam s1_default = 1;
 localparam s2_assign1 = 2;
-localparam s3_assign2 = 3;
+localparam s3_timer = 3;
 
 
 reg half_identifier;
+reg [3:0] count;
 
 reg [7:0] red_latch;
 reg [7:0] green_latch;
 reg [7:0] blue_latch;
 
+reg byte_valid;
+reg [2:0] byte_counter;
 initial begin
     FIFO_READ_0_rd_en <= 0; //resets
     red <= 0;
@@ -67,6 +71,7 @@ initial begin
     red_latch <= 0;
     green_latch <= 0;
     blue_latch <= 0;
+    count <= 0;
 end 
 
 always@(posedge clk, negedge reset_n) begin
@@ -82,74 +87,66 @@ always@(posedge clk, negedge reset_n) begin
         red_latch <= 0;
         green_latch <= 0;
         blue_latch <= 0;
+        count <= 0;
     end
     else begin
     case(fsm_state) 
     
       
         s1_default: begin
-        
-            if(rd_rst_busy_0 == 0) begin //only if not busy
+            byte_convert_valid <= 0;
+            half_identifier <= 0;
+            if((rd_rst_busy_0 == 0) & (href == 1) & (FIFO_READ_0_empty == 0)) begin //only if not busy
                 FIFO_READ_0_rd_en <= 1; //initiate read, go to next state
-                fsm_state <= (half_identifier) ? s3_assign2 : s2_assign1; //go to next state depending on current data byte
+                fsm_state <= s2_assign1;
             end
             else begin
                 FIFO_READ_0_rd_en <= 0;
                 fsm_state <= s1_default;
-            end 
+            end
         end
         
         
         s2_assign1: begin //only assigns data if FIFO asserts valid flag
-        byte_convert_valid <= 0;
+        
             if(valid_0) begin
-                red_latch [7:3] <= FIFO_READ_0_rd_data [6:1]; //first bit is don't care, then 5 bits of red
-                green_latch [7:6] <= FIFO_READ_0_rd_data [1:0]; //then 2 bits of green
-                half_identifier <= 1;
-                fsm_state <= (href == 1) ? s3_assign2 : s1_default;
-            end
-            else begin
-                fsm_state <= s1_default; 
-                half_identifier <= 0;
-            end
-        end
-        
-        s3_assign2: begin //needs work
-        
-            if(valid_0) begin //normal operation
-                case(half_identifier) //check half_identifier to see if this is an old data frame
+                if(href == 1) begin
                 
-                0: begin //greyscale still needs the old data
-                    red <= red_latch; //assign latched data
-                    green <= green_latch;
-                    blue <= blue_latch;
-                    byte_convert_valid <= 1; //data is valid even if input changes
-                    fsm_state <= (greyscale_ready == 1) ? s3_assign2 : s1_default; //want to hold latched values until calculation starts
-                end
-                
-                1: begin //assign outputs, reset half_identifier for next frame
-                    red <= red_latch;
-                    green [7:5] <= green_latch [7:5]; //assign first half of green output 
-                    green [4:3] <= FIFO_READ_0_rd_data[7:5]; //assign green output  
-                    blue [7:3] <= FIFO_READ_0_rd_data[4:0]; //assign blue output 
-                    green_latch [7:6] <= green [7:6]; //latch green from last byte 
-                    green_latch [5:3] <= FIFO_READ_0_rd_data[7:5]; //latch green from current byte
-                    blue_latch [7:3] <= FIFO_READ_0_rd_data[4:0]; //latch blue from current byte 
+                    case (half_identifier)
+                    0: begin
+                        red_latch [7:3] <= FIFO_READ_0_rd_data [6:1]; //first bit is don't care, then 5 bits of red
+                        green_latch [7:6] <= FIFO_READ_0_rd_data [1:0]; //then 2 bits of green
+                        half_identifier <= 1;
+                        fsm_state <= s2_assign1;
+                        byte_convert_valid <= 0;
+                    end
                     
-                    half_identifier <= 0; //reset half modifier, don't want to reassign latched data until next dataframe
-                    byte_convert_valid <= 1; 
-                    fsm_state <= (greyscale_ready == 1) ? s3_assign2 : s1_default; //want to hold latched values until calculation starts
+                    1: begin
+                        red <= red_latch;
+                        green [7:6] <= green_latch [7:6];
+                        green [5:3] <= FIFO_READ_0_rd_data[7:5];
+                        blue [7:3] <= FIFO_READ_0_rd_data[4:0];
+                        blue_latch <= FIFO_READ_0_rd_data[4:0];
+                        byte_convert_valid <= 1;
+                        half_identifier <= 0;
+                        fsm_state <= ((href == 1)&(pclk == 1)) ? s3_timer:s1_default;
+                        count <= 1;
+                    end
+                   
+                    endcase
                 end
-                
-            endcase
-            end
-            
-            else begin //no valid input data
-                byte_convert_valid <= 0; 
-                fsm_state <= s3_assign2; 
-            end
-            
+                else begin
+                    fsm_state <= s2_assign1;    
+                end
+              end
         end
+        
+        s3_timer: begin
+            fsm_state <= (count == 0) ? s1_default:s3_timer;
+            count <= (count == 0) ? 0:(count - 1);
+        end
+        
+        
     endcase
     end
 end

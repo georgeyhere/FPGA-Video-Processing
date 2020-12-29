@@ -22,8 +22,8 @@ preplace netloc wr_clk_0_1 1 0 1 N 110
 preplace netloc rst_0_1 1 0 1 N 90
 preplace netloc fifo_generator_0_wr_rst_busy 1 1 1 N 100
 preplace netloc fifo_generator_0_rd_rst_busy 1 1 1 N 120
-preplace netloc FIFO_READ_0_1 1 0 1 20 40n
 preplace netloc FIFO_WRITE_0_1 1 0 1 30 50n
+preplace netloc FIFO_READ_0_1 1 0 1 20 40n
 levelinfo -pg 1 0 210 410
 pagesize -pg 1 -db -bbox -sgen -160 -10 560 190
 "

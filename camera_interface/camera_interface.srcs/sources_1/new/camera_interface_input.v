@@ -42,38 +42,29 @@ localparam s1_default = 1;
 initial begin
     FIFO_WRITE_0_wr_en <= 0; //resets
     FIFO_WRITE_0_wr_data <= 0;
-    fsm_state <= s1_default;
+    fsm_state <= s0_initial;
 end    
 
 always@(posedge clk, negedge reset_n) begin
     if(reset_n == 1'b0) begin //asynchronous active low reset
         FIFO_WRITE_0_wr_en <= 0;
         FIFO_WRITE_0_wr_data <= 0;
-        fsm_state <= s1_default;
+        fsm_state <= s0_initial;
     end
-    else begin
     
-    case(fsm_state) 
-  
-    s1_default: begin
-       
-        case(href) //data transmission starts at href = 1
-        
+    else begin
+    case(href) //data transmission starts at href = 1
         0: begin
-            FIFO_WRITE_0_wr_en <= 1; //don't write if camera isn't outputting data
+            FIFO_WRITE_0_wr_en <= 0; //don't write if camera isn't outputting data
             FIFO_WRITE_0_wr_data <= 0; 
         end
         1: begin
             FIFO_WRITE_0_wr_en <= (wr_rst_busy_0 == 1) ? 0 : 1; //write enable only on when FIFO not busy
             FIFO_WRITE_0_wr_data <= dout_camera; //assign output data
         end
-    
-        endcase
-    end
-    
     endcase
     end
+    
 end
-    
-    
+ 
 endmodule
