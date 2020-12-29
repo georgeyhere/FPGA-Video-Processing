@@ -31,7 +31,7 @@ reg href;
 wire [31:0] M_AXIS_RESULT_0_tdata;
 wire M_AXIS_RESULT_0_tvalid;
 
-parameter CLK_PERIOD = 8; //~120 Mhz
+parameter CLK_PERIOD = 8; //~125 Mhz
 parameter PCLK_PERIOD = 40; //~24 Mhz
 
 test_top UUT (
@@ -62,7 +62,9 @@ initial begin
     reset_n = 1;
     #360;
     
-    dout_camera = 8'b00001111; href = 1; 
+    @(negedge pclk);
+    dout_camera = 8'b00001111; 
+    href = 1; 
     
     @(negedge pclk);
         dout_camera = 8'b11110000; //1
@@ -86,16 +88,16 @@ initial begin
         dout_camera = 8'b00001001; //4
         
     @(negedge pclk);
+        dout_camera = 8'b10000100;
+        
+    @(negedge pclk);
+        dout_camera = 8'b01101110; //5
+        
+    @(negedge pclk);
         dout_camera = 8'b01010100;
         
-    @(negedge pclk);
-        dout_camera = 8'b10000000; //5
-        
-    @(negedge pclk);
-        dout_camera = 8'b00110110;
-        
     @(negedge pclk);    
-        dout_camera = 8'b00110110; //6
+        dout_camera = 8'b10000000; //6
         
     @(negedge pclk);
         href = 0;

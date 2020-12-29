@@ -59,6 +59,8 @@ reg [7:0] blue_latch;
 
 reg byte_valid;
 reg [2:0] byte_counter;
+reg frame_counter;
+
 initial begin
     FIFO_READ_0_rd_en <= 0; //resets
     red <= 0;
@@ -114,35 +116,43 @@ always@(posedge clk, negedge reset_n) begin
                 
                     case (half_identifier)
                     0: begin
-                        red_latch [7:3] <= FIFO_READ_0_rd_data [6:1]; //first bit is don't care, then 5 bits of red
+                        red_latch [7:3] <= FIFO_READ_0_rd_data [6:2]; //first bit is don't care, then 5 bits of red
                         green_latch [7:6] <= FIFO_READ_0_rd_data [1:0]; //then 2 bits of green
                         half_identifier <= 1;
-                        fsm_state <= s2_assign1;
-                        byte_convert_valid <= 0;
+                        fsm_state <= s3_timer;
+                        fsm_next_state <= s2_assign1;
+                        count <= 3;
+                        
                     end
                     
                     1: begin
                         red <= red_latch;
                         green [7:6] <= green_latch [7:6];
-                        green [5:3] <= FIFO_READ_0_rd_data[7:5];
+                        green [5:3] <= FIFO_READ_0_rd_data[7:5]; 
                         blue [7:3] <= FIFO_READ_0_rd_data[4:0];
-                        blue_latch <= FIFO_READ_0_rd_data[4:0];
+                        
                         byte_convert_valid <= 1;
                         half_identifier <= 0;
                         fsm_state <= ((href == 1)&(pclk == 1)) ? s3_timer:s1_default;
-                        count <= 1;
+                        count <= 3;
+                        
                     end
                    
                     endcase
                 end
                 else begin
-                    fsm_state <= s2_assign1;    
+                    fsm_state <= s2_assign1;  
+                     
                 end
-              end
+             end
+             else begin
+                fsm_state <= s2_assign1;
+                half_identifier <= 0;
+             end
         end
         
         s3_timer: begin
-            fsm_state <= (count == 0) ? s1_default:s3_timer;
+            fsm_state <= (count == 0) ? fsm_next_state:s3_timer;
             count <= (count == 0) ? 0:(count - 1);
         end
         
