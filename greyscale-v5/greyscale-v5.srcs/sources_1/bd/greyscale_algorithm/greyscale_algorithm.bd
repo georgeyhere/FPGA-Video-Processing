@@ -438,7 +438,13 @@
           "C_Result_Fraction_Width": {
             "value": "24"
           },
+          "Flow_Control": {
+            "value": "Blocking"
+          },
           "Has_ARESETn": {
+            "value": "true"
+          },
+          "Has_RESULT_TREADY": {
             "value": "true"
           },
           "Maximum_Latency": {
@@ -480,7 +486,13 @@
           "C_Result_Fraction_Width": {
             "value": "24"
           },
+          "Flow_Control": {
+            "value": "Blocking"
+          },
           "Has_ARESETn": {
+            "value": "true"
+          },
+          "Has_RESULT_TREADY": {
             "value": "true"
           },
           "Maximum_Latency": {
@@ -522,7 +534,13 @@
           "C_Result_Fraction_Width": {
             "value": "24"
           },
+          "Flow_Control": {
+            "value": "Blocking"
+          },
           "Has_ARESETn": {
+            "value": "true"
+          },
+          "Has_RESULT_TREADY": {
             "value": "true"
           },
           "Maximum_Latency": {
@@ -682,34 +700,10 @@
           "floating_point_5/M_AXIS_RESULT"
         ]
       },
-      "floating_point_6_M_AXIS_RESULT": {
-        "interface_ports": [
-          "M_AXIS_RESULT_0",
-          "floating_point_6/M_AXIS_RESULT"
-        ]
-      },
       "S_AXIS_B_2_1": {
         "interface_ports": [
           "S_AXIS_B_2",
           "floating_point_5/S_AXIS_B"
-        ]
-      },
-      "S_AXIS_B_0_1": {
-        "interface_ports": [
-          "S_AXIS_B_0",
-          "floating_point_3/S_AXIS_B"
-        ]
-      },
-      "floating_point_4_M_AXIS_RESULT": {
-        "interface_ports": [
-          "floating_point_4/M_AXIS_RESULT",
-          "floating_point_5/S_AXIS_C"
-        ]
-      },
-      "floating_point_3_M_AXIS_RESULT": {
-        "interface_ports": [
-          "floating_point_3/M_AXIS_RESULT",
-          "floating_point_4/S_AXIS_C"
         ]
       },
       "floating_point_1_M_AXIS_RESULT": {
@@ -718,22 +712,16 @@
           "floating_point_4/S_AXIS_A"
         ]
       },
-      "floating_point_0_M_AXIS_RESULT": {
-        "interface_ports": [
-          "floating_point_0/M_AXIS_RESULT",
-          "floating_point_3/S_AXIS_A"
-        ]
-      },
       "S_AXIS_B_1_1": {
         "interface_ports": [
           "S_AXIS_B_1",
           "floating_point_4/S_AXIS_B"
         ]
       },
-      "S_AXIS_A_2_1": {
+      "floating_point_4_M_AXIS_RESULT": {
         "interface_ports": [
-          "S_AXIS_A_2",
-          "floating_point_0/S_AXIS_A"
+          "floating_point_4/M_AXIS_RESULT",
+          "floating_point_5/S_AXIS_C"
         ]
       },
       "floating_point_2_M_AXIS_RESULT": {
@@ -742,16 +730,46 @@
           "floating_point_5/S_AXIS_A"
         ]
       },
+      "S_AXIS_A_2_1": {
+        "interface_ports": [
+          "S_AXIS_A_2",
+          "floating_point_2/S_AXIS_A"
+        ]
+      },
+      "floating_point_0_M_AXIS_RESULT": {
+        "interface_ports": [
+          "floating_point_0/M_AXIS_RESULT",
+          "floating_point_3/S_AXIS_A"
+        ]
+      },
+      "S_AXIS_A_0_1": {
+        "interface_ports": [
+          "S_AXIS_A_0",
+          "floating_point_0/S_AXIS_A"
+        ]
+      },
+      "floating_point_3_M_AXIS_RESULT": {
+        "interface_ports": [
+          "floating_point_3/M_AXIS_RESULT",
+          "floating_point_4/S_AXIS_C"
+        ]
+      },
       "S_AXIS_A_1_1": {
         "interface_ports": [
           "S_AXIS_A_1",
           "floating_point_1/S_AXIS_A"
         ]
       },
-      "S_AXIS_A_0_1": {
+      "S_AXIS_B_0_1": {
         "interface_ports": [
-          "S_AXIS_A_0",
-          "floating_point_2/S_AXIS_A"
+          "S_AXIS_B_0",
+          "floating_point_3/S_AXIS_B"
+        ]
+      },
+      "floating_point_6_M_AXIS_RESULT": {
+        "interface_ports": [
+          "M_AXIS_RESULT_0",
+          "floating_point_6/M_AXIS_RESULT"
         ]
       }
     },

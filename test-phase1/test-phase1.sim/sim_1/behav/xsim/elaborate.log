@@ -4,6 +4,7 @@ Running: D:/Xilinx/Vivado/2019.2/bin/unwrapped/win64.o/xelab.exe -wto f29329a9c1
 Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-5021] port 'M_AXIS_RESULT_0_tready' is not connected on this instance [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sim_1/new/test_tb.v:38]
 Completed static elaboration
 Starting simulation data flow analysis
 Completed simulation data flow analysis

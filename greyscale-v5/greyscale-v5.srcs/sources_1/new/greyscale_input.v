@@ -47,7 +47,15 @@ output reg [31:0] S_AXIS_A_2_tdata,
 
 output reg [31:0] S_AXIS_B_0_tdata,
 output reg [31:0] S_AXIS_B_1_tdata,
-output reg [31:0] S_AXIS_B_2_tdata
+output reg [31:0] S_AXIS_B_2_tdata,
+
+output reg S_AXIS_A_0_tvalid, //32-bit floating point 
+output reg S_AXIS_A_1_tvalid,
+output reg S_AXIS_A_2_tvalid,
+
+output reg S_AXIS_B_0_tvalid,
+output reg S_AXIS_B_1_tvalid,
+output reg S_AXIS_B_2_tvalid
     );
     
 reg [1:0] fsm_state; //two fsm states
@@ -67,6 +75,14 @@ initial begin
     S_AXIS_B_1_tdata <= 32'b00111111000110011001100110011010; //green multiplier = 0.6, IEE 754 representation
     S_AXIS_B_2_tdata <= 32'b00111101110011001100110011001101; //blue multiplier = 0.1, IEE 754 representation
     
+    S_AXIS_A_0_tvalid <= 0;
+    S_AXIS_A_1_tvalid <= 0;
+    S_AXIS_A_2_tvalid <= 0;
+    
+    S_AXIS_B_0_tvalid <= 0;
+    S_AXIS_B_1_tvalid <= 0;
+    S_AXIS_B_2_tvalid <= 0;
+    
     fsm_state <= 0;    
     greyscale_ready <= 0;
 end    
@@ -80,31 +96,37 @@ if(reset_n == 1'b0) begin //asynchronous reset (active low)
     S_AXIS_A_0_tdata <= 0; //resets
     S_AXIS_A_1_tdata <= 0;
     S_AXIS_A_2_tdata <= 0;
+    
+    S_AXIS_B_0_tdata <= 32'b00111110100110011001100110011010; //red multiplier = 0.3, IEE 754 representation
+    S_AXIS_B_1_tdata <= 32'b00111111000110011001100110011010; //green multiplier = 0.6, IEE 754 representation
+    S_AXIS_B_2_tdata <= 32'b00111101110011001100110011001101; //blue multiplier = 0.1, IEE 754 representation
+        
+    S_AXIS_A_0_tvalid <= 1;
+    S_AXIS_A_1_tvalid <= 1;
+    S_AXIS_A_2_tvalid <= 1;
+    
+    S_AXIS_B_0_tvalid <= 1;
+    S_AXIS_B_1_tvalid <= 1;
+    S_AXIS_B_2_tvalid <= 1;
+    
     greyscale_ready <= 0;
     fsm_state <= s0_idle; //reset to idle state
 end
 else begin
-    case(fsm_state)
     
-        s0_idle: begin
-            S_AXIS_A_0_tdata <= 0;
-            S_AXIS_A_1_tdata <= 0;
-            S_AXIS_A_2_tdata <= 0;
-        
-            greyscale_ready <= 1;
-            fsm_state <= (byte_convert_valid == 1) ? s1_assign:s0_idle; //new pixel to process, go to assign
-        end
-    
-        s1_assign: begin
-            greyscale_ready <= 0;
-    
-            S_AXIS_A_0_tdata [7:0] <= red; //rgb will always be integer values
-            S_AXIS_A_1_tdata [7:0] <= green; //32-bit fixed point number integer part is in [31:17]
-            S_AXIS_A_2_tdata [7:0] <= blue; //we need the first 8 bits, hence [24:17]
+    greyscale_ready <= (byte_convert_valid == 1) ? 1:0;
+    S_AXIS_A_0_tdata [7:0] <= red; //rgb will always be integer values
+    S_AXIS_A_1_tdata [7:0] <= green; //32-bit fixed point number integer part is in [31:17]
+    S_AXIS_A_2_tdata [7:0] <= blue; //we need the first 8 bits, hence [24:17]
 
-            fsm_state <= (M_AXIS_RESULT_0_tvalid == 1) ? s0_idle : s1_assign; //if result valid, go back to idle to wait for next pixel
-        end
-endcase
+    S_AXIS_A_0_tvalid <= (byte_convert_valid == 1) ? 1:0;
+    S_AXIS_A_1_tvalid <= (byte_convert_valid == 1) ? 1:0;
+    S_AXIS_A_2_tvalid <= (byte_convert_valid == 1) ? 1:0;
+    S_AXIS_B_0_tvalid <= (byte_convert_valid == 1) ? 1:0;
+    S_AXIS_B_1_tvalid <= (byte_convert_valid == 1) ? 1:0;
+    S_AXIS_B_2_tvalid <= (byte_convert_valid == 1) ? 1:0;
+
+ 
 end
 
 

@@ -29,11 +29,13 @@ reg [7:0] red = 8'b00011100; //test values
 reg [7:0] green = 8'b00000111;
 reg [7:0] blue = 8'b00011100;
 
-reg byte_convert_valid = 1;
+reg byte_convert_valid;
 
 reg M_AXIS_RESULT_0_tready = 1;
 wire [31:0] M_AXIS_RESULT_0_tdata;
 wire M_AXIS_RESULT_0_tvalid;
+
+parameter CLK_PERIOD = 8; //~125 Mhz
 
 greyscale_top UUT (
 .clk(clk),
@@ -47,14 +49,19 @@ greyscale_top UUT (
 .M_AXIS_RESULT_0_tvalid(M_AXIS_RESULT_0_tvalid)
 );
 
-always begin
-
-#1 clk = ~clk;
-
+always#(CLK_PERIOD/2) begin
+    clk = ~clk;
 end
+
+
 initial begin
-#40 byte_convert_valid = 0;
-#40 byte_convert_valid = 1;
+byte_convert_valid = 0;
+reset_n = 0;
+#120;
+reset_n = 1;
+#80;
+byte_convert_valid = 1;
+#120;
 end
 
     

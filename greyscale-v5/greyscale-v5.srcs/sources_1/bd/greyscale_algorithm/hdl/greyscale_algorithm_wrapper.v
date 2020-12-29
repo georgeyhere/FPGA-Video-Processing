@@ -1,7 +1,7 @@
 //Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
 //--------------------------------------------------------------------------------
 //Tool Version: Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
-//Date        : Fri Dec 18 15:40:11 2020
+//Date        : Tue Dec 29 12:04:42 2020
 //Host        : DESKTOP-MB5IJCE running 64-bit major release  (build 9200)
 //Command     : generate_target greyscale_algorithm_wrapper.bd
 //Design      : greyscale_algorithm_wrapper

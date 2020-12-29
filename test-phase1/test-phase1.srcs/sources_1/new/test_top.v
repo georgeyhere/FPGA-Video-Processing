@@ -26,6 +26,7 @@ input reset_n, //asynchronous active low reset
 input pclk, //camera pixel clock 
 input [7:0] dout_camera, //camera data out
 input href, //camera output
+input M_AXIS_RESULT_0_tready,
 
 
 output wire [31:0] M_AXIS_RESULT_0_tdata, //output, 32-bit fixed-point greyscale value
@@ -41,7 +42,6 @@ wire [7:0] blue;
 wire read_fail;
 wire wr_ack_0;
 wire valid_0;
-wire M_AXIS_RESULT_0_tready;
 wire M_AXIS_RESULT_0_tdata;
 wire greyscale_ready;
 

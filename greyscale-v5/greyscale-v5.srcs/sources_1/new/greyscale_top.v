@@ -31,6 +31,7 @@ input [7:0] blue,
 input byte_convert_valid,
 input M_AXIS_RESULT_0_tready, //output AXI ready
 
+
 output wire greyscale_ready,
 output wire [31:0] M_AXIS_RESULT_0_tdata, //output, 32-bit fixed-point greyscale value
 output wire M_AXIS_RESULT_0_tvalid //used as feedback to the input module
@@ -76,7 +77,13 @@ greyscale_input UUT1 (
 .S_AXIS_A_2_tdata(S_AXIS_A_2_tdata),
 .S_AXIS_B_0_tdata(S_AXIS_B_0_tdata),
 .S_AXIS_B_1_tdata(S_AXIS_B_1_tdata),
-.S_AXIS_B_2_tdata(S_AXIS_B_2_tdata)
+.S_AXIS_B_2_tdata(S_AXIS_B_2_tdata),
+.S_AXIS_A_0_tvalid(S_AXIS_A_0_tvalid),
+.S_AXIS_A_1_tvalid(S_AXIS_A_1_tvalid),
+.S_AXIS_A_2_tvalid(S_AXIS_A_2_tvalid),
+.S_AXIS_B_0_tvalid(S_AXIS_B_0_tvalid),
+.S_AXIS_B_1_tvalid(S_AXIS_B_1_tvalid),
+.S_AXIS_B_2_tvalid(S_AXIS_B_2_tvalid)
 );
 
 greyscale_algorithm UUT2 (
@@ -87,22 +94,22 @@ greyscale_algorithm UUT2 (
 .M_AXIS_RESULT_0_tvalid(M_AXIS_RESULT_0_tvalid),
 .S_AXIS_A_0_tdata(S_AXIS_A_0_tdata),
 .S_AXIS_A_0_tready(S_AXIS_A_0_tready),
-.S_AXIS_A_0_tvalid(valid_0),
+.S_AXIS_A_0_tvalid(S_AXIS_A_0_tvalid),
 .S_AXIS_A_1_tdata(S_AXIS_A_1_tdata),
 .S_AXIS_A_1_tready(S_AXIS_A_1_tready),
-.S_AXIS_A_1_tvalid(valid_0),
+.S_AXIS_A_1_tvalid(S_AXIS_A_1_tvalid),
 .S_AXIS_A_2_tdata(S_AXIS_A_2_tdata),
 .S_AXIS_A_2_tready(S_AXIS_A_2_tready),
-.S_AXIS_A_2_tvalid(valid_0),
+.S_AXIS_A_2_tvalid(S_AXIS_A_2_tvalid),
 .S_AXIS_B_0_tdata(S_AXIS_B_0_tdata),
 .S_AXIS_B_0_tready(S_AXIS_B_0_tready),
-.S_AXIS_B_0_tvalid(valid_0),
+.S_AXIS_B_0_tvalid(S_AXIS_B_0_tvalid),
 .S_AXIS_B_1_tdata(S_AXIS_B_1_tdata),
 .S_AXIS_B_1_tready(S_AXIS_B_1_tready),
-.S_AXIS_B_1_tvalid(valid_0),
+.S_AXIS_B_1_tvalid(S_AXIS_B_1_tvalid),
 .S_AXIS_B_2_tdata(S_AXIS_B_2_tdata),
 .S_AXIS_B_2_tready(S_AXIS_B_2_tready),
-.S_AXIS_B_2_tvalid(valid_0)
+.S_AXIS_B_2_tvalid(S_AXIS_B_2_tvalid)
 ); 
     
 endmodule

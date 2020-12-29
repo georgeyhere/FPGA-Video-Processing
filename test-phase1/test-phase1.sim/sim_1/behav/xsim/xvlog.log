@@ -14,11 +14,10 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/George/Edge-Detection/grey
 INFO: [VRFC 10-311] analyzing module greyscale_input
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_top.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module greyscale_top
-INFO: [VRFC 10-2458] undeclared symbol valid_0, assumed default net type wire [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_top.v:90]
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module test_top
-WARNING: [VRFC 10-3248] data object 'valid_0' is already declared [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:43]
-WARNING: [VRFC 10-3703] second declaration of 'valid_0' ignored [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:43]
+WARNING: [VRFC 10-3248] data object 'valid_0' is already declared [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:44]
+WARNING: [VRFC 10-3703] second declaration of 'valid_0' ignored [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:44]
 WARNING: [VRFC 10-3676] redeclaration of ansi port 'M_AXIS_RESULT_0_tdata' is not allowed [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:45]
 WARNING: [VRFC 10-3028] 'M_AXIS_RESULT_0_tdata' was previously declared with a range [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:45]
 INFO: [VRFC 10-2263] Analyzing Verilog file "C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sim_1/new/test_tb.v" into library xil_defaultlib

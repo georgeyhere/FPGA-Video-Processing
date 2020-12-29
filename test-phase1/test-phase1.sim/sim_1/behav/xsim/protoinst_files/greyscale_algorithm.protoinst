@@ -9,7 +9,6 @@
 						"ACLK": { "actual": "aclk"},
 						"ARESETN": { "actual": "aresetn"},
 						"TDATA": { "actual": "m_axis_result_tdata"},
-						"TREADY": { "actual": "m_axis_result_tready"},
 						"TVALID": { "actual": "m_axis_result_tvalid"}
 					}
 				},
@@ -19,7 +18,6 @@
 						"ACLK": { "actual": "aclk"},
 						"ARESETN": { "actual": "aresetn"},
 						"TDATA": { "actual": "s_axis_a_tdata"},
-						"TREADY": { "actual": "s_axis_a_tready"},
 						"TVALID": { "actual": "s_axis_a_tvalid"}
 					}
 				},
@@ -29,7 +27,6 @@
 						"ACLK": { "actual": "aclk"},
 						"ARESETN": { "actual": "aresetn"},
 						"TDATA": { "actual": "m_axis_result_tdata"},
-						"TREADY": { "actual": "m_axis_result_tready"},
 						"TVALID": { "actual": "m_axis_result_tvalid"}
 					}
 				},
@@ -39,7 +36,6 @@
 						"ACLK": { "actual": "aclk"},
 						"ARESETN": { "actual": "aresetn"},
 						"TDATA": { "actual": "s_axis_a_tdata"},
-						"TREADY": { "actual": "s_axis_a_tready"},
 						"TVALID": { "actual": "s_axis_a_tvalid"}
 					}
 				},
@@ -49,7 +45,6 @@
 						"ACLK": { "actual": "aclk"},
 						"ARESETN": { "actual": "aresetn"},
 						"TDATA": { "actual": "m_axis_result_tdata"},
-						"TREADY": { "actual": "m_axis_result_tready"},
 						"TVALID": { "actual": "m_axis_result_tvalid"}
 					}
 				},
@@ -59,7 +54,6 @@
 						"ACLK": { "actual": "aclk"},
 						"ARESETN": { "actual": "aresetn"},
 						"TDATA": { "actual": "s_axis_a_tdata"},
-						"TREADY": { "actual": "s_axis_a_tready"},
 						"TVALID": { "actual": "s_axis_a_tvalid"}
 					}
 				},

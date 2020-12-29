@@ -1,0 +1,1394 @@
+
+*** Running vivado
+    with args -log test_top.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source test_top.tcl
+
+
+****** Vivado v2019.2 (64-bit)
+  **** SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+  **** IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+source test_top.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Xilinx/Vivado/2019.2/data/ip'.
+Command: synth_design -top test_top -part xc7a50tcsg324-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a50t'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a50t'
+INFO: [Device 21-403] Loading part xc7a50tcsg324-1
+INFO: Launching helper process for spawning children vivado processes
+INFO: Helper process launched with PID 24056 
+WARNING: [Synth 8-976] valid_0 has already been declared [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:44]
+WARNING: [Synth 8-2654] second declaration of valid_0 ignored [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:44]
+INFO: [Synth 8-994] valid_0 is declared here [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:37]
+WARNING: [Synth 8-2611] redeclaration of ansi port M_AXIS_RESULT_0_tdata is not allowed [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:45]
+WARNING: [Synth 8-1082] M_AXIS_RESULT_0_tdata was previously declared with a range [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:45]
+WARNING: [Synth 8-976] M_AXIS_RESULT_0_tdata has already been declared [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:45]
+WARNING: [Synth 8-2654] second declaration of M_AXIS_RESULT_0_tdata ignored [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:45]
+INFO: [Synth 8-994] M_AXIS_RESULT_0_tdata is declared here [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:32]
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:00:12 . Memory (MB): peak = 969.273 ; gain = 241.395
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'test_top' [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:23]
+INFO: [Synth 8-6157] synthesizing module 'camera_interface_top' [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_top.v:23]
+INFO: [Synth 8-6157] synthesizing module 'camera_interface_input' [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_input.v:23]
+	Parameter s0_initial bound to: 0 - type: integer 
+	Parameter s1_default bound to: 1 - type: integer 
+WARNING: [Synth 8-6014] Unused sequential element fsm_state_reg was removed.  [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_input.v:52]
+WARNING: [Synth 8-3848] Net memory_initialize_done in module/entity camera_interface_input does not have driver. [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_input.v:35]
+INFO: [Synth 8-6155] done synthesizing module 'camera_interface_input' (1#1) [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_input.v:23]
+INFO: [Synth 8-6157] synthesizing module 'BRAM_1_FIFO' [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/synth/BRAM_1_FIFO.v:13]
+INFO: [Synth 8-638] synthesizing module 'BRAM_1_FIFO_fifo_generator_0_0' [c:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/ip/BRAM_1_FIFO_fifo_generator_0_0/synth/BRAM_1_FIFO_fifo_generator_0_0.vhd:77]
+	Parameter C_COMMON_CLOCK bound to: 0 - type: integer 
+	Parameter C_SELECT_XPM bound to: 0 - type: integer 
+	Parameter C_COUNT_TYPE bound to: 0 - type: integer 
+	Parameter C_DATA_COUNT_WIDTH bound to: 5 - type: integer 
+	Parameter C_DEFAULT_VALUE bound to: BlankString - type: string 
+	Parameter C_DIN_WIDTH bound to: 8 - type: integer 
+	Parameter C_DOUT_RST_VAL bound to: 0 - type: string 
+	Parameter C_DOUT_WIDTH bound to: 8 - type: integer 
+	Parameter C_ENABLE_RLOCS bound to: 0 - type: integer 
+	Parameter C_FAMILY bound to: artix7 - type: string 
+	Parameter C_FULL_FLAGS_RST_VAL bound to: 1 - type: integer 
+	Parameter C_HAS_ALMOST_EMPTY bound to: 0 - type: integer 
+	Parameter C_HAS_ALMOST_FULL bound to: 0 - type: integer 
+	Parameter C_HAS_BACKUP bound to: 0 - type: integer 
+	Parameter C_HAS_DATA_COUNT bound to: 0 - type: integer 
+	Parameter C_HAS_INT_CLK bound to: 0 - type: integer 
+	Parameter C_HAS_MEMINIT_FILE bound to: 0 - type: integer 
+	Parameter C_HAS_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_RD_DATA_COUNT bound to: 0 - type: integer 
+	Parameter C_HAS_RD_RST bound to: 0 - type: integer 
+	Parameter C_HAS_RST bound to: 1 - type: integer 
+	Parameter C_HAS_SRST bound to: 0 - type: integer 
+	Parameter C_HAS_UNDERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_VALID bound to: 1 - type: integer 
+	Parameter C_HAS_WR_ACK bound to: 1 - type: integer 
+	Parameter C_HAS_WR_DATA_COUNT bound to: 0 - type: integer 
+	Parameter C_HAS_WR_RST bound to: 0 - type: integer 
+	Parameter C_IMPLEMENTATION_TYPE bound to: 2 - type: integer 
+	Parameter C_INIT_WR_PNTR_VAL bound to: 0 - type: integer 
+	Parameter C_MEMORY_TYPE bound to: 1 - type: integer 
+	Parameter C_MIF_FILE_NAME bound to: BlankString - type: string 
+	Parameter C_OPTIMIZATION_MODE bound to: 0 - type: integer 
+	Parameter C_OVERFLOW_LOW bound to: 0 - type: integer 
+	Parameter C_PRELOAD_LATENCY bound to: 1 - type: integer 
+	Parameter C_PRELOAD_REGS bound to: 0 - type: integer 
+	Parameter C_PRIM_FIFO_TYPE bound to: 512x36 - type: string 
+	Parameter C_PROG_EMPTY_THRESH_ASSERT_VAL bound to: 2 - type: integer 
+	Parameter C_PROG_EMPTY_THRESH_NEGATE_VAL bound to: 3 - type: integer 
+	Parameter C_PROG_EMPTY_TYPE bound to: 0 - type: integer 
+	Parameter C_PROG_FULL_THRESH_ASSERT_VAL bound to: 29 - type: integer 
+	Parameter C_PROG_FULL_THRESH_NEGATE_VAL bound to: 28 - type: integer 
+	Parameter C_PROG_FULL_TYPE bound to: 0 - type: integer 
+	Parameter C_RD_DATA_COUNT_WIDTH bound to: 5 - type: integer 
+	Parameter C_RD_DEPTH bound to: 32 - type: integer 
+	Parameter C_RD_FREQ bound to: 1 - type: integer 
+	Parameter C_RD_PNTR_WIDTH bound to: 5 - type: integer 
+	Parameter C_UNDERFLOW_LOW bound to: 0 - type: integer 
+	Parameter C_USE_DOUT_RST bound to: 1 - type: integer 
+	Parameter C_USE_ECC bound to: 0 - type: integer 
+	Parameter C_USE_EMBEDDED_REG bound to: 0 - type: integer 
+	Parameter C_USE_PIPELINE_REG bound to: 0 - type: integer 
+	Parameter C_POWER_SAVING_MODE bound to: 0 - type: integer 
+	Parameter C_USE_FIFO16_FLAGS bound to: 0 - type: integer 
+	Parameter C_USE_FWFT_DATA_COUNT bound to: 0 - type: integer 
+	Parameter C_VALID_LOW bound to: 0 - type: integer 
+	Parameter C_WR_ACK_LOW bound to: 0 - type: integer 
+	Parameter C_WR_DATA_COUNT_WIDTH bound to: 5 - type: integer 
+	Parameter C_WR_DEPTH bound to: 32 - type: integer 
+	Parameter C_WR_FREQ bound to: 1 - type: integer 
+	Parameter C_WR_PNTR_WIDTH bound to: 5 - type: integer 
+	Parameter C_WR_RESPONSE_LATENCY bound to: 1 - type: integer 
+	Parameter C_MSGON_VAL bound to: 1 - type: integer 
+	Parameter C_ENABLE_RST_SYNC bound to: 1 - type: integer 
+	Parameter C_EN_SAFETY_CKT bound to: 1 - type: integer 
+	Parameter C_ERROR_INJECTION_TYPE bound to: 0 - type: integer 
+	Parameter C_SYNCHRONIZER_STAGE bound to: 2 - type: integer 
+	Parameter C_INTERFACE_TYPE bound to: 0 - type: integer 
+	Parameter C_AXI_TYPE bound to: 1 - type: integer 
+	Parameter C_HAS_AXI_WR_CHANNEL bound to: 1 - type: integer 
+	Parameter C_HAS_AXI_RD_CHANNEL bound to: 1 - type: integer 
+	Parameter C_HAS_SLAVE_CE bound to: 0 - type: integer 
+	Parameter C_HAS_MASTER_CE bound to: 0 - type: integer 
+	Parameter C_ADD_NGC_CONSTRAINT bound to: 0 - type: integer 
+	Parameter C_USE_COMMON_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_USE_COMMON_UNDERFLOW bound to: 0 - type: integer 
+	Parameter C_USE_DEFAULT_SETTINGS bound to: 0 - type: integer 
+	Parameter C_AXI_ID_WIDTH bound to: 1 - type: integer 
+	Parameter C_AXI_ADDR_WIDTH bound to: 32 - type: integer 
+	Parameter C_AXI_DATA_WIDTH bound to: 64 - type: integer 
+	Parameter C_AXI_LEN_WIDTH bound to: 8 - type: integer 
+	Parameter C_AXI_LOCK_WIDTH bound to: 1 - type: integer 
+	Parameter C_HAS_AXI_ID bound to: 0 - type: integer 
+	Parameter C_HAS_AXI_AWUSER bound to: 0 - type: integer 
+	Parameter C_HAS_AXI_WUSER bound to: 0 - type: integer 
+	Parameter C_HAS_AXI_BUSER bound to: 0 - type: integer 
+	Parameter C_HAS_AXI_ARUSER bound to: 0 - type: integer 
+	Parameter C_HAS_AXI_RUSER bound to: 0 - type: integer 
+	Parameter C_AXI_ARUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_AXI_AWUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_AXI_WUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_AXI_BUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_AXI_RUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_HAS_AXIS_TDATA bound to: 1 - type: integer 
+	Parameter C_HAS_AXIS_TID bound to: 0 - type: integer 
+	Parameter C_HAS_AXIS_TDEST bound to: 0 - type: integer 
+	Parameter C_HAS_AXIS_TUSER bound to: 1 - type: integer 
+	Parameter C_HAS_AXIS_TREADY bound to: 1 - type: integer 
+	Parameter C_HAS_AXIS_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_AXIS_TSTRB bound to: 0 - type: integer 
+	Parameter C_HAS_AXIS_TKEEP bound to: 0 - type: integer 
+	Parameter C_AXIS_TDATA_WIDTH bound to: 8 - type: integer 
+	Parameter C_AXIS_TID_WIDTH bound to: 1 - type: integer 
+	Parameter C_AXIS_TDEST_WIDTH bound to: 1 - type: integer 
+	Parameter C_AXIS_TUSER_WIDTH bound to: 4 - type: integer 
+	Parameter C_AXIS_TSTRB_WIDTH bound to: 1 - type: integer 
+	Parameter C_AXIS_TKEEP_WIDTH bound to: 1 - type: integer 
+	Parameter C_WACH_TYPE bound to: 0 - type: integer 
+	Parameter C_WDCH_TYPE bound to: 0 - type: integer 
+	Parameter C_WRCH_TYPE bound to: 0 - type: integer 
+	Parameter C_RACH_TYPE bound to: 0 - type: integer 
+	Parameter C_RDCH_TYPE bound to: 0 - type: integer 
+	Parameter C_AXIS_TYPE bound to: 0 - type: integer 
+	Parameter C_IMPLEMENTATION_TYPE_WACH bound to: 2 - type: integer 
+	Parameter C_IMPLEMENTATION_TYPE_WDCH bound to: 1 - type: integer 
+	Parameter C_IMPLEMENTATION_TYPE_WRCH bound to: 2 - type: integer 
+	Parameter C_IMPLEMENTATION_TYPE_RACH bound to: 2 - type: integer 
+	Parameter C_IMPLEMENTATION_TYPE_RDCH bound to: 1 - type: integer 
+	Parameter C_IMPLEMENTATION_TYPE_AXIS bound to: 1 - type: integer 
+	Parameter C_APPLICATION_TYPE_WACH bound to: 0 - type: integer 
+	Parameter C_APPLICATION_TYPE_WDCH bound to: 0 - type: integer 
+	Parameter C_APPLICATION_TYPE_WRCH bound to: 0 - type: integer 
+	Parameter C_APPLICATION_TYPE_RACH bound to: 0 - type: integer 
+	Parameter C_APPLICATION_TYPE_RDCH bound to: 0 - type: integer 
+	Parameter C_APPLICATION_TYPE_AXIS bound to: 0 - type: integer 
+	Parameter C_PRIM_FIFO_TYPE_WACH bound to: 512x36 - type: string 
+	Parameter C_PRIM_FIFO_TYPE_WDCH bound to: 1kx36 - type: string 
+	Parameter C_PRIM_FIFO_TYPE_WRCH bound to: 512x36 - type: string 
+	Parameter C_PRIM_FIFO_TYPE_RACH bound to: 512x36 - type: string 
+	Parameter C_PRIM_FIFO_TYPE_RDCH bound to: 1kx36 - type: string 
+	Parameter C_PRIM_FIFO_TYPE_AXIS bound to: 1kx18 - type: string 
+	Parameter C_USE_ECC_WACH bound to: 0 - type: integer 
+	Parameter C_USE_ECC_WDCH bound to: 0 - type: integer 
+	Parameter C_USE_ECC_WRCH bound to: 0 - type: integer 
+	Parameter C_USE_ECC_RACH bound to: 0 - type: integer 
+	Parameter C_USE_ECC_RDCH bound to: 0 - type: integer 
+	Parameter C_USE_ECC_AXIS bound to: 0 - type: integer 
+	Parameter C_ERROR_INJECTION_TYPE_WACH bound to: 0 - type: integer 
+	Parameter C_ERROR_INJECTION_TYPE_WDCH bound to: 0 - type: integer 
+	Parameter C_ERROR_INJECTION_TYPE_WRCH bound to: 0 - type: integer 
+	Parameter C_ERROR_INJECTION_TYPE_RACH bound to: 0 - type: integer 
+	Parameter C_ERROR_INJECTION_TYPE_RDCH bound to: 0 - type: integer 
+	Parameter C_ERROR_INJECTION_TYPE_AXIS bound to: 0 - type: integer 
+	Parameter C_DIN_WIDTH_WACH bound to: 1 - type: integer 
+	Parameter C_DIN_WIDTH_WDCH bound to: 64 - type: integer 
+	Parameter C_DIN_WIDTH_WRCH bound to: 2 - type: integer 
+	Parameter C_DIN_WIDTH_RACH bound to: 32 - type: integer 
+	Parameter C_DIN_WIDTH_RDCH bound to: 64 - type: integer 
+	Parameter C_DIN_WIDTH_AXIS bound to: 1 - type: integer 
+	Parameter C_WR_DEPTH_WACH bound to: 16 - type: integer 
+	Parameter C_WR_DEPTH_WDCH bound to: 1024 - type: integer 
+	Parameter C_WR_DEPTH_WRCH bound to: 16 - type: integer 
+	Parameter C_WR_DEPTH_RACH bound to: 16 - type: integer 
+	Parameter C_WR_DEPTH_RDCH bound to: 1024 - type: integer 
+	Parameter C_WR_DEPTH_AXIS bound to: 1024 - type: integer 
+	Parameter C_WR_PNTR_WIDTH_WACH bound to: 4 - type: integer 
+	Parameter C_WR_PNTR_WIDTH_WDCH bound to: 10 - type: integer 
+	Parameter C_WR_PNTR_WIDTH_WRCH bound to: 4 - type: integer 
+	Parameter C_WR_PNTR_WIDTH_RACH bound to: 4 - type: integer 
+	Parameter C_WR_PNTR_WIDTH_RDCH bound to: 10 - type: integer 
+	Parameter C_WR_PNTR_WIDTH_AXIS bound to: 10 - type: integer 
+	Parameter C_HAS_DATA_COUNTS_WACH bound to: 0 - type: integer 
+	Parameter C_HAS_DATA_COUNTS_WDCH bound to: 0 - type: integer 
+	Parameter C_HAS_DATA_COUNTS_WRCH bound to: 0 - type: integer 
+	Parameter C_HAS_DATA_COUNTS_RACH bound to: 0 - type: integer 
+	Parameter C_HAS_DATA_COUNTS_RDCH bound to: 0 - type: integer 
+	Parameter C_HAS_DATA_COUNTS_AXIS bound to: 0 - type: integer 
+	Parameter C_HAS_PROG_FLAGS_WACH bound to: 0 - type: integer 
+	Parameter C_HAS_PROG_FLAGS_WDCH bound to: 0 - type: integer 
+	Parameter C_HAS_PROG_FLAGS_WRCH bound to: 0 - type: integer 
+	Parameter C_HAS_PROG_FLAGS_RACH bound to: 0 - type: integer 
+	Parameter C_HAS_PROG_FLAGS_RDCH bound to: 0 - type: integer 
+	Parameter C_HAS_PROG_FLAGS_AXIS bound to: 0 - type: integer 
+	Parameter C_PROG_FULL_TYPE_WACH bound to: 0 - type: integer 
+	Parameter C_PROG_FULL_TYPE_WDCH bound to: 0 - type: integer 
+	Parameter C_PROG_FULL_TYPE_WRCH bound to: 0 - type: integer 
+	Parameter C_PROG_FULL_TYPE_RACH bound to: 0 - type: integer 
+	Parameter C_PROG_FULL_TYPE_RDCH bound to: 0 - type: integer 
+	Parameter C_PROG_FULL_TYPE_AXIS bound to: 0 - type: integer 
+	Parameter C_PROG_FULL_THRESH_ASSERT_VAL_WACH bound to: 1023 - type: integer 
+	Parameter C_PROG_FULL_THRESH_ASSERT_VAL_WDCH bound to: 1023 - type: integer 
+	Parameter C_PROG_FULL_THRESH_ASSERT_VAL_WRCH bound to: 1023 - type: integer 
+	Parameter C_PROG_FULL_THRESH_ASSERT_VAL_RACH bound to: 1023 - type: integer 
+	Parameter C_PROG_FULL_THRESH_ASSERT_VAL_RDCH bound to: 1023 - type: integer 
+	Parameter C_PROG_FULL_THRESH_ASSERT_VAL_AXIS bound to: 1023 - type: integer 
+	Parameter C_PROG_EMPTY_TYPE_WACH bound to: 0 - type: integer 
+	Parameter C_PROG_EMPTY_TYPE_WDCH bound to: 0 - type: integer 
+	Parameter C_PROG_EMPTY_TYPE_WRCH bound to: 0 - type: integer 
+	Parameter C_PROG_EMPTY_TYPE_RACH bound to: 0 - type: integer 
+	Parameter C_PROG_EMPTY_TYPE_RDCH bound to: 0 - type: integer 
+	Parameter C_PROG_EMPTY_TYPE_AXIS bound to: 0 - type: integer 
+	Parameter C_PROG_EMPTY_THRESH_ASSERT_VAL_WACH bound to: 1022 - type: integer 
+	Parameter C_PROG_EMPTY_THRESH_ASSERT_VAL_WDCH bound to: 1022 - type: integer 
+	Parameter C_PROG_EMPTY_THRESH_ASSERT_VAL_WRCH bound to: 1022 - type: integer 
+	Parameter C_PROG_EMPTY_THRESH_ASSERT_VAL_RACH bound to: 1022 - type: integer 
+	Parameter C_PROG_EMPTY_THRESH_ASSERT_VAL_RDCH bound to: 1022 - type: integer 
+	Parameter C_PROG_EMPTY_THRESH_ASSERT_VAL_AXIS bound to: 1022 - type: integer 
+	Parameter C_REG_SLICE_MODE_WACH bound to: 0 - type: integer 
+	Parameter C_REG_SLICE_MODE_WDCH bound to: 0 - type: integer 
+	Parameter C_REG_SLICE_MODE_WRCH bound to: 0 - type: integer 
+	Parameter C_REG_SLICE_MODE_RACH bound to: 0 - type: integer 
+	Parameter C_REG_SLICE_MODE_RDCH bound to: 0 - type: integer 
+	Parameter C_REG_SLICE_MODE_AXIS bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'fifo_generator_v13_2_5' declared at 'c:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/ipshared/276e/hdl/fifo_generator_v13_2_vhsyn_rfs.vhd:38604' bound to instance 'U0' of component 'fifo_generator_v13_2_5' [c:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/ip/BRAM_1_FIFO_fifo_generator_0_0/synth/BRAM_1_FIFO_fifo_generator_0_0.vhd:547]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_sync_rst' [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:1059]
+INFO: [Synth 8-5534] Detected attribute (* ASYNC_REG = "TRUE" *) [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:1111]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_sync_rst' (2#1) [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:1059]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_single' [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:153]
+INFO: [Synth 8-5534] Detected attribute (* ASYNC_REG = "TRUE" *) [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:205]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_single' (3#1) [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:153]
+INFO: [Synth 8-6157] synthesizing module 'xpm_cdc_gray' [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:284]
+INFO: [Synth 8-5534] Detected attribute (* ASYNC_REG = "TRUE" *) [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:358]
+INFO: [Synth 8-6155] done synthesizing module 'xpm_cdc_gray' (15#1) [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv:284]
+INFO: [Synth 8-256] done synthesizing module 'BRAM_1_FIFO_fifo_generator_0_0' (31#1) [c:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/ip/BRAM_1_FIFO_fifo_generator_0_0/synth/BRAM_1_FIFO_fifo_generator_0_0.vhd:77]
+INFO: [Synth 8-6155] done synthesizing module 'BRAM_1_FIFO' (32#1) [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/synth/BRAM_1_FIFO.v:13]
+INFO: [Synth 8-6157] synthesizing module 'camera_interface_output' [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_output.v:23]
+	Parameter s0_initial bound to: 0 - type: integer 
+	Parameter s1_default bound to: 1 - type: integer 
+	Parameter s2_assign1 bound to: 2 - type: integer 
+	Parameter s3_timer bound to: 3 - type: integer 
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_output.v:95]
+WARNING: [Synth 8-6014] Unused sequential element blue_latch_reg was removed.  [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_output.v:91]
+WARNING: [Synth 8-5788] Register fsm_next_state_reg in module camera_interface_output is has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_output.v:123]
+INFO: [Synth 8-6155] done synthesizing module 'camera_interface_output' (33#1) [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_output.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'camera_interface_top' (34#1) [C:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/new/camera_interface_top.v:23]
+INFO: [Synth 8-6157] synthesizing module 'greyscale_top' [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_top.v:23]
+INFO: [Synth 8-6157] synthesizing module 'greyscale_input' [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_input.v:23]
+	Parameter s0_idle bound to: 0 - type: integer 
+	Parameter s1_assign bound to: 1 - type: integer 
+WARNING: [Synth 8-6014] Unused sequential element fsm_state_reg was removed.  [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_input.v:113]
+INFO: [Synth 8-6155] done synthesizing module 'greyscale_input' (35#1) [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_input.v:23]
+INFO: [Synth 8-6157] synthesizing module 'greyscale_algorithm' [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/synth/greyscale_algorithm.v:13]
+INFO: [Synth 8-638] synthesizing module 'greyscale_algorithm_floating_point_0_0' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_0_0/synth/greyscale_algorithm_floating_point_0_0.vhd:72]
+	Parameter C_XDEVICEFAMILY bound to: artix7 - type: string 
+	Parameter C_HAS_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_SUBTRACT bound to: 0 - type: integer 
+	Parameter C_HAS_MULTIPLY bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE bound to: 0 - type: integer 
+	Parameter C_HAS_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_COMPARE bound to: 0 - type: integer 
+	Parameter C_HAS_FIX_TO_FLT bound to: 1 - type: integer 
+	Parameter C_HAS_FLT_TO_FIX bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_ABSOLUTE bound to: 0 - type: integer 
+	Parameter C_HAS_LOGARITHM bound to: 0 - type: integer 
+	Parameter C_HAS_EXPONENTIAL bound to: 0 - type: integer 
+	Parameter C_HAS_FMA bound to: 0 - type: integer 
+	Parameter C_HAS_FMS bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_SUB bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_S bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_B_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_C_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_RESULT_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_COMPARE_OPERATION bound to: 8 - type: integer 
+	Parameter C_LATENCY bound to: 7 - type: integer 
+	Parameter C_OPTIMIZATION bound to: 1 - type: integer 
+	Parameter C_MULT_USAGE bound to: 0 - type: integer 
+	Parameter C_BRAM_USAGE bound to: 0 - type: integer 
+	Parameter C_RATE bound to: 1 - type: integer 
+	Parameter C_ACCUM_INPUT_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_LSB bound to: -31 - type: integer 
+	Parameter C_HAS_UNDERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_INVALID_OP bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE_BY_ZERO bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_INPUT_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACLKEN bound to: 0 - type: integer 
+	Parameter C_HAS_ARESETN bound to: 1 - type: integer 
+	Parameter C_THROTTLE_SCHEME bound to: 1 - type: integer 
+	Parameter C_HAS_A_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_A_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_B bound to: 0 - type: integer 
+	Parameter C_HAS_B_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_B_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_C bound to: 0 - type: integer 
+	Parameter C_HAS_C_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_C_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TLAST bound to: 0 - type: integer 
+	Parameter C_TLAST_RESOLUTION bound to: 0 - type: integer 
+	Parameter C_A_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_B_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_C_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_OPERATION_TDATA_WIDTH bound to: 8 - type: integer 
+	Parameter C_OPERATION_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_RESULT_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_FIXED_DATA_UNSIGNED bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'floating_point_v7_1_9' declared at 'c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ipshared/f7b4/hdl/floating_point_v7_1_rfs.vhd:94207' bound to instance 'U0' of component 'floating_point_v7_1_9' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_0_0/synth/greyscale_algorithm_floating_point_0_0.vhd:223]
+INFO: [Synth 8-256] done synthesizing module 'greyscale_algorithm_floating_point_0_0' (51#1) [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_0_0/synth/greyscale_algorithm_floating_point_0_0.vhd:72]
+INFO: [Synth 8-638] synthesizing module 'greyscale_algorithm_floating_point_1_0' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_1_0/synth/greyscale_algorithm_floating_point_1_0.vhd:72]
+	Parameter C_XDEVICEFAMILY bound to: artix7 - type: string 
+	Parameter C_HAS_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_SUBTRACT bound to: 0 - type: integer 
+	Parameter C_HAS_MULTIPLY bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE bound to: 0 - type: integer 
+	Parameter C_HAS_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_COMPARE bound to: 0 - type: integer 
+	Parameter C_HAS_FIX_TO_FLT bound to: 1 - type: integer 
+	Parameter C_HAS_FLT_TO_FIX bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_ABSOLUTE bound to: 0 - type: integer 
+	Parameter C_HAS_LOGARITHM bound to: 0 - type: integer 
+	Parameter C_HAS_EXPONENTIAL bound to: 0 - type: integer 
+	Parameter C_HAS_FMA bound to: 0 - type: integer 
+	Parameter C_HAS_FMS bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_SUB bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_S bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_B_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_C_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_RESULT_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_COMPARE_OPERATION bound to: 8 - type: integer 
+	Parameter C_LATENCY bound to: 7 - type: integer 
+	Parameter C_OPTIMIZATION bound to: 1 - type: integer 
+	Parameter C_MULT_USAGE bound to: 0 - type: integer 
+	Parameter C_BRAM_USAGE bound to: 0 - type: integer 
+	Parameter C_RATE bound to: 1 - type: integer 
+	Parameter C_ACCUM_INPUT_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_LSB bound to: -31 - type: integer 
+	Parameter C_HAS_UNDERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_INVALID_OP bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE_BY_ZERO bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_INPUT_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACLKEN bound to: 0 - type: integer 
+	Parameter C_HAS_ARESETN bound to: 1 - type: integer 
+	Parameter C_THROTTLE_SCHEME bound to: 1 - type: integer 
+	Parameter C_HAS_A_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_A_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_B bound to: 0 - type: integer 
+	Parameter C_HAS_B_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_B_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_C bound to: 0 - type: integer 
+	Parameter C_HAS_C_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_C_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TLAST bound to: 0 - type: integer 
+	Parameter C_TLAST_RESOLUTION bound to: 0 - type: integer 
+	Parameter C_A_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_B_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_C_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_OPERATION_TDATA_WIDTH bound to: 8 - type: integer 
+	Parameter C_OPERATION_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_RESULT_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_FIXED_DATA_UNSIGNED bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'floating_point_v7_1_9' declared at 'c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ipshared/f7b4/hdl/floating_point_v7_1_rfs.vhd:94207' bound to instance 'U0' of component 'floating_point_v7_1_9' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_1_0/synth/greyscale_algorithm_floating_point_1_0.vhd:223]
+INFO: [Synth 8-256] done synthesizing module 'greyscale_algorithm_floating_point_1_0' (52#1) [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_1_0/synth/greyscale_algorithm_floating_point_1_0.vhd:72]
+INFO: [Synth 8-638] synthesizing module 'greyscale_algorithm_floating_point_2_0' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_2_0/synth/greyscale_algorithm_floating_point_2_0.vhd:72]
+	Parameter C_XDEVICEFAMILY bound to: artix7 - type: string 
+	Parameter C_HAS_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_SUBTRACT bound to: 0 - type: integer 
+	Parameter C_HAS_MULTIPLY bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE bound to: 0 - type: integer 
+	Parameter C_HAS_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_COMPARE bound to: 0 - type: integer 
+	Parameter C_HAS_FIX_TO_FLT bound to: 1 - type: integer 
+	Parameter C_HAS_FLT_TO_FIX bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_ABSOLUTE bound to: 0 - type: integer 
+	Parameter C_HAS_LOGARITHM bound to: 0 - type: integer 
+	Parameter C_HAS_EXPONENTIAL bound to: 0 - type: integer 
+	Parameter C_HAS_FMA bound to: 0 - type: integer 
+	Parameter C_HAS_FMS bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_SUB bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_S bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_B_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_C_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_RESULT_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_COMPARE_OPERATION bound to: 8 - type: integer 
+	Parameter C_LATENCY bound to: 7 - type: integer 
+	Parameter C_OPTIMIZATION bound to: 1 - type: integer 
+	Parameter C_MULT_USAGE bound to: 0 - type: integer 
+	Parameter C_BRAM_USAGE bound to: 0 - type: integer 
+	Parameter C_RATE bound to: 1 - type: integer 
+	Parameter C_ACCUM_INPUT_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_LSB bound to: -31 - type: integer 
+	Parameter C_HAS_UNDERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_INVALID_OP bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE_BY_ZERO bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_INPUT_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACLKEN bound to: 0 - type: integer 
+	Parameter C_HAS_ARESETN bound to: 1 - type: integer 
+	Parameter C_THROTTLE_SCHEME bound to: 1 - type: integer 
+	Parameter C_HAS_A_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_A_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_B bound to: 0 - type: integer 
+	Parameter C_HAS_B_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_B_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_C bound to: 0 - type: integer 
+	Parameter C_HAS_C_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_C_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TLAST bound to: 0 - type: integer 
+	Parameter C_TLAST_RESOLUTION bound to: 0 - type: integer 
+	Parameter C_A_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_B_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_C_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_OPERATION_TDATA_WIDTH bound to: 8 - type: integer 
+	Parameter C_OPERATION_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_RESULT_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_FIXED_DATA_UNSIGNED bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'floating_point_v7_1_9' declared at 'c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ipshared/f7b4/hdl/floating_point_v7_1_rfs.vhd:94207' bound to instance 'U0' of component 'floating_point_v7_1_9' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_2_0/synth/greyscale_algorithm_floating_point_2_0.vhd:223]
+INFO: [Synth 8-256] done synthesizing module 'greyscale_algorithm_floating_point_2_0' (53#1) [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_2_0/synth/greyscale_algorithm_floating_point_2_0.vhd:72]
+INFO: [Synth 8-638] synthesizing module 'greyscale_algorithm_floating_point_3_0' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_3_0/synth/greyscale_algorithm_floating_point_3_0.vhd:75]
+	Parameter C_XDEVICEFAMILY bound to: artix7 - type: string 
+	Parameter C_HAS_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_SUBTRACT bound to: 0 - type: integer 
+	Parameter C_HAS_MULTIPLY bound to: 1 - type: integer 
+	Parameter C_HAS_DIVIDE bound to: 0 - type: integer 
+	Parameter C_HAS_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_COMPARE bound to: 0 - type: integer 
+	Parameter C_HAS_FIX_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FIX bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_ABSOLUTE bound to: 0 - type: integer 
+	Parameter C_HAS_LOGARITHM bound to: 0 - type: integer 
+	Parameter C_HAS_EXPONENTIAL bound to: 0 - type: integer 
+	Parameter C_HAS_FMA bound to: 0 - type: integer 
+	Parameter C_HAS_FMS bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_SUB bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_S bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_B_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_C_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_RESULT_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_COMPARE_OPERATION bound to: 8 - type: integer 
+	Parameter C_LATENCY bound to: 1 - type: integer 
+	Parameter C_OPTIMIZATION bound to: 1 - type: integer 
+	Parameter C_MULT_USAGE bound to: 2 - type: integer 
+	Parameter C_BRAM_USAGE bound to: 0 - type: integer 
+	Parameter C_RATE bound to: 1 - type: integer 
+	Parameter C_ACCUM_INPUT_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_LSB bound to: -31 - type: integer 
+	Parameter C_HAS_UNDERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_INVALID_OP bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE_BY_ZERO bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_INPUT_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACLKEN bound to: 0 - type: integer 
+	Parameter C_HAS_ARESETN bound to: 1 - type: integer 
+	Parameter C_THROTTLE_SCHEME bound to: 1 - type: integer 
+	Parameter C_HAS_A_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_A_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_B bound to: 1 - type: integer 
+	Parameter C_HAS_B_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_B_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_C bound to: 0 - type: integer 
+	Parameter C_HAS_C_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_C_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TLAST bound to: 0 - type: integer 
+	Parameter C_TLAST_RESOLUTION bound to: 0 - type: integer 
+	Parameter C_A_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_B_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_C_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_OPERATION_TDATA_WIDTH bound to: 8 - type: integer 
+	Parameter C_OPERATION_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_RESULT_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_FIXED_DATA_UNSIGNED bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'floating_point_v7_1_9' declared at 'c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ipshared/f7b4/hdl/floating_point_v7_1_rfs.vhd:94207' bound to instance 'U0' of component 'floating_point_v7_1_9' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_3_0/synth/greyscale_algorithm_floating_point_3_0.vhd:244]
+INFO: [Synth 8-256] done synthesizing module 'greyscale_algorithm_floating_point_3_0' (66#1) [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_3_0/synth/greyscale_algorithm_floating_point_3_0.vhd:75]
+INFO: [Synth 8-638] synthesizing module 'greyscale_algorithm_floating_point_4_0' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_4_0/synth/greyscale_algorithm_floating_point_4_0.vhd:78]
+	Parameter C_XDEVICEFAMILY bound to: artix7 - type: string 
+	Parameter C_HAS_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_SUBTRACT bound to: 0 - type: integer 
+	Parameter C_HAS_MULTIPLY bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE bound to: 0 - type: integer 
+	Parameter C_HAS_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_COMPARE bound to: 0 - type: integer 
+	Parameter C_HAS_FIX_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FIX bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_ABSOLUTE bound to: 0 - type: integer 
+	Parameter C_HAS_LOGARITHM bound to: 0 - type: integer 
+	Parameter C_HAS_EXPONENTIAL bound to: 0 - type: integer 
+	Parameter C_HAS_FMA bound to: 1 - type: integer 
+	Parameter C_HAS_FMS bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_SUB bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_S bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_B_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_C_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_RESULT_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_COMPARE_OPERATION bound to: 8 - type: integer 
+	Parameter C_LATENCY bound to: 1 - type: integer 
+	Parameter C_OPTIMIZATION bound to: 1 - type: integer 
+	Parameter C_MULT_USAGE bound to: 1 - type: integer 
+	Parameter C_BRAM_USAGE bound to: 0 - type: integer 
+	Parameter C_RATE bound to: 1 - type: integer 
+	Parameter C_ACCUM_INPUT_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_LSB bound to: -31 - type: integer 
+	Parameter C_HAS_UNDERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_INVALID_OP bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE_BY_ZERO bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_INPUT_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACLKEN bound to: 0 - type: integer 
+	Parameter C_HAS_ARESETN bound to: 1 - type: integer 
+	Parameter C_THROTTLE_SCHEME bound to: 1 - type: integer 
+	Parameter C_HAS_A_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_A_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_B bound to: 1 - type: integer 
+	Parameter C_HAS_B_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_B_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_C bound to: 1 - type: integer 
+	Parameter C_HAS_C_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_C_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TLAST bound to: 0 - type: integer 
+	Parameter C_TLAST_RESOLUTION bound to: 0 - type: integer 
+	Parameter C_A_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_B_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_C_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_OPERATION_TDATA_WIDTH bound to: 8 - type: integer 
+	Parameter C_OPERATION_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_RESULT_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_FIXED_DATA_UNSIGNED bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'floating_point_v7_1_9' declared at 'c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ipshared/f7b4/hdl/floating_point_v7_1_rfs.vhd:94207' bound to instance 'U0' of component 'floating_point_v7_1_9' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_4_0/synth/greyscale_algorithm_floating_point_4_0.vhd:265]
+INFO: [Synth 8-256] done synthesizing module 'greyscale_algorithm_floating_point_4_0' (87#1) [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_4_0/synth/greyscale_algorithm_floating_point_4_0.vhd:78]
+INFO: [Synth 8-638] synthesizing module 'greyscale_algorithm_floating_point_5_0' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_5_0/synth/greyscale_algorithm_floating_point_5_0.vhd:78]
+	Parameter C_XDEVICEFAMILY bound to: artix7 - type: string 
+	Parameter C_HAS_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_SUBTRACT bound to: 0 - type: integer 
+	Parameter C_HAS_MULTIPLY bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE bound to: 0 - type: integer 
+	Parameter C_HAS_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_COMPARE bound to: 0 - type: integer 
+	Parameter C_HAS_FIX_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FIX bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_ABSOLUTE bound to: 0 - type: integer 
+	Parameter C_HAS_LOGARITHM bound to: 0 - type: integer 
+	Parameter C_HAS_EXPONENTIAL bound to: 0 - type: integer 
+	Parameter C_HAS_FMA bound to: 1 - type: integer 
+	Parameter C_HAS_FMS bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_SUB bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_S bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_B_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_C_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_RESULT_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_COMPARE_OPERATION bound to: 8 - type: integer 
+	Parameter C_LATENCY bound to: 1 - type: integer 
+	Parameter C_OPTIMIZATION bound to: 1 - type: integer 
+	Parameter C_MULT_USAGE bound to: 1 - type: integer 
+	Parameter C_BRAM_USAGE bound to: 0 - type: integer 
+	Parameter C_RATE bound to: 1 - type: integer 
+	Parameter C_ACCUM_INPUT_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_LSB bound to: -31 - type: integer 
+	Parameter C_HAS_UNDERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_INVALID_OP bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE_BY_ZERO bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_INPUT_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACLKEN bound to: 0 - type: integer 
+	Parameter C_HAS_ARESETN bound to: 1 - type: integer 
+	Parameter C_THROTTLE_SCHEME bound to: 1 - type: integer 
+	Parameter C_HAS_A_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_A_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_B bound to: 1 - type: integer 
+	Parameter C_HAS_B_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_B_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_C bound to: 1 - type: integer 
+	Parameter C_HAS_C_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_C_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TLAST bound to: 0 - type: integer 
+	Parameter C_TLAST_RESOLUTION bound to: 0 - type: integer 
+	Parameter C_A_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_B_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_C_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_OPERATION_TDATA_WIDTH bound to: 8 - type: integer 
+	Parameter C_OPERATION_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_RESULT_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_FIXED_DATA_UNSIGNED bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'floating_point_v7_1_9' declared at 'c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ipshared/f7b4/hdl/floating_point_v7_1_rfs.vhd:94207' bound to instance 'U0' of component 'floating_point_v7_1_9' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_5_0/synth/greyscale_algorithm_floating_point_5_0.vhd:265]
+INFO: [Synth 8-256] done synthesizing module 'greyscale_algorithm_floating_point_5_0' (88#1) [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_5_0/synth/greyscale_algorithm_floating_point_5_0.vhd:78]
+INFO: [Synth 8-638] synthesizing module 'greyscale_algorithm_floating_point_6_0' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_6_0/synth/greyscale_algorithm_floating_point_6_0.vhd:72]
+	Parameter C_XDEVICEFAMILY bound to: artix7 - type: string 
+	Parameter C_HAS_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_SUBTRACT bound to: 0 - type: integer 
+	Parameter C_HAS_MULTIPLY bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE bound to: 0 - type: integer 
+	Parameter C_HAS_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_COMPARE bound to: 0 - type: integer 
+	Parameter C_HAS_FIX_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_FLT_TO_FIX bound to: 1 - type: integer 
+	Parameter C_HAS_FLT_TO_FLT bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP bound to: 0 - type: integer 
+	Parameter C_HAS_RECIP_SQRT bound to: 0 - type: integer 
+	Parameter C_HAS_ABSOLUTE bound to: 0 - type: integer 
+	Parameter C_HAS_LOGARITHM bound to: 0 - type: integer 
+	Parameter C_HAS_EXPONENTIAL bound to: 0 - type: integer 
+	Parameter C_HAS_FMA bound to: 0 - type: integer 
+	Parameter C_HAS_FMS bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ADD bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_SUB bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_UNFUSED_MULTIPLY_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_S bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_A bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUMULATOR_PRIMITIVE_S bound to: 0 - type: integer 
+	Parameter C_A_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_B_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_C_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_FRACTION_WIDTH bound to: 24 - type: integer 
+	Parameter C_RESULT_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_FRACTION_WIDTH bound to: 0 - type: integer 
+	Parameter C_COMPARE_OPERATION bound to: 8 - type: integer 
+	Parameter C_LATENCY bound to: 1 - type: integer 
+	Parameter C_OPTIMIZATION bound to: 1 - type: integer 
+	Parameter C_MULT_USAGE bound to: 0 - type: integer 
+	Parameter C_BRAM_USAGE bound to: 0 - type: integer 
+	Parameter C_RATE bound to: 1 - type: integer 
+	Parameter C_ACCUM_INPUT_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_MSB bound to: 32 - type: integer 
+	Parameter C_ACCUM_LSB bound to: -31 - type: integer 
+	Parameter C_HAS_UNDERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_INVALID_OP bound to: 0 - type: integer 
+	Parameter C_HAS_DIVIDE_BY_ZERO bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACCUM_INPUT_OVERFLOW bound to: 0 - type: integer 
+	Parameter C_HAS_ACLKEN bound to: 0 - type: integer 
+	Parameter C_HAS_ARESETN bound to: 1 - type: integer 
+	Parameter C_THROTTLE_SCHEME bound to: 1 - type: integer 
+	Parameter C_HAS_A_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_A_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_B bound to: 0 - type: integer 
+	Parameter C_HAS_B_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_B_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_C bound to: 0 - type: integer 
+	Parameter C_HAS_C_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_C_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_OPERATION_TLAST bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TUSER bound to: 0 - type: integer 
+	Parameter C_HAS_RESULT_TLAST bound to: 0 - type: integer 
+	Parameter C_TLAST_RESOLUTION bound to: 0 - type: integer 
+	Parameter C_A_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_A_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_B_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_B_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_C_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_C_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_OPERATION_TDATA_WIDTH bound to: 8 - type: integer 
+	Parameter C_OPERATION_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_RESULT_TDATA_WIDTH bound to: 32 - type: integer 
+	Parameter C_RESULT_TUSER_WIDTH bound to: 1 - type: integer 
+	Parameter C_FIXED_DATA_UNSIGNED bound to: 0 - type: integer 
+INFO: [Synth 8-3491] module 'floating_point_v7_1_9' declared at 'c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ipshared/f7b4/hdl/floating_point_v7_1_rfs.vhd:94207' bound to instance 'U0' of component 'floating_point_v7_1_9' [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_6_0/synth/greyscale_algorithm_floating_point_6_0.vhd:237]
+INFO: [Synth 8-256] done synthesizing module 'greyscale_algorithm_floating_point_6_0' (91#1) [c:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/ip/greyscale_algorithm_floating_point_6_0/synth/greyscale_algorithm_floating_point_6_0.vhd:72]
+INFO: [Synth 8-6155] done synthesizing module 'greyscale_algorithm' (92#1) [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/bd/greyscale_algorithm/synth/greyscale_algorithm.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'greyscale_top' (93#1) [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_top.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'test_top' (94#1) [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sources_1/new/test_top.v:23]
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized3 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized3 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized3 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized3 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized3 has unconnected port SINIT
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized45 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized45 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized45 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized45 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized45 has unconnected port SINIT
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized100 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized100 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized100 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized100 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized100 has unconnected port SINIT
+WARNING: [Synth 8-3331] design carry_chain__parameterized24 has unconnected port B[33]
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized27 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized27 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized27 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized27 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized27 has unconnected port SINIT
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized72 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized72 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized72 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized72 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized72 has unconnected port SINIT
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized98 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized98 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized98 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized98 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized98 has unconnected port SINIT
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[13]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[12]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[11]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[10]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[9]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[8]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[7]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[6]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[5]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[4]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[3]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[2]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[1]
+WARNING: [Synth 8-3331] design zero_det_sel__parameterized0 has unconnected port ZEROS_DET_IP[0]
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized52 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized52 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized52 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized52 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized52 has unconnected port SINIT
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized33 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized33 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized33 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized33 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized33 has unconnected port SINIT
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized96 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized96 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized96 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized96 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized96 has unconnected port SINIT
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized50 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized50 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized50 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized50 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized50 has unconnected port SINIT
+WARNING: [Synth 8-3331] design compare_eq_im__parameterized2 has unconnected port CARRYS_OUT[0]
+WARNING: [Synth 8-3331] design special_detect__parameterized2 has unconnected port A[31]
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized80 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized80 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized80 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized80 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized80 has unconnected port SINIT
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized46 has unconnected port CLK
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized46 has unconnected port CE
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized46 has unconnected port SCLR
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized46 has unconnected port SSET
+WARNING: [Synth 8-3331] design xbip_pipe_v3_0_6_viv__parameterized46 has unconnected port SINIT
+WARNING: [Synth 8-3331] design axi_slave_2to1 has unconnected port s_axis_a_tuser[0]
+WARNING: [Synth 8-3331] design axi_slave_2to1 has unconnected port s_axis_a_tlast
+WARNING: [Synth 8-3331] design axi_slave_2to1 has unconnected port s_axis_b_tuser[0]
+WARNING: [Synth 8-3331] design axi_slave_2to1 has unconnected port s_axis_b_tlast
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port m_axis_result_tuser[0]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port m_axis_result_tlast
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port aclken
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tvalid
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[31]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[30]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[29]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[28]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[27]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[26]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[25]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[24]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[23]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[22]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[21]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[20]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[19]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[18]
+WARNING: [Synth 8-3331] design floating_point_v7_1_9_viv__parameterized5 has unconnected port s_axis_b_tdata[17]
+INFO: [Common 17-14] Message 'Synth 8-3331' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:52 ; elapsed = 00:00:56 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:53 ; elapsed = 00:00:57 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:53 ; elapsed = 00:00:57 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.440 . Memory (MB): peak = 1418.910 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 1266 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [c:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/ip/BRAM_1_FIFO_fifo_generator_0_0/BRAM_1_FIFO_fifo_generator_0_0.xdc] for cell 'UUT1/UUT2/fifo_generator_0/U0'
+Finished Parsing XDC File [c:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/ip/BRAM_1_FIFO_fifo_generator_0_0/BRAM_1_FIFO_fifo_generator_0_0.xdc] for cell 'UUT1/UUT2/fifo_generator_0/U0'
+Parsing XDC File [C:/Users/George/Edge-Detection/test-phase1/test-phase1.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [C:/Users/George/Edge-Detection/test-phase1/test-phase1.runs/synth_1/dont_touch.xdc]
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [C:/Users/George/Edge-Detection/test-phase1/test-phase1.runs/synth_1/dont_touch.xdc]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/test_top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/test_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+Parsing XDC File [c:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/ip/BRAM_1_FIFO_fifo_generator_0_0/BRAM_1_FIFO_fifo_generator_0_0_clocks.xdc] for cell 'UUT1/UUT2/fifo_generator_0/U0'
+Finished Parsing XDC File [c:/Users/George/Edge-Detection/camera_interface/camera_interface.srcs/sources_1/bd/BRAM_1_FIFO/ip/BRAM_1_FIFO_fifo_generator_0_0/BRAM_1_FIFO_fifo_generator_0_0_clocks.xdc] for cell 'UUT1/UUT2/fifo_generator_0/U0'
+Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_gray.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst'
+Finished Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_gray.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/rd_pntr_cdc_inst'
+Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_gray.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst'
+Finished Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_gray.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/gntv_or_sync_fifo.gcx.clkx/wr_pntr_cdc_inst'
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_gray.tcl]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/test_top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/test_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_single.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_rrst_wr'
+Finished Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_single.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_rrst_wr'
+Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_single.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd'
+Finished Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_single.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd'
+INFO: [Project 1-236] Implementation specific constraints were found while reading constraint file [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_single.tcl]. These constraints will be ignored for synthesis but will be used in implementation. Impacted constraints are listed in the file [.Xil/test_top_propImpl.xdc].
+Resolution: To avoid this warning, move constraints listed in [.Xil/test_top_propImpl.xdc] to another XDC file and exclude this new file from synthesis with the used_in_synthesis property (File Properties dialog in GUI) and re-run elaboration/synthesis.
+Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_sync_rst.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst'
+Finished Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_sync_rst.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst'
+Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_sync_rst.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.xpm_cdc_sync_rst_inst_wrst'
+Finished Sourcing Tcl File [D:/Xilinx/Vivado/2019.2/data/ip/xpm/xpm_cdc/tcl/xpm_cdc_sync_rst.tcl] for cell 'UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/gconvfifo.rf/grf.rf/rstblk/ngwrdrst.grst.g7serrst.gsckt_wrst.xpm_cdc_sync_rst_inst_wrst'
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.019 . Memory (MB): peak = 1418.910 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 48 instances were transformed.
+  FDE => FDRE: 48 instances
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.137 . Memory (MB): peak = 1418.910 ; gain = 0.000
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:01:05 ; elapsed = 00:01:10 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7a50tcsg324-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:01:05 ; elapsed = 00:01:10 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property DONT_TOUCH = true for UUT1/UUT2/fifo_generator_0/U0. (constraint file  C:/Users/George/Edge-Detection/test-phase1/test-phase1.runs/synth_1/dont_touch.xdc, line 51).
+Applied set_property DONT_TOUCH = true for UUT2/UUT2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT2/UUT2/floating_point_0. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT2/UUT2/floating_point_1. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT2/UUT2/floating_point_2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT2/UUT2/floating_point_3. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT2/UUT2/floating_point_4. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT2/UUT2/floating_point_5. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT2/UUT2/floating_point_6. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT1/UUT2. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT1/UUT2/fifo_generator_0. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/\gconvfifo.rf /\grf.rf /\gntv_or_sync_fifo.gcx.clkx /rd_pntr_cdc_inst. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/\gconvfifo.rf /\grf.rf /\gntv_or_sync_fifo.gcx.clkx /wr_pntr_cdc_inst. (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/\gconvfifo.rf /\grf.rf /rstblk/\ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_rrst_wr . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/\gconvfifo.rf /\grf.rf /rstblk/\ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_single_inst_wrst_rd . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/\gconvfifo.rf /\grf.rf /rstblk/\ngwrdrst.grst.g7serrst.gsckt_wrst.gic_rst.xpm_cdc_sync_rst_inst_wrst . (constraint file  auto generated constraint, line ).
+Applied set_property DONT_TOUCH = true for UUT1/UUT2/fifo_generator_0/U0/inst_fifo_gen/\gconvfifo.rf /\grf.rf /rstblk/\ngwrdrst.grst.g7serrst.gsckt_wrst.xpm_cdc_sync_rst_inst_wrst . (constraint file  auto generated constraint, line ).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:01:05 ; elapsed = 00:01:10 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+INFO: [Synth 8-4471] merging register 'S_AXIS_A_1_tvalid_reg' into 'S_AXIS_A_0_tvalid_reg' [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_input.v:105]
+INFO: [Synth 8-4471] merging register 'S_AXIS_A_2_tvalid_reg' into 'S_AXIS_A_0_tvalid_reg' [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_input.v:106]
+INFO: [Synth 8-4471] merging register 'S_AXIS_B_0_tvalid_reg' into 'S_AXIS_A_0_tvalid_reg' [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_input.v:108]
+INFO: [Synth 8-4471] merging register 'S_AXIS_B_1_tvalid_reg' into 'S_AXIS_A_0_tvalid_reg' [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_input.v:109]
+INFO: [Synth 8-4471] merging register 'S_AXIS_B_2_tvalid_reg' into 'S_AXIS_A_0_tvalid_reg' [C:/Users/George/Edge-Detection/greyscale-v5/greyscale-v5.srcs/sources_1/new/greyscale_input.v:110]
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:01:09 ; elapsed = 00:01:14 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9:/i_synth/FIX_TO_FLT_OP.SPD.OP/ROUND/EXTRA_LSB_BIT_DEL' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9:/i_synth/FIX_TO_FLT_OP.SPD.OP/ROUND/EXTRA_LSB_RND1_DEL'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9:/i_synth/FIX_TO_FLT_OP.SPD.OP/ROUND/EXP_INC_DELAY' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9:/i_synth/FIX_TO_FLT_OP.SPD.OP/ROUND/EXP_INC_RND1_DELAY'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9:/i_synth/DELAY_INVALID_OP' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9:/i_synth/DELAY_DIVIDE_BY_ZERO'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9:/i_synth/DELAY_INVALID_OP' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9:/i_synth/DELAY_OVERFLOW'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9:/i_synth/DELAY_INVALID_OP' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9:/i_synth/DELAY_UNDERFLOW'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9:/i_synth/DELAY_INVALID_OP' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9:/i_synth/DELAY_ACCUM_OVERFLOW'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9:/i_synth/DELAY_INVALID_OP' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9:/i_synth/DELAY_ACCUM_INPUT_OVERFLOW'
+INFO: [Synth 8-223] decloning instance 'UUT2/UUT2/floating_point_3/U0/i_synth/MULT.OP/i_non_prim.R_AND_R/LOGIC.R_AND_R/EXTRA_LSB_BIT_DEL' (floating_point_v7_1_9_delay__parameterized10) to 'UUT2/UUT2/floating_point_3/U0/i_synth/MULT.OP/i_non_prim.R_AND_R/LOGIC.R_AND_R/EXTRA_LSB_RND1_DEL'
+INFO: [Synth 8-223] decloning instance 'UUT2/UUT2/floating_point_3/U0/i_synth/MULT.OP/i_non_prim.R_AND_R/LOGIC.R_AND_R/EXP_INC_DELAY' (floating_point_v7_1_9_delay__parameterized10) to 'UUT2/UUT2/floating_point_3/U0/i_synth/MULT.OP/i_non_prim.R_AND_R/LOGIC.R_AND_R/EXP_INC_RND1_DELAY'
+INFO: [Synth 8-223] decloning instance 'UUT2/UUT2/floating_point_3/U0/i_synth/MULT.OP/i_non_prim.R_AND_R/LOGIC.R_AND_R/EXP_IN_DELAY.EXP_IN_DEL' (floating_point_v7_1_9_delay__parameterized16) to 'UUT2/UUT2/floating_point_3/U0/i_synth/MULT.OP/i_non_prim.R_AND_R/LOGIC.R_AND_R/EXP_RND2_DELAY.EXP_RND_DEL'
+INFO: [Synth 8-223] decloning instance 'UUT2/UUT2/floating_point_3/U0/i_synth/MULT.OP/i_non_prim.R_AND_R/LOGIC.R_AND_R/EXP_IN_DELAY.EXP_OFF_OP_DEL' (floating_point_v7_1_9_delay__parameterized16) to 'UUT2/UUT2/floating_point_3/U0/i_synth/MULT.OP/i_non_prim.R_AND_R/LOGIC.R_AND_R/EXP_RND2_DELAY.EXP_OFF_RND_DEL'
+INFO: [Synth 8-223] decloning instance 'UUT2/UUT2/floating_point_3/U0/i_synth/DELAY_DIVIDE_BY_ZERO' (floating_point_v7_1_9_delay__parameterized10) to 'UUT2/UUT2/floating_point_3/U0/i_synth/DELAY_ACCUM_OVERFLOW'
+INFO: [Synth 8-223] decloning instance 'UUT2/UUT2/floating_point_3/U0/i_synth/DELAY_DIVIDE_BY_ZERO' (floating_point_v7_1_9_delay__parameterized10) to 'UUT2/UUT2/floating_point_3/U0/i_synth/DELAY_ACCUM_INPUT_OVERFLOW'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9__parameterized4:/i_synth/FMA_OP.OP/addsub/add/ALIGN_BLK/SUB_DELAY' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9__parameterized4:/i_synth/FMA_OP.OP/addsub/add/ALIGN_BLK/SUBTRACT_PREADD_DEL'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9__parameterized4:/i_synth/FMA_OP.OP/addsub/add/NORM/ROUND/EXTRA_LSB_BIT_DEL' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9__parameterized4:/i_synth/FMA_OP.OP/addsub/add/NORM/ROUND/EXTRA_LSB_RND1_DEL'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9__parameterized4:/i_synth/FMA_OP.OP/addsub/add/NORM/ROUND/EXP_INC_DELAY' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9__parameterized4:/i_synth/FMA_OP.OP/addsub/add/NORM/ROUND/EXP_INC_RND1_DELAY'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9__parameterized4:/i_synth/DELAY_DIVIDE_BY_ZERO' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9__parameterized4:/i_synth/DELAY_ACCUM_OVERFLOW'
+INFO: [Synth 8-223] decloning instance 'floating_point_v7_1_9__parameterized4:/i_synth/DELAY_DIVIDE_BY_ZERO' (floating_point_v7_1_9_delay__parameterized10) to 'floating_point_v7_1_9__parameterized4:/i_synth/DELAY_ACCUM_INPUT_OVERFLOW'
+INFO: [Synth 8-223] decloning instance 'UUT2/UUT2/floating_point_6/U0/i_synth/DELAY_DIVIDE_BY_ZERO' (floating_point_v7_1_9_delay__parameterized10) to 'UUT2/UUT2/floating_point_6/U0/i_synth/DELAY_ACCUM_OVERFLOW'
+INFO: [Synth 8-223] decloning instance 'UUT2/UUT2/floating_point_6/U0/i_synth/DELAY_DIVIDE_BY_ZERO' (floating_point_v7_1_9_delay__parameterized10) to 'UUT2/UUT2/floating_point_6/U0/i_synth/DELAY_ACCUM_INPUT_OVERFLOW'
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Hierarchical Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Hierarchical Component Statistics
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 120 (col length:60)
+BRAMs: 150 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+Warning: Parallel synthesis criteria is not met 
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-5544] ROM "LZE/enc_chunk" won't be mapped to Block RAM because address size (4) smaller than threshold (5)
+INFO: [Synth 8-3886] merging instance 'UUT1/UUT3/fsm_next_state_reg[0]' (FDE) to 'UUT1/UUT3/fsm_next_state_reg[2]'
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT1/UUT3/fsm_next_state_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/fsm_next_state_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/red_latch_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/red_latch_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/red_latch_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/blue_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/blue_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/blue_reg[2] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/green_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/green_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT1/UUT3/green_reg[2] )
+INFO: [Synth 8-3886] merging instance 'UUT1/UUT3/red_reg[0]' (FDCE) to 'UUT1/UUT3/red_reg[2]'
+INFO: [Synth 8-3886] merging instance 'UUT1/UUT3/red_reg[1]' (FDCE) to 'UUT1/UUT3/red_reg[2]'
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[0] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[1] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[2] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[3] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[5] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[6] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[7] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[9] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[10] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[11] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[13] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[14] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[15] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[17] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[18] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[19] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[21] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[22] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[23] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[24] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[25] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[26] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[27] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[28] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[30] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_2_tdata_reg[31] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[0] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[2] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[3] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[6] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[7] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[10] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[11] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[14] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[15] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[18] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[19] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[21] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[22] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[23] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[24] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[25] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[26] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[27] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[28] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[29] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[30] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_1_tdata_reg[31] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[0] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[1] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[2] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[3] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[4] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[5] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[6] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[7] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[8] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[9] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[10] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[11] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[12] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[13] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[14] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[15] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[16] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[17] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[18] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[19] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[20] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[21] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[22] )
+INFO: [Synth 8-3333] propagating constant 1 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[23] )
+INFO: [Synth 8-3333] propagating constant 0 across sequential element (\UUT2/UUT1/S_AXIS_B_0_tdata_reg[24] )
+INFO: [Common 17-14] Message 'Synth 8-3333' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
+INFO: [Synth 8-3886] merging instance 'UUT2/UUT1/S_AXIS_A_2_tdata_reg[0]' (FDC) to 'UUT2/UUT1/S_AXIS_A_2_tdata_reg[2]'
+INFO: [Synth 8-3886] merging instance 'UUT2/UUT1/S_AXIS_A_2_tdata_reg[1]' (FDC) to 'UUT2/UUT1/S_AXIS_A_2_tdata_reg[2]'
+INFO: [Synth 8-3886] merging instance 'UUT2/UUT1/S_AXIS_A_2_tdata_reg[2]' (FDC) to 'UUT2/UUT1/S_AXIS_A_1_tdata_reg[2]'
+INFO: [Synth 8-3886] merging instance 'UUT2/UUT1/S_AXIS_A_1_tdata_reg[0]' (FDC) to 'UUT2/UUT1/S_AXIS_A_1_tdata_reg[2]'
+INFO: [Synth 8-3886] merging instance 'UUT2/UUT1/S_AXIS_A_1_tdata_reg[1]' (FDC) to 'UUT2/UUT1/S_AXIS_A_1_tdata_reg[2]'
+INFO: [Synth 8-3886] merging instance 'UUT2/UUT1/S_AXIS_A_0_tdata_reg[0]' (FDC) to 'UUT2/UUT1/S_AXIS_A_0_tdata_reg[1]'
+INFO: [Synth 8-3886] merging instance 'UUT2/UUT1/S_AXIS_A_0_tdata_reg[1]' (FDC) to 'UUT2/UUT1/S_AXIS_A_0_tdata_reg[2]'
+INFO: [Synth 8-3886] merging instance 'floating_point_v7_1_9:/i_synth/FIX_TO_FLT_OP.SPD.OP/EXP/EXP_MOD_DEL/i_pipe/opt_has_pipe.first_q_reg[6]' (FDE) to 'floating_point_v7_1_9:/i_synth/FIX_TO_FLT_OP.SPD.OP/EXP/EXP_MOD_DEL/i_pipe/opt_has_pipe.first_q_reg[5]'
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:01:26 ; elapsed = 00:01:32 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:41 ; elapsed = 00:01:47 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:01:41 ; elapsed = 00:01:47 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:01:44 ; elapsed = 00:01:50 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:01:48 ; elapsed = 00:01:55 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:48 ; elapsed = 00:01:55 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+
+Report RTL Partitions: 
++-+--------------+------------+----------+
+| |RTL Partition |Replication |Instances |
++-+--------------+------------+----------+
++-+--------------+------------+----------+
+
+Report Check Netlist: 
++------+------------------+-------+---------+-------+------------------+
+|      |Item              |Errors |Warnings |Status |Description       |
++------+------------------+-------+---------+-------+------------------+
+|1     |multi_driven_nets |      0|        0|Passed |Multi driven nets |
++------+------------------+-------+---------+-------+------------------+
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:49 ; elapsed = 00:01:55 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:49 ; elapsed = 00:01:55 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:49 ; elapsed = 00:01:55 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:49 ; elapsed = 00:01:56 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++-+--------------+----------+
+| |BlackBox name |Instances |
++-+--------------+----------+
++-+--------------+----------+
+
+Report Cell Usage: 
++------+----------+------+
+|      |Cell      |Count |
++------+----------+------+
+|1     |BUFG      |     1|
+|2     |CARRY4    |    14|
+|3     |DSP48E1   |     1|
+|4     |DSP48E1_1 |     1|
+|5     |DSP48E1_2 |     2|
+|6     |DSP48E1_3 |     2|
+|7     |LUT1      |    39|
+|8     |LUT2      |   401|
+|9     |LUT3      |   747|
+|10    |LUT4      |   404|
+|11    |LUT5      |   374|
+|12    |LUT6      |   986|
+|13    |MUXCY     |   761|
+|14    |MUXF7     |     6|
+|15    |MUXF8     |     3|
+|16    |RAMB18E1  |     1|
+|17    |SRL16E    |     9|
+|18    |XORCY     |   431|
+|19    |FDCE      |    54|
+|20    |FDE       |    48|
+|21    |FDPE      |     2|
+|22    |FDRE      |  1585|
+|23    |FDSE      |     5|
+|24    |IBUF      |    13|
+|25    |OBUF      |    33|
++------+----------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:49 ; elapsed = 00:01:56 . Memory (MB): peak = 1418.910 ; gain = 691.031
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 750 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:49 ; elapsed = 00:01:48 . Memory (MB): peak = 1418.910 ; gain = 691.031
+Synthesis Optimization Complete : Time (s): cpu = 00:01:49 ; elapsed = 00:01:56 . Memory (MB): peak = 1418.910 ; gain = 691.031
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.267 . Memory (MB): peak = 1418.910 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 1270 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.004 . Memory (MB): peak = 1418.910 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 258 instances were transformed.
+  (MUXCY,XORCY) => CARRY4: 210 instances
+  FDE => FDRE: 48 instances
+
+INFO: [Common 17-83] Releasing license: Synthesis
+241 Infos, 112 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:57 ; elapsed = 00:02:06 . Memory (MB): peak = 1418.910 ; gain = 962.957
+Netlist sorting complete. Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.005 . Memory (MB): peak = 1418.910 ; gain = 0.000
+WARNING: [Constraints 18-5210] No constraints selected for write.
+Resolution: This message can indicate that there are no constraints for the design, or it can indicate that the used_in flags are set such that the constraints are ignored. This later case is used when running synth_design to not write synthesis constraints to the resulting checkpoint. Instead, project constraints are read when the synthesized design is opened.
+INFO: [Common 17-1381] The checkpoint 'C:/Users/George/Edge-Detection/test-phase1/test-phase1.runs/synth_1/test_top.dcp' has been generated.
+INFO: [runtcl-4] Executing : report_utilization -file test_top_utilization_synth.rpt -pb test_top_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Tue Dec 29 12:14:25 2020...

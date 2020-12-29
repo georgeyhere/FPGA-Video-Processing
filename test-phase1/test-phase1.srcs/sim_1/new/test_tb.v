@@ -27,6 +27,7 @@ reg reset_n = 1;
 reg pclk = 0;
 reg [7:0] dout_camera;
 reg href;
+reg M_AXIS_RESULT_0_tready = 1;
 
 wire [31:0] M_AXIS_RESULT_0_tdata;
 wire M_AXIS_RESULT_0_tvalid;
@@ -102,6 +103,48 @@ initial begin
     @(negedge pclk);
         href = 0;
         dout_camera = 8'b0;
+    #120;
+    @(negedge pclk);
+    dout_camera = 8'b00001111; 
+    href = 1; 
+    
+    @(negedge pclk);
+        dout_camera = 8'b11110000; //1
+        
+    @(negedge pclk);
+        dout_camera = 8'b11100010; 
+        
+    @(negedge pclk);
+        dout_camera = 8'b11110100; //2
+    
+    @(negedge pclk);
+        dout_camera = 8'b00110110;
+    
+    @(negedge pclk);
+        dout_camera = 8'b10101010; //3
+        
+    @(negedge pclk);
+        dout_camera = 8'b00000001;
+        
+    @(negedge pclk);
+        dout_camera = 8'b00001001; //4
+        
+    @(negedge pclk);
+        dout_camera = 8'b10000100;
+        
+    @(negedge pclk);
+        dout_camera = 8'b01101110; //5
+        
+    @(negedge pclk);
+        dout_camera = 8'b01010100;
+        
+    @(negedge pclk);    
+        dout_camera = 8'b10000000; //6
+        
+    @(negedge pclk);
+        href = 0;
+        dout_camera = 8'b0;    
+    
         
 end
     //dout_camera <= 8'b11110100;
