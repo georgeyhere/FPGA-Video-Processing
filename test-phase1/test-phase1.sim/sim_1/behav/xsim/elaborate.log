@@ -6,4 +6,20 @@ Starting static elaboration
 Pass Through NonSizing Optimizer
 WARNING: [VRFC 10-3091] actual bit length 24 differs from formal bit length 8 for port 'greyscale_value' [C:/Users/George/Edge-Detection/test-phase1/test-phase1.srcs/sim_1/new/test_tb.v:44]
 Completed static elaboration
-INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.camera_interface_input
+Compiling module fifo_generator_v13_2_5.fifo_generator_v13_2_5_sync_stag...
+Compiling module fifo_generator_v13_2_5.fifo_generator_v13_2_5_bhv_ver_a...
+Compiling module fifo_generator_v13_2_5.fifo_generator_v13_2_5_CONV_VER(...
+Compiling module fifo_generator_v13_2_5.fifo_generator_vlog_beh(C_DATA_C...
+Compiling module xil_defaultlib.BRAM_1_FIFO_fifo_generator_0_0
+Compiling module xil_defaultlib.BRAM_1_FIFO
+Compiling module xil_defaultlib.camera_interface_output
+Compiling module xil_defaultlib.camera_interface_top
+Compiling module xil_defaultlib.greyscale
+Compiling module xil_defaultlib.test_top
+Compiling module xil_defaultlib.test_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot test_tb_behav
