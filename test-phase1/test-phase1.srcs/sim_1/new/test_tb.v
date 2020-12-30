@@ -29,8 +29,8 @@ reg [7:0] dout_camera;
 reg href;
 reg M_AXIS_RESULT_0_tready = 1;
 
-wire [31:0] M_AXIS_RESULT_0_tdata;
-wire M_AXIS_RESULT_0_tvalid;
+wire [23:0] greyscale_value;
+wire greyscale_valid;
 
 parameter CLK_PERIOD = 8; //~125 Mhz
 parameter PCLK_PERIOD = 40; //~24 Mhz
@@ -41,8 +41,8 @@ test_top UUT (
 .pclk(pclk),
 .dout_camera(dout_camera),
 .href(href),
-.M_AXIS_RESULT_0_tdata(M_AXIS_RESULT_0_tdata),
-.M_AXIS_RESULT_0_tvalid(M_AXIS_RESULT_0_tvalid)
+.greyscale_value(greyscale_value),
+.greyscale_valid(greyscale_valid)
 );
 
 always #(CLK_PERIOD/2) begin
@@ -103,10 +103,16 @@ initial begin
     @(negedge pclk);
         href = 0;
         dout_camera = 8'b0;
-    #120;
+        
     @(negedge pclk);
-    dout_camera = 8'b00001111; 
-    href = 1; 
+        dout_camera = 8'b1;
+        
+    @(negedge pclk);
+        dout_camera = 8'b0;
+        
+    @(negedge pclk);
+        dout_camera = 8'b00001111; 
+        href = 1; 
     
     @(negedge pclk);
         dout_camera = 8'b11110000; //1

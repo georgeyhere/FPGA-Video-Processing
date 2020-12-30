@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module greyscale_input(
+module greyscale(
 input clk,
 input reset_n,
 input byte_convert_valid,
@@ -28,7 +28,7 @@ input [7:0] red,
 input [7:0] green,
 input [7:0] blue,
 
-output reg [23:0] greyscale_pixel,
+output reg [7:0] greyscale_value,
 output reg greyscale_valid,
 output reg greyscale_ready
 
@@ -46,7 +46,7 @@ reg [15:0] green_temp;
 reg [15:0] blue_temp;
 
 initial begin
-    greyscale_pixel <= 0;
+    greyscale_value <= 0;
     greyscale_valid <= 0;
     greyscale_ready <= 0;
     fsm_state <= 0;
@@ -54,7 +54,7 @@ end
     
 always@(posedge clk, negedge reset_n) begin
     if(reset_n == 1'b0) begin
-        greyscale_pixel <= 0;
+        greyscale_value <= 0;
         greyscale_valid <= 0;
         greyscale_ready <= 0;
         fsm_state <= 0;   
@@ -66,7 +66,7 @@ always@(posedge clk, negedge reset_n) begin
             greyscale_valid <= 0;
             fsm_state <= (byte_convert_valid) ? 1:0;
             greyscale_ready <= 1;
-            greyscale_pixel <= 0;
+            greyscale_value <= 0;
         end
         1: begin
             red_temp <= red * 3;
@@ -76,7 +76,7 @@ always@(posedge clk, negedge reset_n) begin
             greyscale_ready <= 0;
         end
         2: begin
-            greyscale_pixel <=  (red_temp + green_temp + blue_temp) / 10 ;
+            greyscale_value <=  (red_temp + green_temp + blue_temp) / 10 ;
             greyscale_valid <= 1;
             fsm_state <= (byte_convert_valid) ? 1:0;
             greyscale_ready <= 1;

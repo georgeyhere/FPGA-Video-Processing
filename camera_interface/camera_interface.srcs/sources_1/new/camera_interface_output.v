@@ -109,7 +109,7 @@ always@(posedge clk, negedge reset_n) begin
         end
         
         
-        s2_assign1: begin //only assigns data if FIFO asserts valid flag
+        s2_assign1: begin //only assigns data if FIFO asserts valid flag or still has valid data 
         
             if(valid_0) begin
                 if(href == 1) begin
@@ -118,7 +118,7 @@ always@(posedge clk, negedge reset_n) begin
                     0: begin
                         red_latch [7:3] <= FIFO_READ_0_rd_data [6:2]; //first bit is don't care, then 5 bits of red
                         green_latch [7:6] <= FIFO_READ_0_rd_data [1:0]; //then 2 bits of green
-                        half_identifier <= 1;
+                        //half_identifier <= 1;
                         fsm_state <= s3_timer;
                         fsm_next_state <= s2_assign1;
                         count <= 3;
@@ -132,16 +132,24 @@ always@(posedge clk, negedge reset_n) begin
                         blue [7:3] <= FIFO_READ_0_rd_data[4:0];
                         
                         byte_convert_valid <= 1;
-                        half_identifier <= 0;
+                        //half_identifier <= 0;
                         fsm_state <= ((href == 1)&(pclk == 1)) ? s3_timer:s1_default;
+                        fsm_next_state <= s2_assign1;
                         count <= 3;
+                        
                         
                     end
                    
                     endcase
                 end
-                else begin
-                    fsm_state <= s2_assign1;  
+                else begin //if href == 0 but FIFO is not empty, assign the outputs
+                    red <= (FIFO_READ_0_empty == 0) ? red_latch:0;
+                    green [7:6] <= (FIFO_READ_0_empty == 0) ? green_latch [7:6]:0;
+                    green [5:3] <= (FIFO_READ_0_empty == 0) ? FIFO_READ_0_rd_data[7:5]:0; 
+                    blue [7:3] <= (FIFO_READ_0_empty == 0) ? FIFO_READ_0_rd_data[4:0]:0;   
+                    fsm_state <= (FIFO_READ_0_empty == 0) ? s3_timer:s1_default; //go to timer if not empty, if href == 0 and fifo is empty go back to default
+                    count <= (FIFO_READ_0_empty == 0) ? 9:0; //set count = 3 if needed
+                    fsm_next_state <= s1_default;
                      
                 end
              end
@@ -154,6 +162,7 @@ always@(posedge clk, negedge reset_n) begin
         s3_timer: begin
             fsm_state <= (count == 0) ? fsm_next_state:s3_timer;
             count <= (count == 0) ? 0:(count - 1);
+            half_identifier <= (count == 0) ? (~half_identifier):half_identifier;
         end
         
         

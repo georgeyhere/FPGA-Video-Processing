@@ -26,11 +26,9 @@ input reset_n, //asynchronous active low reset
 input pclk, //camera pixel clock 
 input [7:0] dout_camera, //camera data out
 input href, //camera output
-input M_AXIS_RESULT_0_tready,
 
-
-output wire [31:0] M_AXIS_RESULT_0_tdata, //output, 32-bit fixed-point greyscale value
-output wire M_AXIS_RESULT_0_tvalid //used as feedback to the input module
+output wire [7:0] greyscale_value, //output, 32-bit fixed-point greyscale value
+output wire greyscale_valid //used as feedback to the input module
 
     );
     
@@ -61,17 +59,16 @@ camera_interface_top UUT1 (
 .valid_0(valid_0)
 ); 
 
-greyscale_top UUT2 (
+greyscale UUT2 (
 .clk(clk),
-.reset_n(reset_n),
-.red(red),
+.reset_n(reset_n)
+,.red(red),
 .green(green),
 .blue(blue),
 .byte_convert_valid(byte_convert_valid),
-.greyscale_ready(greyscale_ready),
-.M_AXIS_RESULT_0_tready(M_AXIS_RESULT_0_tready),
-.M_AXIS_RESULT_0_tdata(M_AXIS_RESULT_0_tdata),
-.M_AXIS_RESULT_0_tvalid(M_AXIS_RESULT_0_tvalid)
+.greyscale_value(greyscale_value),
+.greyscale_valid(greyscale_valid),
+.greyscale_ready(greyscale_ready)
 );
    
     
