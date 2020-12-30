@@ -1,0 +1,7 @@
+Running: xsim.dir/greyscale_tb_behav/xsimk.exe -simmode gui -wdb greyscale_tb_behav.wdb -simrunnum 0 -socket 60405
+Design successfully loaded
+Design Loading Memory Usage: 5368 KB (Peak: 5368 KB)
+Design Loading CPU Usage: 0 ms
+Simulation completed
+Simulation Memory Usage: 6036 KB (Peak: 6036 KB)
+Simulation CPU Usage: 31 ms

@@ -1,0 +1,6 @@
+vhdl xil_defaultlib  \
+"../../../bd/greyscale_multiply/ip/greyscale_multiply_xbip_dsp48_macro_0_0/sim/greyscale_multiply_xbip_dsp48_macro_0_0.vhd" \
+"../../../bd/greyscale_multiply/ip/greyscale_multiply_xbip_dsp48_macro_1_0/sim/greyscale_multiply_xbip_dsp48_macro_1_0.vhd" \
+"../../../bd/greyscale_multiply/ip/greyscale_multiply_xbip_dsp48_macro_2_0/sim/greyscale_multiply_xbip_dsp48_macro_2_0.vhd" \
+
+nosort

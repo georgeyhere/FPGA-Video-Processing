@@ -1,0 +1,9 @@
+{
+	"version": "1.0",
+	"modules": {
+		"greyscale_multiply": {
+			"proto_instances": {
+			}
+		}
+	}
+}
