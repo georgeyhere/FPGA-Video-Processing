@@ -2,26 +2,19 @@
 
 The objective of this project is to take 640x480 VGA data from an OV7670 camera and show a filtered image on a VGA monitor using a Gaussian Blur and a Sobel Operator. Coded in Vivado and implemented on Artix-7 FPGA. Logic runs on 96Mhz clock, camera runs on 24Mhz clock.
 
+As of 1/4/2021: test-phase1 has a testbench and is fully functional. It takes an RGB555 input from the camera and converts each pixel to 8-bit greyscale. 
+
 ## Topics Covered:
 
 SCCB (Serial Camera Control Bus) Protocol
 
 - i2c compliant 2-wire protocol used for configurint the OV7670 camera
 
+Xilinx FIFO Generator
 
-IEEE-754 Floating Point Protocol
+- dual-port FIFO configuration used as buffer
 
-- binary representation of floating-point values
-
-- floating point multiply and add
-
-Xilinx Floating-Point IP
-
-- multiply and fused multiply-add configurations
-
-- fixed-point to floating-point conversion 
-
-- floating-point to fixed-point conversion
+- first-word-fall-through
 
 Image Filtering Algorithms
 
