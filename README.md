@@ -12,6 +12,8 @@ SCCB_config (meets timing)
 
 - Output: OV7670 camera instruction register data
 
+- Status: Meets timing. Needs to be tested with not-yet-written control module.
+
 Description: transmits preset register values from ROM in accordance to SCCB protocol
 
 camera_interface (meets timing)
@@ -20,15 +22,20 @@ camera_interface (meets timing)
 
 - Output: 8-bit R value, 8-bit G value, 8-bit B value
 
+- Status: Meets timing. Could use a bit of cleanup.
+
 - Description: buffers input data in FIFO and decodes to RGB values
 
-greyscale_fixed_point (meets timing)
+greyscale_fixed_point 
 
 - Input: 8-bit RGB from camera_interface
 
 - Output: 8-bit greyscale value
 
+- Status: greyscale_ready has undesired behavior but the output meets timing. Needs cleanup.
+
 - Description: uses RGB values and the function y = 0.3R + 0.6G + 0.1B where y is the magnitude of grey. This version avoids floating-point: y = (3R + 6G + B) / 10
+
 
 test-phase1 (meets timing)
 
