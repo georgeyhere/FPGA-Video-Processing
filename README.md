@@ -6,7 +6,7 @@ Please the many other git atrocities.
 
 Desired Functionality:
 
-SCCB_config
+SCCB_config (meets timing)
 
 - Input: start signal from control module
 
@@ -14,7 +14,7 @@ SCCB_config
 
 Description: transmits preset register values from ROM in accordance to SCCB protocol
 
-camera_interface
+camera_interface (meets timing)
 
 - Input: RGB555 data from OV7670, 8-bits wide
 
@@ -22,7 +22,7 @@ camera_interface
 
 - Description: buffers input data in FIFO and decodes to RGB values
 
-greyscale_fixed_point
+greyscale_fixed_point (meets timing)
 
 - Input: 8-bit RGB from camera_interface
 
@@ -30,7 +30,7 @@ greyscale_fixed_point
 
 - Description: uses RGB values and the function y = 0.3R + 0.6G + 0.1B where y is the magnitude of grey. This version avoids floating-point: y = (3R + 6G + B) / 10
 
-test-phase1
+test-phase1 (meets timing)
 
 - Description: compiles SCCB_config, camera_interface, and greyscale_fixed_point under one project. Timing verified. testcases.xlsx contains sample input data as well as results. 
 
