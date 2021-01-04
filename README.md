@@ -14,7 +14,7 @@ SCCB_config (meets timing)
 
 - Status: Meets timing. Needs to be tested with not-yet-written control module.
 
-Description: transmits preset register values from ROM in accordance to SCCB protocol
+- Description: transmits preset register values from ROM in accordance to SCCB protocol
 
 camera_interface (meets timing)
 
