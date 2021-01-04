@@ -1,6 +1,6 @@
 # Edge Detection
 
-The objective of this project is to take 640x480 VGA data from an OV7670 camera and show a filtered image on a VGA monitor using a Gaussian Blur and a Sobel Operator. Coded in Vivado and implemented on Artix-7 FPGA. Logic runs on 96Mhz clock, camera runs on 24Mhz clock. 
+The objective of this project is to take 640x480 VGA data from an OV7670 camera and show a filtered image on a VGA monitor using a Gaussian Blur and a Sobel Operator. Coded in Vivado and implemented on Artix-7 FPGA. Logic runs on 120Mhz clock, camera runs on 24Mhz clock. 
 
 Please the many other git atrocities.
 
