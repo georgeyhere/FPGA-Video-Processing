@@ -32,7 +32,8 @@ greyscale_fixed_point (meets timing)
 
 test-phase1 (meets timing)
 
-- Description: compiles SCCB_config, camera_interface, and greyscale_fixed_point under one project. Timing verified. testcases.xlsx contains sample input data as well as results. 
+- Description: compiles SCCB_config, camera_interface, and greyscale_fixed_point under one project. Timing verified. testcases.xlsx contains sample input data as well as results. ![testbench](https://i.imgur.com/LZ8iQls.png)
+
 
 
 As of 1/4/2021: test-phase1 has a testbench and is fully functional. It takes an RGB555 input from the camera and converts each pixel to 8-bit greyscale. 
