@@ -35,11 +35,12 @@ output reg BRAM_PORTA_0_we
     );
 
 reg [16:0] address;
-    
+reg [31:0] count;    
 reg [2:0] fsm_state;  
 localparam s0_idle = 0;  
 localparam s1_write = 1;
-localparam s2_hold = 2;
+localparam s2_timer = 2;
+reg [2:0] fsm_next_state;
 
 initial begin
     BRAM_PORTA_0_addr <= 0;
@@ -48,6 +49,8 @@ initial begin
     BRAM_PORTA_0_en <= 0;
     fsm_state <= 0;
     address <= 0;
+    count <= 0;
+    fsm_next_state <= 0;
 end
     
 always@(posedge clk, negedge reset_n) begin
@@ -58,16 +61,21 @@ always@(posedge clk, negedge reset_n) begin
         BRAM_PORTA_0_we <= 0;
         fsm_state <= 0;
         address <= 0;
+        fsm_next_state <= 0;
+        count <= 0;
     end
     else begin
         case(fsm_state) 
         
             s0_idle: begin
-                fsm_state <= (greyscale_valid == 1) ? 1:0;
+                fsm_state <= (greyscale_valid == 1) ? s1_write:s0_idle;
                 BRAM_PORTA_0_addr <= 0;
                 BRAM_PORTA_0_we <= 0;
                 BRAM_PORTA_0_din <= 0;
-                BRAM_PORTA_0_en <= 0;   
+                BRAM_PORTA_0_en <= 0; 
+                address <= 0;
+                fsm_next_state <= 0;  
+                count <= 0;
             end
             
             s1_write: begin
@@ -76,11 +84,14 @@ always@(posedge clk, negedge reset_n) begin
                 BRAM_PORTA_0_addr <= address; //write address 
                 BRAM_PORTA_0_din <= greyscale_value; //write greyscale byte
                 address <= (address == 122872) ? address:(address+8); 
-                fsm_state <= (address == 122872) ? s2_hold:s1_write; 
+                fsm_state <= s2_timer;
+                count <= 40;
+                fsm_next_state <= (address == 40) ? s0_idle:s1_write; 
             end
             
-            s2_hold: begin
-                
+            s2_timer: begin
+                count <= (count == 0) ? 0:(count - 1);
+                fsm_state <= (count == 0) ? fsm_next_state:s2_timer;
             end
         
         endcase

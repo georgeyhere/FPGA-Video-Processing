@@ -29,8 +29,7 @@ reg [7:0] dout_camera;
 reg href;
 reg M_AXIS_RESULT_0_tready = 1;
 
-wire [23:0] greyscale_value;
-wire greyscale_valid;
+wire [7:0]BRAM_PORTB_0_dout;
 
 parameter CLK_PERIOD = 8; //~125 Mhz
 parameter PCLK_PERIOD = 40; //~24 Mhz
