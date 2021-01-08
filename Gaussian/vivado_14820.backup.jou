@@ -1,0 +1,16 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Thu Jan  7 15:59:15 2021
+# Process ID: 14820
+# Current directory: C:/Users/George/Edge-Detection/Gaussian
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent12984 C:\Users\George\Edge-Detection\Gaussian\Gaussian.xpr
+# Log file: C:/Users/George/Edge-Detection/Gaussian/vivado.log
+# Journal file: C:/Users/George/Edge-Detection/Gaussian\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/George/Edge-Detection/Gaussian/Gaussian.xpr
+update_compile_order -fileset sources_1
+open_hw_manager
+close_hw_manager

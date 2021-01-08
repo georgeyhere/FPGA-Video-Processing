@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2019.2 (64-bit)
+# SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
+# IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+# Start of session at: Thu Jan  7 15:59:15 2021
+# Process ID: 14820
+# Current directory: C:/Users/George/Edge-Detection/Gaussian
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent12984 C:\Users\George\Edge-Detection\Gaussian\Gaussian.xpr
+# Log file: C:/Users/George/Edge-Detection/Gaussian/vivado.log
+# Journal file: C:/Users/George/Edge-Detection/Gaussian\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/George/Edge-Detection/Gaussian/Gaussian.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'D:/Xilinx/Vivado/2019.2/data/ip'.
+open_project: Time (s): cpu = 00:00:13 ; elapsed = 00:00:09 . Memory (MB): peak = 858.859 ; gain = 176.945
+update_compile_order -fileset sources_1
+open_hw_manager
+close_hw_manager
+exit
+INFO: [Common 17-206] Exiting Vivado at Thu Jan  7 16:00:44 2021...
