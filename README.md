@@ -86,4 +86,8 @@ OneNote here:
 
 https://livecsupomona-my.sharepoint.com/:o:/g/personal/georgeyu_cpp_edu/EsdrZqUCATlOs_IW7uZltlMBf9s61p3XAIeNPWgkGv5AwA?e=ZoctIG
 
+Blog:
+
+https://georgeyhere.wixsite.com/fpga
+
 More documentation on project completion.
