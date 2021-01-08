@@ -40,8 +40,7 @@ test_top UUT (
 .pclk(pclk),
 .dout_camera(dout_camera),
 .href(href),
-.greyscale_value(greyscale_value),
-.greyscale_valid(greyscale_valid)
+.BRAM_PORTB_0_dout(BRAM_PORTB_0_dout)
 );
 
 always #(CLK_PERIOD/2) begin

@@ -1,8 +1,8 @@
 
 { 
-    crc :  5556755065693024098  , 
+    crc :  14701356024568395746  , 
     ccp_crc :  0  , 
-    cmdline : " -wto f29329a9c1904fe8a18314e96835a7ec --incr --debug typical --relax --mt 2 -L fifo_generator_v13_2_5 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot test_tb_behav xil_defaultlib.test_tb xil_defaultlib.glbl" , 
+    cmdline : " -wto f29329a9c1904fe8a18314e96835a7ec --incr --debug typical --relax --mt 2 -L blk_mem_gen_v8_4_4 -L xil_defaultlib -L fifo_generator_v13_2_5 -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot test_tb_behav xil_defaultlib.test_tb xil_defaultlib.glbl" , 
     buildDate : "Nov  6 2019" , 
     buildTime : "21:57:16" , 
     linkCmd : "D:\\Xilinx\\Vivado\\2019.2\\data\\..\\tps\\mingw\\6.2.0\\win64.o\\nt\\bin\\gcc.exe -Wa,-W  -O -Wl,--stack,104857600 -o \"xsim.dir/test_tb_behav/xsimk.exe\"   \"xsim.dir/test_tb_behav/obj/xsim_0.win64.obj\" \"xsim.dir/test_tb_behav/obj/xsim_1.win64.obj\" -L\"D:\\Xilinx\\Vivado\\2019.2\\lib\\win64.o\" -lrdi_simulator_kernel   -lrdi_simbridge_kernel" , 
