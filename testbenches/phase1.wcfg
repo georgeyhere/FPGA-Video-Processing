@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1513333fs"></ZoomStartTime>
-      <ZoomEndTime time="2097334fs"></ZoomEndTime>
-      <Cursor1Time time="2000000fs"></Cursor1Time>
+      <ZoomStartTime time="542766fs"></ZoomStartTime>
+      <ZoomEndTime time="1625149fs"></ZoomEndTime>
+      <Cursor1Time time="1076000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="318"></NameColumnWidth>
-      <ValueColumnWidth column_width="129"></ValueColumnWidth>
+      <ValueColumnWidth column_width="125"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="20" />
+   <WVObjectSize size="14" />
    <wvobject fp_name="/test_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -32,45 +32,13 @@
       <obj_property name="ElementShortName">pclk</obj_property>
       <obj_property name="ObjectShortName">pclk</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_tb/dout_camera" type="array">
-      <obj_property name="ElementShortName">dout_camera[7:0]</obj_property>
-      <obj_property name="ObjectShortName">dout_camera[7:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/test_tb/href" type="logic">
       <obj_property name="ElementShortName">href</obj_property>
       <obj_property name="ObjectShortName">href</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT1/FIFO_WRITE_0_wr_en" type="logic">
-      <obj_property name="ElementShortName">FIFO_WRITE_0_wr_en</obj_property>
-      <obj_property name="ObjectShortName">FIFO_WRITE_0_wr_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT1/wr_rst_busy_0" type="logic">
-      <obj_property name="ElementShortName">wr_rst_busy_0</obj_property>
-      <obj_property name="ObjectShortName">wr_rst_busy_0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT1/FIFO_WRITE_0_wr_data" type="array">
-      <obj_property name="ElementShortName">FIFO_WRITE_0_wr_data[7:0]</obj_property>
-      <obj_property name="ObjectShortName">FIFO_WRITE_0_wr_data[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT1/wr_ack_0" type="logic">
-      <obj_property name="ElementShortName">wr_ack_0</obj_property>
-      <obj_property name="ObjectShortName">wr_ack_0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT1/FIFO_READ_0_rd_en" type="logic">
-      <obj_property name="ElementShortName">FIFO_READ_0_rd_en</obj_property>
-      <obj_property name="ObjectShortName">FIFO_READ_0_rd_en</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT1/rd_rst_busy_0" type="logic">
-      <obj_property name="ElementShortName">rd_rst_busy_0</obj_property>
-      <obj_property name="ObjectShortName">rd_rst_busy_0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT1/FIFO_READ_0_rd_data" type="array">
-      <obj_property name="ElementShortName">FIFO_READ_0_rd_data[7:0]</obj_property>
-      <obj_property name="ObjectShortName">FIFO_READ_0_rd_data[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT1/valid_0" type="logic">
-      <obj_property name="ElementShortName">valid_0</obj_property>
-      <obj_property name="ObjectShortName">valid_0</obj_property>
+   <wvobject fp_name="/test_tb/dout_camera" type="array">
+      <obj_property name="ElementShortName">dout_camera[7:0]</obj_property>
+      <obj_property name="ObjectShortName">dout_camera[7:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/test_tb/UUT/UUT2/red" type="array">
       <obj_property name="ElementShortName">red[7:0]</obj_property>
@@ -84,20 +52,28 @@
       <obj_property name="ElementShortName">blue[7:0]</obj_property>
       <obj_property name="ObjectShortName">blue[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT2/byte_convert_valid" type="logic">
-      <obj_property name="ElementShortName">byte_convert_valid</obj_property>
-      <obj_property name="ObjectShortName">byte_convert_valid</obj_property>
-   </wvobject>
    <wvobject fp_name="/test_tb/UUT/UUT2/greyscale_ready" type="logic">
       <obj_property name="ElementShortName">greyscale_ready</obj_property>
       <obj_property name="ObjectShortName">greyscale_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT2/greyscale_valid" type="logic">
+      <obj_property name="ElementShortName">greyscale_valid</obj_property>
+      <obj_property name="ObjectShortName">greyscale_valid</obj_property>
    </wvobject>
    <wvobject fp_name="/test_tb/UUT/UUT2/greyscale_value" type="array">
       <obj_property name="ElementShortName">greyscale_value[7:0]</obj_property>
       <obj_property name="ObjectShortName">greyscale_value[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT2/greyscale_valid" type="logic">
-      <obj_property name="ElementShortName">greyscale_valid</obj_property>
-      <obj_property name="ObjectShortName">greyscale_valid</obj_property>
+   <wvobject fp_name="/test_tb/UUT/UUT3/BRAM_PORTA_0_we" type="logic">
+      <obj_property name="ElementShortName">BRAM_PORTA_0_we</obj_property>
+      <obj_property name="ObjectShortName">BRAM_PORTA_0_we</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT3/BRAM_PORTA_0_din" type="array">
+      <obj_property name="ElementShortName">BRAM_PORTA_0_din[7:0]</obj_property>
+      <obj_property name="ObjectShortName">BRAM_PORTA_0_din[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT3/BRAM_PORTA_0_addr" type="array">
+      <obj_property name="ElementShortName">BRAM_PORTA_0_addr[16:0]</obj_property>
+      <obj_property name="ObjectShortName">BRAM_PORTA_0_addr[16:0]</obj_property>
    </wvobject>
 </wave_config>

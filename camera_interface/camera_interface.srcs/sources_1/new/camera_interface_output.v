@@ -39,6 +39,7 @@ output reg FIFO_READ_0_rd_en,
 output reg [7:0] red,
 output reg [7:0] green,
 output reg [7:0] blue,
+output reg frame_done,
 output reg read_fail //diagnostic
     );
     

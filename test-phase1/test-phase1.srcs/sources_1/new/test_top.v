@@ -26,10 +26,9 @@ input reset_n, //asynchronous active low reset
 input pclk, //camera pixel clock 
 input [7:0] dout_camera, //camera data out
 input href, //camera output
-
-output wire [7:0] greyscale_value, //output, 32-bit fixed-point greyscale value
-output wire greyscale_valid //used as feedback to the input module
-
+input [7:0] BRAM_PORTB_0_addr,
+input BRAM_PORTB_0_en,
+output [7:0]BRAM_PORTB_0_dout
     );
     
 wire valid_0;
@@ -42,6 +41,8 @@ wire wr_ack_0;
 wire valid_0;
 wire M_AXIS_RESULT_0_tdata;
 wire greyscale_ready;
+wire [7:0] greyscale_value; 
+wire greyscale_valid; //used as feedback to the input module
 
 camera_interface_top UUT1 (
 .clk(clk),
@@ -70,6 +71,16 @@ greyscale UUT2 (
 .greyscale_valid(greyscale_valid),
 .greyscale_ready(greyscale_ready)
 );
-   
+
+gaussian_top UUT3 (
+.clk(clk),
+.reset_n(reset_n),
+.greyscale_valid(greyscale_valid),
+.greyscale_value(greyscale_value),
+.BRAM_PORTB_0_addr(BRAM_PORTB_0_addr),
+.BRAM_PORTB_0_en(BRAM_PORTB_0_en),
+.BRAM_PORTB_0_dout(BRAM_PORTB_0_dout),
+.gaussian_ready(gaussian_ready)
+);   
     
 endmodule
