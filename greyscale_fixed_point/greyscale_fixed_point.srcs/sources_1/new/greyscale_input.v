@@ -77,6 +77,7 @@ always@(posedge clk, negedge reset_n) begin
             fsm_state <= (byte_convert_valid) ? s1_assign:s0_calculate;
             greyscale_ready <= (byte_convert_valid) ? 0:1;
             greyscale_valid <= (byte_convert_valid) ? greyscale_valid:0; //no result, bring valid low
+            greyscale_value <= (byte_convert_valid) ? greyscale_value:0;
             
         end
         s1_assign: begin
@@ -84,11 +85,13 @@ always@(posedge clk, negedge reset_n) begin
             greyscale_valid <= 1;
             //fsm_state <= (byte_convert_valid) ? s1_calculate:s0_idle;
             greyscale_ready <= 1;
-            fsm_state <= s2_timer;
+            fsm_state <= (byte_convert_valid) ? s2_timer:s0_calculate;
             count <= 7;
         end
         s2_timer:begin
             count <= (count == 0) ? 0:(count-1);
+            greyscale_valid <= (byte_convert_valid) ? greyscale_valid:0;
+            greyscale_value <= (byte_convert_valid) ? greyscale_value:0;
             if(count == 0) fsm_state <= s0_calculate;
             else fsm_state <= s2_timer;
             
