@@ -26,13 +26,10 @@ input reset_n, //asynchronous active low reset
 input pclk, //camera pixel clock 
 input [7:0] dout_camera, //camera data out
 input href, //camera output
-input FIFO_WRITE_0_full, //FIFO statuses
 input wr_rst_busy_0,
-input wr_ack_0,
 
 output reg FIFO_WRITE_0_wr_en, //FIFO write 
-output reg [7:0] FIFO_WRITE_0_wr_data,
-output reg memory_initialize_done
+output reg [7:0] FIFO_WRITE_0_wr_data
     );
 
 reg [1:0] fsm_state;

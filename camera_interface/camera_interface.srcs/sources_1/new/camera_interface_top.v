@@ -48,24 +48,21 @@ wire FIFO_WRITE_0_wr_en;
 wire clk_0;
 wire rd_rst_busy_0;
 wire wr_rst_busy_0;
-wire memory_initialize_done;
+
 
     
-camera_interface_input UUT1 (
+camera_interface_input UUT1A (
 .clk(clk),
 .reset_n(reset_n),
 .pclk(pclk),
 .dout_camera(dout_camera),
 .href(href),
-.FIFO_WRITE_0_full(FIFO_WRITE_0_full),
 .wr_rst_busy_0(wr_rst_busy_0),
 .FIFO_WRITE_0_wr_en(FIFO_WRITE_0_wr_en),
-.FIFO_WRITE_0_wr_data(FIFO_WRITE_0_wr_data),
-.memory_initialize_done(memory_initialize_done),
-.wr_ack_0(wr_ack_0)
+.FIFO_WRITE_0_wr_data(FIFO_WRITE_0_wr_data)
 );
 
-BRAM_1_FIFO UUT2 (
+BRAM_1_FIFO UUT1B (
 .rd_clk_0(clk),
 .wr_clk_0(clk),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),
@@ -81,10 +78,9 @@ BRAM_1_FIFO UUT2 (
 .wr_ack_0(wr_ack_0)
 );
 
-camera_interface_output UUT3 (
+camera_interface_output UUT1C (
 .clk(clk),
 .reset_n(reset_n),
-.FIFO_WRITE_0_wr_en(FIFO_WRITE_0_wr_en),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),
 .FIFO_READ_0_rd_data(FIFO_READ_0_rd_data),
 .rd_rst_busy_0(rd_rst_busy_0),
@@ -93,11 +89,9 @@ camera_interface_output UUT3 (
 .red(red),
 .green(green),
 .blue(blue),
-.read_fail(read_fail),
 .valid_0(valid_0),
 .byte_convert_valid(byte_convert_valid),
 .href(href),
-.memory_initialize_done(memory_initialize_done),
 .wr_ack_0(wr_ack_0),
 .pclk(pclk)
 );

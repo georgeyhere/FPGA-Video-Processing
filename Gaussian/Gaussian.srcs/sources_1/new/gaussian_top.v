@@ -37,7 +37,7 @@ wire BRAM_PORTA_0_en;
 wire BRAM_PORTA_0_we;
 
  
-memory_write UUT1 (
+memory_write UUT3A (
 .clk(clk),
 .reset_n(reset_n),
 .greyscale_value(greyscale_value),
@@ -48,7 +48,7 @@ memory_write UUT1 (
 .BRAM_PORTA_0_we(BRAM_PORTA_0_we)
 ); 
 
-BRAM_2_greyscale_wrapper UUT2 (
+BRAM_2_greyscale_wrapper UUT3B (
 .BRAM_PORTA_0_addr(BRAM_PORTA_0_addr),
 .BRAM_PORTA_0_din(BRAM_PORTA_0_din),
 .BRAM_PORTA_0_en(BRAM_PORTA_0_en),
