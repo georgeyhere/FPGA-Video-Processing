@@ -41,7 +41,7 @@ greyscale_fixed_point (meets timing)
 
 test-phase1 (meets timing)
 
-- Description: compiles SCCB_config, camera_interface, and greyscale_fixed_point under one project. Timing verified. testcases.xlsx contains sample input data as well as results. ![testbench](https://i.imgur.com/NOwDX33.png)
+- Description: compiles SCCB_config, camera_interface, and greyscale_fixed_point under one project. Timing verified. testcases.xlsx contains sample input data as well as results. ![testbench](https://i.imgur.com/Y50eZE1.png)
 
 
 
