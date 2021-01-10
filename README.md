@@ -2,6 +2,8 @@
 
 The objective of this project is to take 640x480 VGA data from an OV7670 camera and show a filtered image on a VGA monitor using a Gaussian Blur and a Sobel Operator. Coded in Vivado and implemented on Zynq-7000 SoC. Logic runs on 120Mhz clock (tentaive), camera runs on 24Mhz clock. 
 
+https://georgeyhere.wixsite.com/fpga
+
 Pardon the many git atrocities.
 
 Desired Functionality:
@@ -86,8 +88,5 @@ OneNote here:
 
 https://livecsupomona-my.sharepoint.com/:o:/g/personal/georgeyu_cpp_edu/EsdrZqUCATlOs_IW7uZltlMBf9s61p3XAIeNPWgkGv5AwA?e=ZoctIG
 
-Blog:
-
-https://georgeyhere.wixsite.com/fpga
 
 More documentation on project completion.
