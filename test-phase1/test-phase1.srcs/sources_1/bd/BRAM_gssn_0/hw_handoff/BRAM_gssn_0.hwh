@@ -1,27 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Sun Jan 10 14:36:49 2021" VIVADOVERSION="2019.2">
+<EDKSYSTEM EDWVERSION="1.2" TIMESTAMP="Mon Jan 11 13:45:32 2021" VIVADOVERSION="2019.2">
 
   <SYSTEMINFO ARCH="artix7" DEVICE="7a50t" NAME="BRAM_gssn_0" PACKAGE="csg324" SPEEDGRADE="-1"/>
 
   <EXTERNALPORTS>
-    <PORT DIR="I" LEFT="13" NAME="BRAM_PORTA_0_addr" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_addra">
+    <PORT DIR="O" NAME="rsta_busy_0" SIGIS="undef" SIGNAME="blk_mem_gen_0_rsta_busy">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="addra"/>
+        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="rsta_busy"/>
       </CONNECTIONS>
     </PORT>
-    <PORT CLKFREQUENCY="100000000" DIR="I" NAME="BRAM_PORTA_0_clk" SIGIS="clk" SIGNAME="blk_mem_gen_0_clka">
+    <PORT DIR="O" NAME="rstb_busy_0" SIGIS="undef" SIGNAME="blk_mem_gen_0_rstb_busy">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="clka"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="I" LEFT="7" NAME="BRAM_PORTA_0_din" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_dina">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="dina"/>
-      </CONNECTIONS>
-    </PORT>
-    <PORT DIR="I" LEFT="0" NAME="BRAM_PORTA_0_we" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_wea">
-      <CONNECTIONS>
-        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="wea"/>
+        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="rstb_busy"/>
       </CONNECTIONS>
     </PORT>
     <PORT DIR="I" LEFT="13" NAME="BRAM_PORTB_0_addr" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_addrb">
@@ -49,14 +39,24 @@
         <CONNECTION INSTANCE="blk_mem_gen_0" PORT="rstb"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" NAME="rsta_busy_0" SIGIS="undef" SIGNAME="blk_mem_gen_0_rsta_busy">
+    <PORT DIR="I" LEFT="13" NAME="BRAM_PORTA_0_addr" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_addra">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="rsta_busy"/>
+        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="addra"/>
       </CONNECTIONS>
     </PORT>
-    <PORT DIR="O" NAME="rstb_busy_0" SIGIS="undef" SIGNAME="blk_mem_gen_0_rstb_busy">
+    <PORT CLKFREQUENCY="100000000" DIR="I" NAME="BRAM_PORTA_0_clk" SIGIS="clk" SIGNAME="blk_mem_gen_0_clka">
       <CONNECTIONS>
-        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="rstb_busy"/>
+        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="clka"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" LEFT="7" NAME="BRAM_PORTA_0_din" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_dina">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="dina"/>
+      </CONNECTIONS>
+    </PORT>
+    <PORT DIR="I" LEFT="0" NAME="BRAM_PORTA_0_we" RIGHT="0" SIGIS="undef" SIGNAME="blk_mem_gen_0_wea">
+      <CONNECTIONS>
+        <CONNECTION INSTANCE="blk_mem_gen_0" PORT="wea"/>
       </CONNECTIONS>
     </PORT>
   </EXTERNALPORTS>

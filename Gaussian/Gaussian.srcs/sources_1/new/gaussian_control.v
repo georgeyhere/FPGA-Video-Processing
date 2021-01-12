@@ -116,6 +116,7 @@ always@(posedge clk, negedge reset_n) begin
             6: begin
                 minion2_select <= 0;
             end
+            
         endcase
         if(row_count > 0) begin 
             case(greyscale_valid)
