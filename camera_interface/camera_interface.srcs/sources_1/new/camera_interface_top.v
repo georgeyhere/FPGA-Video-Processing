@@ -51,7 +51,7 @@ wire wr_rst_busy_0;
 
 
     
-camera_interface_input UUT1A (
+camera_interface_input UUT_1A (
 .clk(clk),
 .reset_n(reset_n),
 .pclk(pclk),
@@ -62,7 +62,7 @@ camera_interface_input UUT1A (
 .FIFO_WRITE_0_wr_data(FIFO_WRITE_0_wr_data)
 );
 
-BRAM_1_FIFO UUT1B (
+BRAM_1_FIFO UUT_1B (
 .rd_clk_0(clk),
 .wr_clk_0(clk),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),
@@ -78,7 +78,7 @@ BRAM_1_FIFO UUT1B (
 .wr_ack_0(wr_ack_0)
 );
 
-camera_interface_output UUT1C (
+camera_interface_output UUT_1C (
 .clk(clk),
 .reset_n(reset_n),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),

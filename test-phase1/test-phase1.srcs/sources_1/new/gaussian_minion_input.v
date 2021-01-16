@@ -29,7 +29,7 @@ input [16:0] pixel_address,
 input pixel_valid,
 input minion0_select, //minion #0, address 0x0
 input [10:0] minion0_target, //the row the minion will compute
-input sobel_minion0_ready,
+input minion0_ready,
 input rsta_busy_0, 
 
 output reg minion_compute_start, //minion internal signal
@@ -44,7 +44,8 @@ reg [10:0] target_latch;
 reg [2:0] fsm_state;
 localparam s0_default = 0;
 localparam s1_assign = 1;
-localparam s2_chill = 2;
+localparam s2_delay = 2;
+localparam s3_delay = 3;
 
     
 initial begin
@@ -80,14 +81,14 @@ always@(posedge clk, negedge reset_n) begin
                 BRAM_PORTA_0_we <= (rsta_busy_0) ? 0:1;
                 minion0_row <= target_latch;
                 minion_compute_start <= 0;
-                fsm_state <= ((pixel_valid == 1)&(minion0_select == 1))? s1_assign:s2_chill; 
+                fsm_state <= ((pixel_valid == 1)&(minion0_select == 1))? s1_assign:s2_delay; //once data transmission stops, assert compute_start and wait
             end
-            s2_chill: begin //just wait until the computation is done
+            s2_delay: begin //just wait until the computation is done
                 BRAM_PORTA_0_we <= 0;
                 minion_compute_start <= 1;
-                fsm_state <= (sobel_minion0_ready == 0) ? s0_default:s2_chill;
+                fsm_state <= (minion0_ready) ? s0_default:s3_delay;
             end
-        
+            
         endcase
     end
 end

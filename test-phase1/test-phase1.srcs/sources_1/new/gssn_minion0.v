@@ -20,7 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module gssn_minion0_top(
+module gssn_minion0( //minion 1
 input clk,
 input reset_n,
 input [7:0] pixel_value,
@@ -29,12 +29,12 @@ input pixel_valid,
 input minion0_select,
 input [10:0] minion0_target,
 
-output [7:0] minion0_out,
-output minion0_valid,
-output minion0_ready
+output [7:0] gssn_minion0_out,
+output gssn_minion0_valid,
+output gssn_minion0_ready
     );
     
-gssn_minion0_input UUTa (
+gssn_minion0_input UUT_minion0_A (
 .clk(clk),
 .reset_n(reset_n),
 .pixel_value(pixel_value),
@@ -43,14 +43,13 @@ gssn_minion0_input UUTa (
 .minion0_select(minion0_select),
 .minion0_target(minion0_target),
 .rsta_busy_0(rsta_busy_0),
-.minion_compute_ready(minion_compute_ready),
 .BRAM_PORTA_0_din(BRAM_PORTA_0_din),
 .BRAM_PORTA_0_addr(BRAM_PORTA_0_addr),
 .BRAM_PORTA_0_we(BRAM_PORTA_0_we),
 .minion0_row(minion0_row)
 );    
     
-gssn_minion0_BRAM_wrapper UUTb (
+gssn_minion0_BRAM_wrapper UUT_minion0_B (
 .BRAM_PORTA_0_addr(BRAM_PORTA_0_addr),
 .BRAM_PORTA_0_clk(BRAM_PORTA_0_clk),
 .BRAM_PORTA_0_din(BRAM_PORTA_0_din),
@@ -64,15 +63,16 @@ gssn_minion0_BRAM_wrapper UUTb (
 .rstb_busy_0(rstb_busy_0)
 );    
 
-gssn_minion0_compute UUTc (
+gssn_minion0_compute UUT_minion0_C (
 .clk(clk),
 .reset_n(reset_n),
 .BRAM_PORTB_0_dout(BRAM_PORTB_0_dout),
 .rstb_busy_0(rstb_busy_0),
 .minion0_row(minion0_row),
+.minion_compute_start(minion_compute_start),
+.gssn_minion0_ready(gssn_minion0_ready),
 .BRAM_PORTB_0_en(BRAM_PORTB_0_en),
 .BRAM_PORTB_0_addr(BRAM_PORTB_0_addr),
-.minion_compute_ready(minion_compute_ready),
 .gssn_minion0_out(gssn_minion0_out),
 .gssn_minion0_valid(gssn_minion0_valid)
 );

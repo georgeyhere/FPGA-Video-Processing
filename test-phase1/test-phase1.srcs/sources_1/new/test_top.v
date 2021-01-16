@@ -23,12 +23,12 @@
 module test_top(
 input clk, //96 MHz clock
 input reset_n, //asynchronous active low reset 
+input vsync,
 input pclk, //camera pixel clock 
 input [7:0] dout_camera, //camera data out
 input href, //camera output
-input [7:0] BRAM_PORTB_0_addr,
-input BRAM_PORTB_0_en,
-output [7:0]BRAM_PORTB_0_dout
+output [7:0] gssn_minion0_out,
+output gssn_minion0_valid
     );
     
 wire valid_0;
@@ -44,7 +44,7 @@ wire greyscale_ready;
 wire [7:0] greyscale_value; 
 wire greyscale_valid; //used as feedback to the input module
 
-camera_interface_top UUT1 (
+camera_interface_top UUT_1 (
 .clk(clk),
 .reset_n(reset_n),
 .pclk(pclk),
@@ -60,7 +60,7 @@ camera_interface_top UUT1 (
 .valid_0(valid_0)
 ); 
 
-greyscale UUT2 (
+greyscale UUT_2 (
 .clk(clk),
 .reset_n(reset_n)
 ,.red(red),
@@ -72,15 +72,15 @@ greyscale UUT2 (
 .greyscale_ready(greyscale_ready)
 );
 
-gaussian_top UUT3 (
+gaussian_top UUT_3 (
 .clk(clk),
 .reset_n(reset_n),
-.greyscale_valid(greyscale_valid),
+.vsync(vsync),
 .greyscale_value(greyscale_value),
-.BRAM_PORTB_0_addr(BRAM_PORTB_0_addr),
-.BRAM_PORTB_0_en(BRAM_PORTB_0_en),
-.BRAM_PORTB_0_dout(BRAM_PORTB_0_dout),
-.gaussian_ready(gaussian_ready)
+.greyscale_valid(greyscale_valid),
+.greyscale_ready(greyscale_ready),
+.gssn_minion0_out(gssn_minion0_out),
+.gssn_minion0_valid(gssn_minion0_valid)
 );   
     
 endmodule

@@ -9,7 +9,7 @@
 //--------------------------------------------------------------------------------
 `timescale 1 ps / 1 ps
 
-module BRAM_gssn_0_wrapper
+module gssn_minion0_BRAM_wrapper
    (BRAM_PORTA_0_addr,
     BRAM_PORTA_0_clk,
     BRAM_PORTA_0_din,

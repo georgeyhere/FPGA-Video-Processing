@@ -25,22 +25,27 @@ module test_tb();
 reg clk;
 reg reset_n = 1;
 reg pclk = 0;
+reg vsync = 1;
 reg [7:0] dout_camera;
 reg href;
 reg M_AXIS_RESULT_0_tready = 1;
 
-wire [7:0]BRAM_PORTB_0_dout;
+wire [7:0] gssn_minion0_out;
+wire gssn_minion0_valid;
 
 parameter CLK_PERIOD = 8; //~125 Mhz
 parameter PCLK_PERIOD = 40; //~24 Mhz
+parameter VSYNC_PERIOD = 33333333; //30Hz
 
 test_top UUT (
 .clk(clk),
 .reset_n(reset_n),
+.vsync(vsync),
 .pclk(pclk),
 .dout_camera(dout_camera),
 .href(href),
-.BRAM_PORTB_0_dout(BRAM_PORTB_0_dout)
+.gssn_minion0_out(gssn_minion0_out),
+.gssn_minion0_valid(gssn_minion0_valid)
 );
 
 always #(CLK_PERIOD/2) begin
@@ -50,6 +55,8 @@ end
 always #(PCLK_PERIOD/2) begin
     pclk = ~pclk;
 end
+
+
 
 initial begin
     
@@ -64,6 +71,7 @@ initial begin
     @(negedge pclk);
     dout_camera = 8'b00001111; 
     href = 1; 
+    vsync = 0;
     
     @(negedge pclk);
         dout_camera = 8'b11110000; //1
@@ -99,7 +107,7 @@ initial begin
         dout_camera = 8'b10000000; //6
         
     @(negedge pclk);
-        href = 0;
+        
         dout_camera = 8'b0;
         
     @(negedge pclk);
@@ -110,10 +118,28 @@ initial begin
         
     @(negedge pclk);
         dout_camera = 8'b00001111; 
-        href = 1; 
+        href = 0;
+        vsync = 1;
+        
+    #80;
+        
+    @(negedge pclk);
+        href = 1;
+        vsync = 0;
+        
+    #80;    
     
     @(negedge pclk);
+        href = 0;
+        vsync = 0;
+    #80;
+    
+    @(negedge pclk);
+        vsync = 1;
+   
+    @(negedge pclk);
         dout_camera = 8'b11110000; //1
+        href = 1;
         
     @(negedge pclk);
         dout_camera = 8'b11100010; 

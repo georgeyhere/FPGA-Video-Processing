@@ -1,0 +1,9 @@
+{
+	"version": "1.0",
+	"modules": {
+		"BRAM_gssn_2": {
+			"proto_instances": {
+			}
+		}
+	}
+}
