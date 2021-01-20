@@ -69,9 +69,12 @@ initial begin
     #360;
     
     @(negedge pclk);
-    dout_camera = 8'b00001111; 
-    href = 1; 
-    vsync = 0;
+        vsync = 0;
+    
+    @(negedge pclk);
+        dout_camera = 8'b00001111; 
+        href = 1; 
+    
     
     @(negedge pclk);
         dout_camera = 8'b11110000; //1

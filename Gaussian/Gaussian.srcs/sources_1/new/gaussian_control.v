@@ -63,6 +63,10 @@ initial begin
     address <= 0;
     byte_count <= 0;
     row_count <= 0;
+    count <= 0;
+    minion0_target <= 0;
+    minion1_target <= 0;
+    minion2_target <= 0;
 end
 
     
@@ -76,8 +80,44 @@ always@(posedge clk, negedge reset_n) begin
         minion2_select <= 0;
         byte_count <= 0;
         row_count <= 0;
+        count <= 0;
+        minion0_target <= 0;
+        minion1_target <= 0;
+        minion2_target <= 0;
     end
     else begin
+    
+        if(row_count > 0) begin 
+            case(greyscale_valid)
+                        0: begin
+                            pixel_address <= 0;
+                            pixel_value <= 0;
+                            pixel_valid <= 0;
+                        end
+                        1: begin //send the data until greyscale_valid is deasserted
+                            case(fsm_state) 
+                                s0_default: begin
+                                    pixel_address <= byte_count * 8;
+                                    pixel_value <= greyscale_value;
+                                    pixel_valid <= 1;
+                                    fsm_state <= s1_timer;
+                                    count <= 8;
+                                end
+                                s1_timer: begin
+                                    count <= (count == 0) ? 0:(count-1);
+                                    fsm_state <= (count == 0) ? s0_default:s1_timer;
+                                    byte_count <= (count == 0) ? (byte_count + 1):byte_count;
+                                end
+                            endcase
+                        end
+            endcase
+         end
+         else begin
+            pixel_address <= 0;
+            pixel_value <= 0;
+            pixel_valid <= 0;
+         end
+        
         case(row_count) 
         
             0: begin //row_count = 0 means in between frames
@@ -118,36 +158,7 @@ always@(posedge clk, negedge reset_n) begin
             end
             
         endcase
-        if(row_count > 0) begin 
-            case(greyscale_valid)
-                        0: begin
-                            pixel_address <= 0;
-                            pixel_value <= 0;
-                            pixel_valid <= 0;
-                        end
-                        1: begin //send the data until greyscale_valid is deasserted
-                            case(fsm_state) 
-                                s0_default: begin
-                                    pixel_address <= byte_count * 8;
-                                    pixel_value <= greyscale_value;
-                                    pixel_valid <= 1;
-                                    fsm_state <= s1_timer;
-                                    count <= 7;
-                                end
-                                s1_timer: begin
-                                    count <= (count == 0) ? 0:(count-1);
-                                    fsm_state <= (count == 0) ? s0_default:s1_timer;
-                                    byte_count <= (count == 0) ? (byte_count + 1):byte_count;
-                                end
-                            endcase
-                        end
-            endcase
-         end
-         else begin
-            pixel_address <= 0;
-            pixel_value <= 0;
-            pixel_valid <= 0;
-         end
+        
     end
 end
 

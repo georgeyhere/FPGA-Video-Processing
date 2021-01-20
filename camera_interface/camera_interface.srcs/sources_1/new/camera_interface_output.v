@@ -90,7 +90,7 @@ always@(posedge clk, negedge reset_n) begin
             byte_convert_valid <= 0;
             half_identifier <= 0;
             count <= 0;
-            if((rd_rst_busy_0 == 0) & (href == 1) & (FIFO_READ_0_empty == 0)) begin //only if not busy
+            if(wr_ack_0 == 1) begin //only if not busy
                 FIFO_READ_0_rd_en <= 1; //initiate read, go to next state
                 fsm_state <= s1_assign;
             end
