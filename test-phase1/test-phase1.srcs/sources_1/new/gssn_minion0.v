@@ -33,7 +33,16 @@ output [7:0] gssn_minion0_out,
 output gssn_minion0_valid,
 output gssn_minion0_ready
     );
-    
+
+wire rsta_busy_0;
+wire BRAM_PORTA_0_din;
+wire [16:0] BRAM_PORTA_0_addr;
+wire BRAM_PORTA_0_we;
+wire [10:0] minion0_row;
+wire [7:0] BRAM_PORTB_0_dout;
+wire BRAM_PORTB_0_en;
+wire rstb_busy_0;
+
 gssn_minion0_input UUT_minion0_A (
 .clk(clk),
 .reset_n(reset_n),
@@ -51,14 +60,14 @@ gssn_minion0_input UUT_minion0_A (
     
 gssn_minion0_BRAM_wrapper UUT_minion0_B (
 .BRAM_PORTA_0_addr(BRAM_PORTA_0_addr),
-.BRAM_PORTA_0_clk(BRAM_PORTA_0_clk),
+.BRAM_PORTA_0_clk(clk),
 .BRAM_PORTA_0_din(BRAM_PORTA_0_din),
 .BRAM_PORTA_0_we(BRAM_PORTA_0_we),
 .BRAM_PORTB_0_addr(BRAM_PORTB_0_addr),
-.BRAM_PORTB_0_clk(BRAM_PORTB_0_clk),
+.BRAM_PORTB_0_clk(clk),
 .BRAM_PORTB_0_dout(BRAM_PORTB_0_dout),
 .BRAM_PORTB_0_en(BRAM_PORTB_0_en),
-.BRAM_PORTB_0_rst(BRAM_PORTB_0_rst),
+.BRAM_PORTB_0_rst(reset_n),
 .rsta_busy_0(rsta_busy_0),
 .rstb_busy_0(rstb_busy_0)
 );    

@@ -37,13 +37,13 @@ void printrow() {
     
     for (local_count; local_count < 640; local_count++) {
 
-        cout << "@negedge (pclk);" << endl; //data transmission synchronous to pixel clock
-        if (local_count == 0) cout << "\t href = 1" << endl; //on start of transmission assert href
+        cout << "@(negedge pclk);" << endl; //data transmission synchronous to pixel clock
+        if (local_count == 0) cout << "\t href = 1;" << endl; //on start of transmission assert href
         cout << "\t dout_camera <= 8'b" << test_bytes[i] << ";" << endl; 
         i++;
         if (i == 15) i = 0;
         else i = i;
-        if(local_count == 639) cout << "@(negedge pclk);" << endl << "\t href = 0" << endl; //bring href low on last byte
+        if(local_count == 639) cout << "@(negedge pclk);" << endl << "\t href = 0;" << endl; //bring href low on last byte
     }
 }
 
@@ -74,6 +74,10 @@ int main()
             cout << "\t hsync = 0;" << endl; //assert hsync
         }      
     }
+    int quit;
+    cin >> quit;
+    if (quit == 1) return 0;
+    else cout << "enter 1 to quit." << endl;
 }
 
 
