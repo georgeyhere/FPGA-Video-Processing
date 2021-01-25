@@ -138,6 +138,14 @@ always@(posedge clk, negedge reset_n) begin
             2: begin //greyscale_valid has gone high for the second time in the frame
                 minion1_select <= 1; //minion0 is already selected, select minion1 as well
                 minion1_target <= 1; //set minion1 to compute row 1
+                if(greyscale_valid == 0) begin
+                    minion0_select <= 0;
+                    minion0_target <= 0;
+                end
+                else begin
+                    minion0_select <= 1;
+                    minion0_target <= 1;
+                end
             end
             
             3: begin //greyscale_valid has gone high for the third time in the frame

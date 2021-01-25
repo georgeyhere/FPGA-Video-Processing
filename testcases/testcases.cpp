@@ -6,23 +6,17 @@
 using namespace std;
 
 //generate a set of 16 bytes, or 8 pixels 
-int frame;
-int column;
-int row;
-int pixel;
 
-int href;
-int vsync;
 
 double t_pixel = 40;
 double t_line = t_pixel * 784;
-
+int quit;
 /*
 timing: pclk = 24Mhz, T = 40ns
 
 */
 
-char test_bytes[][15] = { "00001111", "11110000", "11100010", "11110100", "00110110", "10101010", "00000001", "00001001", "10000100", "01101110", "10000000", "00001111", "11100010", "11110000", "11110100" };
+string test_bytes[] = { "00001111", "11110000", "11100010", "11110100", "00110110", "10101010", "00000001", "00001001", "10000100", "01101110", "10000000", "00001111", "11100010", "11110000", "11110100" , "01010101"};
 
 
 void initialize() {
@@ -32,25 +26,21 @@ void initialize() {
 }
 
 void printrow() {
-    int local_count = 0;
-    int i = 0;
-    
-    for (local_count; local_count < 640; local_count++) {
 
-        cout << "@(negedge pclk);" << endl; //data transmission synchronous to pixel clock
-        if (local_count == 0) cout << "\t href = 1;" << endl; //on start of transmission assert href
-        cout << "\t dout_camera <= 8'b" << test_bytes[i] << ";" << endl; 
-        i++;
-        if (i == 15) i = 0;
-        else i = i;
-        if(local_count == 639) cout << "@(negedge pclk);" << endl << "\t href = 0;" << endl; //bring href low on last byte
+    for (int local_count = 0; local_count < 39; local_count++) { //40*15 = 640, indexing starts at 0
+        if (local_count == 0) cout << "@(negedge pclk);" << endl << "\t href = 1;" << endl; //on start of transmission assert href
+        for (int i = 0; i <= 15; i++) {
+            cout << "@(negedge pclk);" << endl << "\t dout_camera <= 8'b" << test_bytes[i] << ";" << endl;
+            
+        }
     }
+    cout << "\t href = 0;" << endl; //bring href low on last byte
 }
 
 int main()
 {
     initialize();
-    for (frame = 0; frame < 2; frame++) { //generate two whole frames
+    for (int frame = 0; frame < 5; frame++) { //generate five whole frames
 
         cout << "@(negedge pclk);" << endl << "\t vsync = 1;" << endl; //assert vsync 
         cout << "#" << 3*t_line << ";" << endl; //3 * tline = 3 * (784*40) = 31360
@@ -66,7 +56,7 @@ int main()
         cout << "\t href = 1;" << endl; //assert href
  
         //href is high, send row data
-        for (column = 0; column < 2; column++) { //generate 6 rows per frame (should be 480 irl)
+        for (int column = 0; column < 8; column++) { //generate 8 rows per frame (should be 480 irl)
             printrow(); //printrow sends one row of data
             cout << "#" << 19 * t_pixel << ";" << endl;
             cout << "\t hsync = 0;" << endl; //deassert hsync
@@ -74,10 +64,10 @@ int main()
             cout << "\t hsync = 0;" << endl; //assert hsync
         }      
     }
-    int quit;
+    cout << "enter 1 to quit." << endl;
     cin >> quit;
     if (quit == 1) return 0;
-    else cout << "enter 1 to quit." << endl;
+    else 
 }
 
 

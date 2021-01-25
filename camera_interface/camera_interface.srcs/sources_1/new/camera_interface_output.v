@@ -131,6 +131,7 @@ always@(posedge clk, negedge reset_n) begin
                     endcase
                 end
                 else begin //if href == 0 but FIFO is not empty, assign the outputs
+                    fsm_next_state <= s0_default;
                     if(FIFO_READ_0_empty == 0) begin
                         red <= red_latch;
                         green [7:6] <= green_latch [7:6];
@@ -138,7 +139,7 @@ always@(posedge clk, negedge reset_n) begin
                         blue [7:3] <= FIFO_READ_0_rd_data[4:0];
                         fsm_state <= s2_timer;
                         count <= 9;
-                        fsm_next_state <= s0_default;
+                        
                     end
                     else begin
                         red <= 0;
@@ -146,7 +147,6 @@ always@(posedge clk, negedge reset_n) begin
                         green [5:3] <= 0;
                         blue [7:3] <= 0;
                         fsm_state <= s0_default;
-                        fsm_next_state <= s0_default;
                     end
                     //red <= (FIFO_READ_0_empty == 0) ? red_latch:0;
                     //green [7:6] <= (FIFO_READ_0_empty == 0) ? green_latch [7:6]:0;

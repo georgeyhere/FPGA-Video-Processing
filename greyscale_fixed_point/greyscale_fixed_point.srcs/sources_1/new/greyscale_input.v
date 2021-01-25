@@ -76,7 +76,7 @@ always@(posedge clk, negedge reset_n) begin
             blue_temp <= blue;
             fsm_state <= (byte_convert_valid) ? s1_assign:s0_calculate;
             greyscale_ready <= (byte_convert_valid) ? 0:1;
-            greyscale_valid <= (byte_convert_valid) ? greyscale_valid:0; //no result, bring valid low
+            greyscale_valid <= 0; //no result, bring valid low
             greyscale_value <= (byte_convert_valid) ? greyscale_value:0;
             
         end

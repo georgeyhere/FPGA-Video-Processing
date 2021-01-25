@@ -24,11 +24,10 @@ module gssn_minion0_compute(
 input clk,
 input reset_n,
 input [7:0] BRAM_PORTB_0_dout, //memory read data
-input rstb_busy_0, //memory busy flag
 input [10:0] minion0_row, //goal row 
 input minion_compute_start,
 
-output reg gssn_minion0_ready,
+output reg minion0_ready,
 output reg BRAM_PORTB_0_en,
 output reg [13:0]BRAM_PORTB_0_addr,
 output reg [7:0] gssn_minion0_out,
@@ -67,7 +66,7 @@ initial begin
     gssn_minion0_out <= 0;
     gssn_minion0_valid <= 0;
     target_pixel <= 0;
-    gssn_minion0_ready <= 0;
+    minion0_ready <= 0;
 
     matrix_0 <= 0;
     matrix_1 <= 1;
@@ -88,7 +87,7 @@ always@(posedge clk, negedge reset_n) begin
         gssn_minion0_out <= 0;
         gssn_minion0_valid <= 0;
         target_pixel <= 0;
-        gssn_minion0_ready <= 0;
+        minion0_ready <= 0;
         
         matrix_0 <= 0;
         matrix_1 <= 0;
@@ -106,12 +105,13 @@ always@(posedge clk, negedge reset_n) begin
  
         default: begin //default: 3x3 kernel for all pixels except 0 and 639
             case(fsm_state)
+            
                 s0_default: begin
                     if(minion_compute_start) begin //start signal asserted
                         BRAM_PORTB_0_en <= 1; //enable port
                         BRAM_PORTB_0_addr <= (target_pixel * 8); //set next read to middle top
                         fsm_state <= s1_read;
-                        gssn_minion0_ready <= 0;
+                        minion0_ready <= 0;
                     end
                     else begin //else keep port disabled
                         BRAM_PORTB_0_en <= 0;
@@ -119,7 +119,7 @@ always@(posedge clk, negedge reset_n) begin
                         gssn_minion0_out <= 0;
                         gssn_minion0_valid <= 0;
                         target_pixel <= 0;
-                        gssn_minion0_ready <= 1;
+                        minion0_ready <= 1;
         
                         matrix_0 <= 0;
                         matrix_1 <= 0;
@@ -259,7 +259,7 @@ always@(posedge clk, negedge reset_n) begin
                         BRAM_PORTB_0_en <= 1; //enable port
                         BRAM_PORTB_0_addr <= (target_pixel * 8); //set next read to middle 
                         fsm_state <= s1_read;
-                        gssn_minion0_ready <= 0;
+                        minion0_ready <= 0;
                     end
                     else begin //else keep port disabled
                         BRAM_PORTB_0_en <= 0;
@@ -267,7 +267,7 @@ always@(posedge clk, negedge reset_n) begin
                         gssn_minion0_out <= 0;
                         gssn_minion0_valid <= 0;
                         target_pixel <= 0;
-                        gssn_minion0_ready <= 1;     
+                        minion0_ready <= 1;     
                     end       
                 end
             
@@ -366,7 +366,7 @@ always@(posedge clk, negedge reset_n) begin
                         BRAM_PORTB_0_en <= 1; //enable port
                         BRAM_PORTB_0_addr <= (target_pixel * 8); //set next read to top 
                         fsm_state <= s1_read;
-                        gssn_minion0_ready <= 0;
+                        minion0_ready <= 0;
                     end
                     else begin //else keep port disabled
                         BRAM_PORTB_0_en <= 0;
@@ -374,7 +374,7 @@ always@(posedge clk, negedge reset_n) begin
                         gssn_minion0_out <= 0;
                         gssn_minion0_valid <= 0;
                         target_pixel <= 0;
-                        gssn_minion0_ready <= 1;     
+                        minion0_ready <= 1;     
                     end       
                 end
             

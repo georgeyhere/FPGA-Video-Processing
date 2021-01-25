@@ -81,7 +81,7 @@ always@(posedge clk, negedge reset_n) begin
                 BRAM_PORTA_0_we <= (rsta_busy_0) ? 0:1;
                 minion0_row <= target_latch;
                 minion_compute_start <= 0;
-                fsm_state <= ((pixel_valid == 1)&(minion0_select == 1))? s1_assign:s2_delay; //once data transmission stops, assert compute_start and wait
+                fsm_state <= (pixel_valid == 1)? s1_assign:s2_delay; //once data transmission stops, assert compute_start and wait
             end
             s2_delay: begin //just wait until the computation is done
                 BRAM_PORTA_0_we <= 0;
