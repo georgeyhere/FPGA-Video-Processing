@@ -23,6 +23,7 @@
 module gaussian_top(
 input clk,
 input reset_n,
+input href,
 input vsync,
 input [7:0] greyscale_value,
 input greyscale_valid,
@@ -48,6 +49,7 @@ gaussian_control UUT_3A (
 .clk(clk),
 .reset_n(reset_n),
 .vsync(vsync),
+.href(href),
 .greyscale_value(greyscale_value),
 .greyscale_valid(greyscale_valid),
 .minion0_ready(gssn_minion0_ready),

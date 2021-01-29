@@ -24,6 +24,7 @@
 
 module gaussian_control(
 input clk,
+input href,
 input reset_n,
 input vsync,
 input [7:0] greyscale_value,
@@ -44,15 +45,17 @@ output reg [10:0] minion2_target
 
     );
 
+parameter row_width = 16'b11000111001;
+
 reg [31:0] count;
-reg [10:0] row_count;
+reg [15:0] row_count;
 reg [16:0] address;
 reg [15:0] byte_count;    
 reg [2:0] fsm_state;  
 localparam s0_default = 0;  
 localparam s1_timer = 1;
 
-always@(posedge greyscale_valid) row_count <= row_count + 1;
+
 always@(negedge vsync) row_count <= 0;
 
 initial begin
@@ -86,7 +89,7 @@ always@(posedge clk, negedge reset_n) begin
         minion2_target <= 0;
     end
     else begin
-    
+    row_count <= href ? (row_count+1):row_count;
         if(row_count > 0) begin 
             case(greyscale_valid)
                         0: begin

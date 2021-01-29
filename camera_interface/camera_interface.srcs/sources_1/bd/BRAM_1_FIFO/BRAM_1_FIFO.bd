@@ -2,7 +2,7 @@
   "design": {
     "design_info": {
       "boundary_crc": "0x44893760039826EB",
-      "device": "xc7a50tcsg324-1",
+      "device": "xc7z020clg400-3",
       "name": "BRAM_1_FIFO",
       "synth_flow_mode": "None",
       "tool_version": "2019.2",

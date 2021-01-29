@@ -1,4 +1,4 @@
-// (c) Copyright 1995-2020 Xilinx, Inc. All rights reserved.
+// (c) Copyright 1995-2021 Xilinx, Inc. All rights reserved.
 // 
 // This file contains confidential and proprietary information
 // of Xilinx, Inc. and is protected under U.S. and
@@ -103,7 +103,7 @@ output wire rd_rst_busy;
     .C_DOUT_RST_VAL("0"),
     .C_DOUT_WIDTH(8),
     .C_ENABLE_RLOCS(0),
-    .C_FAMILY("artix7"),
+    .C_FAMILY("zynq"),
     .C_FULL_FLAGS_RST_VAL(1),
     .C_HAS_ALMOST_EMPTY(0),
     .C_HAS_ALMOST_FULL(0),

@@ -23,7 +23,7 @@
 module greyscale(
 input clk,
 input reset_n, //asynchronous active low reset
-input byte_convert_valid, //valid for RGB from UUT1C
+input rgb_valid, //valid for RGB from UUT1C
 input [7:0] red, //RGB values from UUT1C
 input [7:0] green,
 input [7:0] blue,
@@ -46,8 +46,8 @@ localparam s1_assign = 1;
 localparam s2_timer = 2;
 
 
-reg [3:0] count;
-reg [15:0] red_temp;
+reg [3:0] count; //32-bit counter (overkill)
+reg [15:0] red_temp; //latches
 reg [15:0] green_temp;
 reg [15:0] blue_temp;
 
@@ -55,6 +55,9 @@ initial begin
     greyscale_value <= 0; //resets
     greyscale_valid <= 0;
     greyscale_ready <= 0;
+    red_temp <= 0;
+    green_temp <= 0;
+    blue_temp <= 0;
     fsm_state <= s0_calculate;
     count <= 0;
 end
@@ -64,8 +67,11 @@ always@(posedge clk, negedge reset_n) begin
         greyscale_value <= 0; //resets
         greyscale_valid <= 0;
         greyscale_ready <= 0;
+        red_temp <= 0;
+        green_temp <= 0;
+        blue_temp <= 0;
         fsm_state <= s0_calculate;
-        count <= 0;   
+    count <= 0;   
     end
     else begin
         case(fsm_state) 
@@ -74,10 +80,10 @@ always@(posedge clk, negedge reset_n) begin
             red_temp <= red * 3;
             green_temp <= green * 6;
             blue_temp <= blue;
-            fsm_state <= (byte_convert_valid) ? s1_assign:s0_calculate;
-            greyscale_ready <= (byte_convert_valid) ? 0:1;
+            fsm_state <= (rgb_valid) ? s1_assign:s0_calculate;
+            greyscale_ready <= (rgb_valid) ? 0:1;
             greyscale_valid <= 0; //no result, bring valid low
-            greyscale_value <= (byte_convert_valid) ? greyscale_value:0;
+            greyscale_value <= (rgb_valid) ? greyscale_value:0;
             
         end
         s1_assign: begin
@@ -85,13 +91,13 @@ always@(posedge clk, negedge reset_n) begin
             greyscale_valid <= 1;
             //fsm_state <= (byte_convert_valid) ? s1_calculate:s0_idle;
             greyscale_ready <= 1;
-            fsm_state <= (byte_convert_valid) ? s2_timer:s0_calculate;
+            fsm_state <= (rgb_valid) ? s2_timer:s0_calculate;
             count <= 7;
         end
         s2_timer:begin
-            count <= (count == 0) ? 0:(count-1);
-            greyscale_valid <= (byte_convert_valid) ? greyscale_valid:0;
-            greyscale_value <= (byte_convert_valid) ? greyscale_value:0;
+            count <= (count == 0) ? 0:(count-1); //countdown timer
+            greyscale_valid <= (rgb_valid) ? greyscale_valid:0;
+            greyscale_value <= (rgb_valid) ? greyscale_value:0;
             if(count == 0) fsm_state <= s0_calculate;
             else fsm_state <= s2_timer;
             

@@ -21,7 +21,7 @@
 
 
 module camera_interface_output(
-input clk,//96Mhz clock
+input clk,//120Mhz clock
 input reset_n , //asynchronous active low reset
 input wr_ack_0, 
 input FIFO_READ_0_empty, 
@@ -32,7 +32,7 @@ input valid_0, //FIFO output valid
 input href, //camera href, href = 1 at start of data transmission
 input pclk,
 
-output reg byte_convert_valid,
+output reg rgb_valid,
 output reg FIFO_READ_0_rd_en,
 output reg [7:0] red,
 output reg [7:0] green,
@@ -61,7 +61,7 @@ initial begin
     blue <= 0;
     fsm_state <= s0_default;
     half_identifier <= 0;
-    byte_convert_valid <= 0;
+    rgb_valid <= 0;
     red_latch <= 0;
     green_latch <= 0;
     blue_latch <= 0;
@@ -76,7 +76,7 @@ always@(posedge clk, negedge reset_n) begin
         blue <= 0;
         fsm_state <= s0_default;
         half_identifier <= 0;
-        byte_convert_valid <= 0;
+        rgb_valid <= 0;
         red_latch <= 0;
         green_latch <= 0;
         blue_latch <= 0;
@@ -87,7 +87,7 @@ always@(posedge clk, negedge reset_n) begin
     case(fsm_state)  
         
         s0_default: begin
-            byte_convert_valid <= 0;
+            rgb_valid <= 0;
             half_identifier <= 0;
             count <= 0;
             if(wr_ack_0 == 1) begin //only if not busy
@@ -121,7 +121,7 @@ always@(posedge clk, negedge reset_n) begin
                         green [5:3] <= FIFO_READ_0_rd_data[7:5]; 
                         blue [7:3] <= FIFO_READ_0_rd_data[4:0];
                         
-                        byte_convert_valid <= 1;
+                        rgb_valid <= 1;
                         //half_identifier <= 0;
                         fsm_state <= ((href == 1)&(pclk == 1)) ? s2_timer:s0_default;
                         fsm_next_state <= s1_assign;

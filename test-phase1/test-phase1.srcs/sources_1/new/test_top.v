@@ -25,7 +25,7 @@ input clk, //96 MHz clock
 input reset_n, //asynchronous active low reset 
 input vsync,
 input pclk, //camera pixel clock 
-input [7:0] dout_camera, //camera data out
+input [7:0] camera_dout, //camera data out
 input href, //camera output
 output [7:0] gssn_minion0_out,
 output gssn_minion0_valid
@@ -48,7 +48,7 @@ camera_interface_top UUT_1 (
 .clk(clk),
 .reset_n(reset_n),
 .pclk(pclk),
-.dout_camera(dout_camera),
+.camera_dout(camera_dout),
 .href(href),
 .greyscale_ready(greyscale_ready),
 .byte_convert_valid(byte_convert_valid),
@@ -75,6 +75,7 @@ greyscale UUT_2 (
 gaussian_top UUT_3 (
 .clk(clk),
 .reset_n(reset_n),
+.href(href),
 .vsync(vsync),
 .greyscale_value(greyscale_value),
 .greyscale_valid(greyscale_valid),
