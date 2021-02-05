@@ -18,11 +18,12 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+//The camera interface writes incoming data on the negative edge of pclk to a FIFO buffer
 
 module camera_interface_top(
-input clk, //120 MHz clock
+input clk, //125 MHz clock
 input reset_n, //asynchronous active low reset 
+input system_start,
 input pclk, //camera pixel clock 
 input href, //camera output
 input [7:0] camera_dout, //camera data out
@@ -50,6 +51,7 @@ wire wr_rst_busy_0;
 camera_interface_input UUT_3A_INPUT (
 .clk(clk),
 .reset_n(reset_n),
+.system_start(system_start),
 .pclk(pclk),
 .camera_dout(camera_dout),
 .href(href),
@@ -77,6 +79,7 @@ BRAM_1_FIFO_wrapper UUT_3B_BRAM (
 camera_interface_output UUT_3C_OUTPUT (
 .clk(clk),
 .reset_n(reset_n),
+.system_start(system_start),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),
 .FIFO_READ_0_rd_data(FIFO_READ_0_rd_data),
 .rd_rst_busy_0(rd_rst_busy_0),
@@ -86,7 +89,7 @@ camera_interface_output UUT_3C_OUTPUT (
 .green(green),
 .blue(blue),
 .valid_0(valid_0),
-.byte_convert_valid(byte_convert_valid),
+.rgb_valid(rgb_valid),
 .href(href),
 .wr_ack_0(wr_ack_0),
 .pclk(pclk)

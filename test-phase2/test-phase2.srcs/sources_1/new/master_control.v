@@ -67,7 +67,7 @@ always@(posedge clk, negedge reset_n) begin
                 if(start_button) begin
                     configure_start <= 1;
                     fsm_state <= s0_timer;
-                    timer_count <= 1; //hold the start signal for 3 clocks for peace of mind
+                    timer_count <= 0; //hold the start signal for 1 clock for peace of mind
                     fsm_next_state <= s2_operate;
                 end
                 else begin
@@ -77,7 +77,7 @@ always@(posedge clk, negedge reset_n) begin
             
             s2_operate: begin
                 configure_start <= 0; //we only need to configure the camera once
-                fsm_state <= s2_operate;
+                system_start <= (configure_done) ? 1:0; //start signal will remain asserted until reset is asserted
             end
         
         endcase

@@ -21,8 +21,9 @@
 
 
 module camera_interface_output(
-input clk,//120Mhz clock
+input clk,//125Mhz clock
 input reset_n , //asynchronous active low reset
+input system_start,
 input wr_ack_0, 
 input FIFO_READ_0_empty, 
 input [7:0] FIFO_READ_0_rd_data,
@@ -83,7 +84,8 @@ always@(posedge clk, negedge reset_n) begin
         count <= 0;
     end
     else begin
-    
+    if(system_start == 0) fsm_state <= s0_default;
+    else begin
     case(fsm_state)  
         
         s0_default: begin
@@ -106,6 +108,7 @@ always@(posedge clk, negedge reset_n) begin
                 if(href == 1) begin
                 
                     case (half_identifier)
+                    
                     0: begin
                         red_latch [7:3] <= FIFO_READ_0_rd_data [6:2]; //first bit is don't care, then 5 bits of red
                         green_latch [7:6] <= FIFO_READ_0_rd_data [1:0]; //then 2 bits of green
@@ -123,7 +126,7 @@ always@(posedge clk, negedge reset_n) begin
                         
                         rgb_valid <= 1;
                         //half_identifier <= 0;
-                        fsm_state <= ((href == 1)&(pclk == 1)) ? s2_timer:s0_default;
+                        fsm_state <= ((href == 1)&(pclk == 1)) ? s2_timer:s0_default; //data transmission occurs only on negedge of pclk, don't transition until posedge
                         fsm_next_state <= s1_assign;
                         count <= 3;   
                     end
@@ -170,6 +173,7 @@ always@(posedge clk, negedge reset_n) begin
         end    
         
     endcase
+    end
     end
 end
     

@@ -28,6 +28,7 @@ module camera_configure
     input wire clk,
     input wire start,
     input wire reset_n,
+    input wire configure_start,
     output wire sioc,
     output wire siod,
     output wire configure_done
@@ -39,8 +40,7 @@ module camera_configure
     wire [7:0] SCCB_data;
     wire SCCB_start;
     wire SCCB_ready;
-    wire SCCB_SIOC_oe;
-    wire SCCB_SIOD_oe;
+    
     
     assign sioc = SCCB_SIOC_oe ? 1'b0 : 1'bZ;
     assign siod = SCCB_SIOD_oe ? 1'b0 : 1'bZ;
@@ -57,9 +57,9 @@ module camera_configure
         .reset_n(reset_n),
         .SCCB_interface_ready(SCCB_ready),
         .rom_data(rom_dout),
-        .start(start),
+        .configure_start(configure_start),
         .rom_addr(rom_addr),
-        .done(configure_done),
+        .configure_done(configure_done),
         .SCCB_interface_addr(SCCB_addr),
         .SCCB_interface_data(SCCB_data),
         .SCCB_interface_start(SCCB_start)

@@ -50,7 +50,15 @@ module SCCB_interface
     localparam FSM_END_SIGNAL_4 = 10;
     localparam FSM_DONE = 11;
     localparam FSM_TIMER = 12;
-    
+
+    reg [3:0] FSM_state = 0;
+    reg [3:0] FSM_return_state = 0;
+    reg [31:0] timer = 0;
+    reg [7:0] latched_address;
+    reg [7:0] latched_data; 
+    reg [1:0] byte_counter = 0;
+    reg [7:0] tx_byte = 0;
+    reg [3:0] byte_index = 0;
     
     initial begin 
         SIOC_oe = 0;
@@ -65,16 +73,6 @@ module SCCB_interface
         tx_byte <= 0;
         byte_index <= 0;
     end
-    
-    reg [3:0] FSM_state = 0;
-    reg [3:0] FSM_return_state = 0;
-    reg [31:0] timer = 0;
-    reg [7:0] latched_address;
-    reg [7:0] latched_data; 
-    reg [1:0] byte_counter = 0;
-    reg [7:0] tx_byte = 0;
-    reg [3:0] byte_index = 0;
-    
     
     always@(posedge clk) begin
         if(reset_n == 1'b0) begin

@@ -21,8 +21,9 @@
 
 
 module greyscale(
-input clk,
+input clk, //125 Mhz clock
 input reset_n, //asynchronous active low reset
+input system_start,
 input rgb_valid, //valid for RGB from UUT1C
 input [7:0] red, //RGB values from UUT1C
 input [7:0] green,
@@ -74,6 +75,9 @@ always@(posedge clk, negedge reset_n) begin
     count <= 0;   
     end
     else begin
+        if(system_start == 0) fsm_state <= s0_calculate;
+        
+        else begin
         case(fsm_state) 
        
         s0_calculate: begin 
@@ -100,11 +104,10 @@ always@(posedge clk, negedge reset_n) begin
             greyscale_value <= (rgb_valid) ? greyscale_value:0;
             if(count == 0) fsm_state <= s0_calculate;
             else fsm_state <= s2_timer;
-            
         end
 
         endcase
-    
+        end
     
     end
 end

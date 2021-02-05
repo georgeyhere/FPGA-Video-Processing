@@ -29,9 +29,9 @@ module OV7670_config
     input wire reset_n,
     input wire SCCB_interface_ready,
     input wire [15:0] rom_data,
-    input wire start,
+    input wire configure_start,
     output reg [7:0] rom_addr,
-    output reg done,
+    output reg configure_done,
     output reg [7:0] SCCB_interface_addr,
     output reg [7:0] SCCB_interface_data,
     output reg SCCB_interface_start
@@ -39,7 +39,7 @@ module OV7670_config
     
     initial begin
         rom_addr = 0;
-        done = 0;
+        configure_done = 0;
         SCCB_interface_addr = 0;
         SCCB_interface_data = 0;
         SCCB_interface_start = 0;
@@ -57,7 +57,7 @@ module OV7670_config
     always@(posedge clk, negedge reset_n) begin
     if(reset_n == 1'b0) begin
         rom_addr <= 0;
-        done <= 0;
+        configure_done <= 0;
         SCCB_interface_addr <= 0;
         SCCB_interface_data <= 0;
         SCCB_interface_start <= 0;
@@ -66,9 +66,9 @@ module OV7670_config
         case(FSM_state)
             
             FSM_IDLE: begin 
-                FSM_state <= start ? FSM_SEND_CMD : FSM_IDLE;
+                FSM_state <= configure_start ? FSM_SEND_CMD : FSM_IDLE;
                 rom_addr <= 0;
-                done <= start ? 0 : done;
+                configure_done <= configure_start ? 0 : configure_done;
             end
             
             FSM_SEND_CMD: begin 
@@ -104,7 +104,7 @@ module OV7670_config
                         
             FSM_DONE: begin //signal done 
                 FSM_state <= FSM_IDLE;
-                done <= 1;
+                configure_done <= 1;
             end
                            
                 

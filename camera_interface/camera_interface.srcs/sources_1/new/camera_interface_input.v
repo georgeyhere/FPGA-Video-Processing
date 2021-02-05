@@ -21,8 +21,9 @@
 
 
 module camera_interface_input(
-input clk, //120 MHz clock
+input clk, //125 MHz clock
 input reset_n, //asynchronous active low reset 
+input system_start,
 input vsync,
 input pclk, //camera pixel clock 
 input [7:0] camera_dout, //camera data out
@@ -53,6 +54,8 @@ always@(posedge clk, negedge reset_n) begin
     end
     
     else begin
+        if(system_start == 0) fsm_state <= s0_idle; //don't do anything until system start signal is asserted
+        else begin
         case(fsm_state)
     
             s0_idle: begin
@@ -76,7 +79,7 @@ always@(posedge clk, negedge reset_n) begin
             end
             
         endcase
-
+        end
     end
     
 end
