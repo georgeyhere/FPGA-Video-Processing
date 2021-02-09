@@ -18,25 +18,24 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+//The camera interface writes incoming data on the negative edge of pclk to a FIFO buffer
 
 module camera_interface_top(
-input clk, //96 MHz clock
+input clk, //125 MHz clock
 input reset_n, //asynchronous active low reset 
+input system_start,
 input pclk, //camera pixel clock 
-input [7:0] dout_camera, //camera data out
 input href, //camera output
+input vsync, //camera output
+input [7:0] camera_dout, //camera data out
+
 input greyscale_ready,
 
-output byte_convert_valid,
-
+output frame_done,
+output rgb_valid,
 output [7:0] red,
 output [7:0] green,
-output [7:0] blue,
-
-output read_fail,
-output wr_ack_0,
-output valid_0
+output [7:0] blue
     );
     
 wire FIFO_READ_0_empty;
@@ -51,18 +50,20 @@ wire wr_rst_busy_0;
 
 
     
-camera_interface_input UUT1A (
+camera_interface_input UUT_3A_INPUT (
 .clk(clk),
 .reset_n(reset_n),
+.system_start(system_start),
 .pclk(pclk),
-.dout_camera(dout_camera),
+.camera_dout(camera_dout),
 .href(href),
 .wr_rst_busy_0(wr_rst_busy_0),
 .FIFO_WRITE_0_wr_en(FIFO_WRITE_0_wr_en),
-.FIFO_WRITE_0_wr_data(FIFO_WRITE_0_wr_data)
+.FIFO_WRITE_0_wr_data(FIFO_WRITE_0_wr_data),
+.frame_done(frame_done)
 );
 
-BRAM_1_FIFO UUT1B (
+BRAM_1_FIFO_wrapper UUT_3B_BRAM (
 .rd_clk_0(clk),
 .wr_clk_0(clk),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),
@@ -78,9 +79,10 @@ BRAM_1_FIFO UUT1B (
 .wr_ack_0(wr_ack_0)
 );
 
-camera_interface_output UUT1C (
+camera_interface_output UUT_3C_OUTPUT (
 .clk(clk),
 .reset_n(reset_n),
+.system_start(system_start),
 .FIFO_READ_0_empty(FIFO_READ_0_empty),
 .FIFO_READ_0_rd_data(FIFO_READ_0_rd_data),
 .rd_rst_busy_0(rd_rst_busy_0),
@@ -90,7 +92,7 @@ camera_interface_output UUT1C (
 .green(green),
 .blue(blue),
 .valid_0(valid_0),
-.byte_convert_valid(byte_convert_valid),
+.rgb_valid(rgb_valid),
 .href(href),
 .wr_ack_0(wr_ack_0),
 .pclk(pclk)

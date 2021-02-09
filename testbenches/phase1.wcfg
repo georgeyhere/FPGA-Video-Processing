@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="506666fs"></ZoomStartTime>
-      <ZoomEndTime time="1098667fs"></ZoomEndTime>
-      <Cursor1Time time="1000000fs"></Cursor1Time>
+      <ZoomStartTime time="0fs"></ZoomStartTime>
+      <ZoomEndTime time="94000001fs"></ZoomEndTime>
+      <Cursor1Time time="1001000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="318"></NameColumnWidth>
-      <ValueColumnWidth column_width="121"></ValueColumnWidth>
+      <ValueColumnWidth column_width="109"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="15" />
+   <WVObjectSize size="26" />
    <wvobject fp_name="/test_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -27,6 +27,10 @@
    <wvobject fp_name="/test_tb/reset_n" type="logic">
       <obj_property name="ElementShortName">reset_n</obj_property>
       <obj_property name="ObjectShortName">reset_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/vsync" type="logic">
+      <obj_property name="ElementShortName">vsync</obj_property>
+      <obj_property name="ObjectShortName">vsync</obj_property>
    </wvobject>
    <wvobject fp_name="/test_tb/pclk" type="logic">
       <obj_property name="ElementShortName">pclk</obj_property>
@@ -40,44 +44,84 @@
       <obj_property name="ElementShortName">dout_camera[7:0]</obj_property>
       <obj_property name="ObjectShortName">dout_camera[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT2/red" type="array">
-      <obj_property name="ElementShortName">red[7:0]</obj_property>
-      <obj_property name="ObjectShortName">red[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT2/green" type="array">
-      <obj_property name="ElementShortName">green[7:0]</obj_property>
-      <obj_property name="ObjectShortName">green[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT2/blue" type="array">
-      <obj_property name="ElementShortName">blue[7:0]</obj_property>
-      <obj_property name="ObjectShortName">blue[7:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT2/byte_convert_valid" type="logic">
-      <obj_property name="ElementShortName">byte_convert_valid</obj_property>
-      <obj_property name="ObjectShortName">byte_convert_valid</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT2/greyscale_ready" type="logic">
-      <obj_property name="ElementShortName">greyscale_ready</obj_property>
-      <obj_property name="ObjectShortName">greyscale_ready</obj_property>
-   </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT2/greyscale_valid" type="logic">
+   <wvobject fp_name="/test_tb/UUT/UUT_3/greyscale_valid" type="logic">
       <obj_property name="ElementShortName">greyscale_valid</obj_property>
       <obj_property name="ObjectShortName">greyscale_valid</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT2/greyscale_value" type="array">
-      <obj_property name="ElementShortName">greyscale_value[7:0]</obj_property>
-      <obj_property name="ObjectShortName">greyscale_value[7:0]</obj_property>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3A/row_count" type="array">
+      <obj_property name="ElementShortName">row_count[10:0]</obj_property>
+      <obj_property name="ObjectShortName">row_count[10:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT3/BRAM_PORTA_0_we" type="logic">
+   <wvobject fp_name="/test_tb/UUT/UUT_3/pixel_value" type="array">
+      <obj_property name="ElementShortName">pixel_value[7:0]</obj_property>
+      <obj_property name="ObjectShortName">pixel_value[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3A/fsm_state" type="array">
+      <obj_property name="ElementShortName">fsm_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">fsm_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/pixel_address" type="array">
+      <obj_property name="ElementShortName">pixel_address[13:0]</obj_property>
+      <obj_property name="ObjectShortName">pixel_address[13:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/pixel_valid" type="logic">
+      <obj_property name="ElementShortName">pixel_valid</obj_property>
+      <obj_property name="ObjectShortName">pixel_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/minion0_select" type="logic">
+      <obj_property name="ElementShortName">minion0_select</obj_property>
+      <obj_property name="ObjectShortName">minion0_select</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/minion0_target" type="array">
+      <obj_property name="ElementShortName">minion0_target[10:0]</obj_property>
+      <obj_property name="ObjectShortName">minion0_target[10:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_A/target_latch" type="array">
+      <obj_property name="ElementShortName">target_latch[10:0]</obj_property>
+      <obj_property name="ObjectShortName">target_latch[10:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_A/minion0_ready" type="logic">
+      <obj_property name="ElementShortName">minion0_ready</obj_property>
+      <obj_property name="ObjectShortName">minion0_ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_A/fsm_state" type="array">
+      <obj_property name="ElementShortName">fsm_state[2:0]</obj_property>
+      <obj_property name="ObjectShortName">fsm_state[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_A/BRAM_PORTA_0_we" type="logic">
       <obj_property name="ElementShortName">BRAM_PORTA_0_we</obj_property>
       <obj_property name="ObjectShortName">BRAM_PORTA_0_we</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT3/BRAM_PORTA_0_din" type="array">
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_A/BRAM_PORTA_0_addr" type="array">
+      <obj_property name="ElementShortName">BRAM_PORTA_0_addr[13:0]</obj_property>
+      <obj_property name="ObjectShortName">BRAM_PORTA_0_addr[13:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_A/BRAM_PORTA_0_din" type="array">
       <obj_property name="ElementShortName">BRAM_PORTA_0_din[7:0]</obj_property>
       <obj_property name="ObjectShortName">BRAM_PORTA_0_din[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/test_tb/UUT/UUT3/BRAM_PORTA_0_addr" type="array">
-      <obj_property name="ElementShortName">BRAM_PORTA_0_addr[16:0]</obj_property>
-      <obj_property name="ObjectShortName">BRAM_PORTA_0_addr[16:0]</obj_property>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_A/minion_compute_start" type="logic">
+      <obj_property name="ElementShortName">minion_compute_start</obj_property>
+      <obj_property name="ObjectShortName">minion_compute_start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_C/BRAM_PORTB_0_addr" type="array">
+      <obj_property name="ElementShortName">BRAM_PORTB_0_addr[13:0]</obj_property>
+      <obj_property name="ObjectShortName">BRAM_PORTB_0_addr[13:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_C/gssn_minion0_out" type="array">
+      <obj_property name="ElementShortName">gssn_minion0_out[7:0]</obj_property>
+      <obj_property name="ObjectShortName">gssn_minion0_out[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_C/gssn_minion0_valid" type="logic">
+      <obj_property name="ElementShortName">gssn_minion0_valid</obj_property>
+      <obj_property name="ObjectShortName">gssn_minion0_valid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/UUT_3_0/UUT_minion0_C/BRAM_PORTB_0_en" type="logic">
+      <obj_property name="ElementShortName">BRAM_PORTB_0_en</obj_property>
+      <obj_property name="ObjectShortName">BRAM_PORTB_0_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/test_tb/UUT/UUT_3/gssn_minion0_out" type="logic">
+      <obj_property name="ElementShortName">gssn_minion0_out</obj_property>
+      <obj_property name="ObjectShortName">gssn_minion0_out</obj_property>
    </wvobject>
 </wave_config>

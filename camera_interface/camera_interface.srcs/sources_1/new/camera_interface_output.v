@@ -21,8 +21,9 @@
 
 
 module camera_interface_output(
-input clk,//96Mhz clock
+input clk,//125Mhz clock
 input reset_n , //asynchronous active low reset
+input system_start,
 input wr_ack_0, 
 input FIFO_READ_0_empty, 
 input [7:0] FIFO_READ_0_rd_data,
@@ -32,7 +33,7 @@ input valid_0, //FIFO output valid
 input href, //camera href, href = 1 at start of data transmission
 input pclk,
 
-output reg byte_convert_valid,
+output reg rgb_valid,
 output reg FIFO_READ_0_rd_en,
 output reg [7:0] red,
 output reg [7:0] green,
@@ -61,7 +62,7 @@ initial begin
     blue <= 0;
     fsm_state <= s0_default;
     half_identifier <= 0;
-    byte_convert_valid <= 0;
+    rgb_valid <= 0;
     red_latch <= 0;
     green_latch <= 0;
     blue_latch <= 0;
@@ -76,21 +77,22 @@ always@(posedge clk, negedge reset_n) begin
         blue <= 0;
         fsm_state <= s0_default;
         half_identifier <= 0;
-        byte_convert_valid <= 0;
+        rgb_valid <= 0;
         red_latch <= 0;
         green_latch <= 0;
         blue_latch <= 0;
         count <= 0;
     end
     else begin
-    
+    if(system_start == 0) fsm_state <= s0_default;
+    else begin
     case(fsm_state)  
         
         s0_default: begin
-            byte_convert_valid <= 0;
+            rgb_valid <= 0;
             half_identifier <= 0;
             count <= 0;
-            if((rd_rst_busy_0 == 0) & (href == 1) & (FIFO_READ_0_empty == 0)) begin //only if not busy
+            if(wr_ack_0 == 1) begin //only if not busy
                 FIFO_READ_0_rd_en <= 1; //initiate read, go to next state
                 fsm_state <= s1_assign;
             end
@@ -106,6 +108,7 @@ always@(posedge clk, negedge reset_n) begin
                 if(href == 1) begin
                 
                     case (half_identifier)
+                    
                     0: begin
                         red_latch [7:3] <= FIFO_READ_0_rd_data [6:2]; //first bit is don't care, then 5 bits of red
                         green_latch [7:6] <= FIFO_READ_0_rd_data [1:0]; //then 2 bits of green
@@ -121,9 +124,9 @@ always@(posedge clk, negedge reset_n) begin
                         green [5:3] <= FIFO_READ_0_rd_data[7:5]; 
                         blue [7:3] <= FIFO_READ_0_rd_data[4:0];
                         
-                        byte_convert_valid <= 1;
+                        rgb_valid <= 1;
                         //half_identifier <= 0;
-                        fsm_state <= ((href == 1)&(pclk == 1)) ? s2_timer:s0_default;
+                        fsm_state <= ((href == 1)&(pclk == 1)) ? s2_timer:s0_default; //data transmission occurs only on negedge of pclk, don't transition until posedge
                         fsm_next_state <= s1_assign;
                         count <= 3;   
                     end
@@ -131,6 +134,7 @@ always@(posedge clk, negedge reset_n) begin
                     endcase
                 end
                 else begin //if href == 0 but FIFO is not empty, assign the outputs
+                    fsm_next_state <= s0_default;
                     if(FIFO_READ_0_empty == 0) begin
                         red <= red_latch;
                         green [7:6] <= green_latch [7:6];
@@ -138,7 +142,7 @@ always@(posedge clk, negedge reset_n) begin
                         blue [7:3] <= FIFO_READ_0_rd_data[4:0];
                         fsm_state <= s2_timer;
                         count <= 9;
-                        fsm_next_state <= s0_default;
+                        
                     end
                     else begin
                         red <= 0;
@@ -146,7 +150,6 @@ always@(posedge clk, negedge reset_n) begin
                         green [5:3] <= 0;
                         blue [7:3] <= 0;
                         fsm_state <= s0_default;
-                        fsm_next_state <= s0_default;
                     end
                     //red <= (FIFO_READ_0_empty == 0) ? red_latch:0;
                     //green [7:6] <= (FIFO_READ_0_empty == 0) ? green_latch [7:6]:0;
@@ -170,6 +173,7 @@ always@(posedge clk, negedge reset_n) begin
         end    
         
     endcase
+    end
     end
 end
     

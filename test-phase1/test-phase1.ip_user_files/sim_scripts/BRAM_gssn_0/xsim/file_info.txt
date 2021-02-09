@@ -1,0 +1,3 @@
+BRAM_gssn_0_blk_mem_gen_0_0.v,verilog,xil_defaultlib,../../../bd/BRAM_gssn_0/ip/BRAM_gssn_0_blk_mem_gen_0_0/sim/BRAM_gssn_0_blk_mem_gen_0_0.v,
+BRAM_gssn_0.v,verilog,xil_defaultlib,../../../bd/BRAM_gssn_0/sim/BRAM_gssn_0.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v
