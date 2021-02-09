@@ -26,10 +26,12 @@ input reset_n, //asynchronous active low reset
 input system_start,
 input pclk, //camera pixel clock 
 input href, //camera output
+input vsync, //camera output
 input [7:0] camera_dout, //camera data out
 
 input greyscale_ready,
 
+output frame_done,
 output rgb_valid,
 output [7:0] red,
 output [7:0] green,
@@ -57,7 +59,8 @@ camera_interface_input UUT_3A_INPUT (
 .href(href),
 .wr_rst_busy_0(wr_rst_busy_0),
 .FIFO_WRITE_0_wr_en(FIFO_WRITE_0_wr_en),
-.FIFO_WRITE_0_wr_data(FIFO_WRITE_0_wr_data)
+.FIFO_WRITE_0_wr_data(FIFO_WRITE_0_wr_data),
+.frame_done(frame_done)
 );
 
 BRAM_1_FIFO_wrapper UUT_3B_BRAM (

@@ -37,22 +37,27 @@ module OV7670_config
     output reg SCCB_interface_start
     );
     
-    initial begin
-        rom_addr = 0;
-        configure_done = 0;
-        SCCB_interface_addr = 0;
-        SCCB_interface_data = 0;
-        SCCB_interface_start = 0;
-    end
+   
     
     localparam FSM_IDLE = 0;
     localparam FSM_SEND_CMD = 1;
     localparam FSM_DONE = 2;
     localparam FSM_TIMER = 3;
     
-    reg [2:0] FSM_state = FSM_IDLE;
+    reg [2:0] FSM_state;
     reg [2:0] FSM_return_state;
-    reg [31:0] timer = 0; 
+    reg [31:0] timer;
+    
+    initial begin
+        rom_addr <= 0;
+        configure_done <= 0;
+        SCCB_interface_addr <= 0;
+        SCCB_interface_data <= 0;
+        SCCB_interface_start <= 0;
+        FSM_state <= FSM_IDLE;
+        timer <= 0;
+    end
+    
     
     always@(posedge clk, negedge reset_n) begin
     if(reset_n == 1'b0) begin
@@ -62,7 +67,9 @@ module OV7670_config
         SCCB_interface_data <= 0;
         SCCB_interface_start <= 0;
         FSM_state <= FSM_IDLE;
+        timer <= 0;
     end
+    else begin
         case(FSM_state)
             
             FSM_IDLE: begin 
@@ -114,5 +121,6 @@ module OV7670_config
                 SCCB_interface_start <= 0;
             end
         endcase
+    end
     end
 endmodule

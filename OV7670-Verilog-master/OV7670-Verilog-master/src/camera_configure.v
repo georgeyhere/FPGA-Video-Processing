@@ -25,13 +25,12 @@ module camera_configure
     parameter CLK_FREQ=25000000
     )
     (
-    input wire clk,
-    input wire start,
-    input wire reset_n,
-    input wire configure_start,
-    output wire sioc,
-    output wire siod,
-    output wire configure_done
+    input clk,
+    input reset_n,
+    input configure_start,
+    output sioc,
+    output siod,
+    output configure_done
     );
     
     wire [7:0] rom_addr;
@@ -40,10 +39,11 @@ module camera_configure
     wire [7:0] SCCB_data;
     wire SCCB_start;
     wire SCCB_ready;
+    wire SCCB_SIOC_oe;
+    wire SCCB_SIOD_oe;
     
-    
-    assign sioc = SCCB_SIOC_oe ? 1'b0 : 1'bZ;
-    assign siod = SCCB_SIOD_oe ? 1'b0 : 1'bZ;
+    assign sioc = (configure_done) ? 1'bZ : (SCCB_SIOC_oe);
+    assign siod = (configure_done) ? 1'bZ : (SCCB_SIOD_oe);
     
     OV7670_config_rom UUT2A_ROM(
         .clk(clk),

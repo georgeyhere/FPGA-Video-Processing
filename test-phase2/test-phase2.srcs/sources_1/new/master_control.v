@@ -45,11 +45,15 @@ localparam s2_operate = 2;
 
 initial begin
     fsm_state <= s1_configure;
+    configure_start <= 0;
+    system_start <= 0;
 end
 
 always@(posedge clk, negedge reset_n) begin
     if(reset_n == 1'b0) begin
         fsm_state <= s1_configure;
+        configure_start <= 0;
+        system_start <= 0;
     end
     else begin
         case(fsm_state)
@@ -67,7 +71,7 @@ always@(posedge clk, negedge reset_n) begin
                 if(start_button) begin
                     configure_start <= 1;
                     fsm_state <= s0_timer;
-                    timer_count <= 0; //hold the start signal for 1 clock for peace of mind
+                    timer_count <= 5; //hold the start signal for 1 clock for peace of mind
                     fsm_next_state <= s2_operate;
                 end
                 else begin

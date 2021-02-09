@@ -43,6 +43,7 @@ initial begin
     FIFO_WRITE_0_wr_en <= 0; //resets
     FIFO_WRITE_0_wr_data <= 0;
     fsm_state <= s0_idle;
+    frame_done <= 0;
 end    
 
 always@(posedge clk, negedge reset_n) begin
@@ -51,6 +52,7 @@ always@(posedge clk, negedge reset_n) begin
         FIFO_WRITE_0_wr_en <= 0;
         FIFO_WRITE_0_wr_data <= 0;
         fsm_state <= s0_idle;
+        frame_done <= 0;
     end
     
     else begin

@@ -27,9 +27,13 @@ module OV7670_config_rom(
     output reg [15:0] dout
     );
     //FFFF is end of rom, FFF0 is delay
+    initial begin
+        dout <= 16'b0;
+    end
+    
     always @(posedge clk, negedge reset_n) begin
     if(reset_n == 1'b0) begin
-        dout <= 0;
+        dout <= 16'b0;
     end
     else begin
     case(addr) //I modified the ROM for RGB555
