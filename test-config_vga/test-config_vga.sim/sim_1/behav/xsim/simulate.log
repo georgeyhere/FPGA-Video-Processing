@@ -1,3 +1,0 @@
-Vivado Simulator 2019.2
-Time resolution is 1 ps
-WARNING: Behavioral models for independent clock FIFO configurations do not model synchronization delays. The behavioral models are functionally correct, and will represent the behavior of the configured FIFO. See the FIFO Generator User Guide for more information.

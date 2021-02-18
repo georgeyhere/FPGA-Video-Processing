@@ -2,11 +2,13 @@
 # Webtalk v2019.2 (64-bit)
 # SW Build 2708876 on Wed Nov  6 21:40:23 MST 2019
 # IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
-# Start of session at: Tue Feb  9 15:33:16 2021
-# Process ID: 32136
+# Start of session at: Tue Feb  9 15:32:29 2021
+# Process ID: 6056
 # Current directory: C:/Users/George/Edge-Detection/test-config_vga/test-config_vga.sim/sim_1/behav/xsim
 # Command line: wbtcv.exe -mode batch -source C:/Users/George/Edge-Detection/test-config_vga/test-config_vga.sim/sim_1/behav/xsim/xsim.dir/test_top_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: C:/Users/George/Edge-Detection/test-config_vga/test-config_vga.sim/sim_1/behav/xsim/webtalk.log
 # Journal file: C:/Users/George/Edge-Detection/test-config_vga/test-config_vga.sim/sim_1/behav/xsim\webtalk.jou
 #-----------------------------------------------------------
 source C:/Users/George/Edge-Detection/test-config_vga/test-config_vga.sim/sim_1/behav/xsim/xsim.dir/test_top_behav/webtalk/xsim_webtalk.tcl -notrace
+INFO: [Common 17-186] 'C:/Users/George/Edge-Detection/test-config_vga/test-config_vga.sim/sim_1/behav/xsim/xsim.dir/test_top_behav/webtalk/usage_statistics_ext_xsim.xml' has been successfully sent to Xilinx on Tue Feb  9 15:32:31 2021. For additional details about this file, please refer to the WebTalk help file at D:/Xilinx/Vivado/2019.2/doc/webtalk_introduction.html.
+INFO: [Common 17-206] Exiting Webtalk at Tue Feb  9 15:32:31 2021...

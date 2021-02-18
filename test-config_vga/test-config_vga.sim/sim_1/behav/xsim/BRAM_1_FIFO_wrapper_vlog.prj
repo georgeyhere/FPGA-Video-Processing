@@ -1,0 +1,12 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../test-config_vga.ip_user_files/bd/BRAM_1_FIFO/ip/BRAM_1_FIFO_fifo_generator_0_0/sim/BRAM_1_FIFO_fifo_generator_0_0.v" \
+"../../../../test-config_vga.ip_user_files/bd/BRAM_1_FIFO/sim/BRAM_1_FIFO.v" \
+"../../../../../OV7670-Verilog-master/OV7670-Verilog-master/src/OV7670_config_rom.v" \
+"../../../../test-config_vga.srcs/sim_1/new/UUT2A_ROM_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
