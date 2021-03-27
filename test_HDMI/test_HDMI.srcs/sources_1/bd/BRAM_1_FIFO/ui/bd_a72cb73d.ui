@@ -1,0 +1,31 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"2.03661",
+   "Default View_TopLeft":"-102,-32",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0.21  2019-05-29 bk=1.5064 VDI=41 GEI=36 GUI=JA:9.0 non-TLS
+#  -string -flagsOSRD
+preplace port FIFO_WRITE_0 -pg 1 -lvl 0 -x 0 -y 60 -defaultsOSRD
+preplace port FIFO_READ_0 -pg 1 -lvl 0 -x 0 -y 40 -defaultsOSRD
+preplace port wr_rst_busy_0 -pg 1 -lvl 2 -x 410 -y 100 -defaultsOSRD
+preplace port rd_rst_busy_0 -pg 1 -lvl 2 -x 410 -y 120 -defaultsOSRD
+preplace port wr_ack_0 -pg 1 -lvl 2 -x 410 -y 60 -defaultsOSRD
+preplace port valid_0 -pg 1 -lvl 2 -x 410 -y 80 -defaultsOSRD
+preplace port rd_clk_0 -pg 1 -lvl 0 -x 0 -y 130 -defaultsOSRD
+preplace port wr_clk_0 -pg 1 -lvl 0 -x 0 -y 110 -defaultsOSRD
+preplace port rst_0 -pg 1 -lvl 0 -x 0 -y 90 -defaultsOSRD
+preplace inst fifo_generator_0 -pg 1 -lvl 1 -x 210 -y 90 -defaultsOSRD
+preplace netloc fifo_generator_0_wr_ack 1 1 1 N 60
+preplace netloc fifo_generator_0_valid 1 1 1 N 80
+preplace netloc rd_clk_0_1 1 0 1 N 130
+preplace netloc wr_clk_0_1 1 0 1 N 110
+preplace netloc rst_0_1 1 0 1 N 90
+preplace netloc fifo_generator_0_wr_rst_busy 1 1 1 N 100
+preplace netloc fifo_generator_0_rd_rst_busy 1 1 1 N 120
+preplace netloc FIFO_WRITE_0_1 1 0 1 30 50n
+preplace netloc FIFO_READ_0_1 1 0 1 20 40n
+levelinfo -pg 1 0 210 410
+pagesize -pg 1 -db -bbox -sgen -160 -10 560 190
+"
+}
+0
