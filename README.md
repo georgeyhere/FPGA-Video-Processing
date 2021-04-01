@@ -1,6 +1,6 @@
 # Edge Detection
 
-The objective of this project is to take 640x480 VGA data from an OV7670 camera and show a filtered image on a VGA monitor using a Gaussian Blur and a Sobel Operator. Coded in Vivado and implemented on Zynq-7000 SoC. Logic runs on 125Mhz clock (tentative), camera runs on 24Mhz clock. Work in progress.
+The objective of this project is to take 640x480 VGA data from an OV7670 camera and show a filtered image on a VGA monitor using a Gaussian Blur and a Sobel Operator. Coded in Vivado and implemented on Zynq-7000 SoC. Logic runs on 100Mhz clock, camera runs on 24Mhz clock. Camera output in 25Mhz pixel clock domain. Work in progress.
 
 
 
