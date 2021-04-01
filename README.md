@@ -6,37 +6,6 @@ The objective of this project is to take 640x480 VGA data from an OV7670 camera 
 
 Pardon the many git atrocities.
 
-Desired Functionality:
-
-SCCB_config (meets timing)
-
-- Input: start signal from control module
-
-- Output: OV7670 camera instruction register data
-
-- Status: Meets timing. Cleaned up. Needs to be tested with not-yet-written control module.
-
-- Description: transmits preset register values from ROM in accordance to SCCB protocol
-
-camera_interface (meets timing)
-
-- Input: RGB555 data from OV7670, 8-bits wide
-
-- Output: 8-bit R value, 8-bit G value, 8-bit B value
-
-- Status: Meets timing. Cleaned up.
-
-- Description: buffers input data in FIFO and decodes to RGB values
-
-greyscale_fixed_point (meets timing)
-
-- Input: 8-bit RGB from camera_interface
-
-- Output: 8-bit greyscale value
-
-- Status: Meets timing. Cleaned up.
-
-- Description: uses RGB values and the function y = 0.3R + 0.6G + 0.1B where y is the magnitude of grey. This version avoids floating-point: y = (3R + 6G + B) / 10
 
 
 test-phase1 (meets timing)
@@ -55,9 +24,7 @@ SCCB (Serial Camera Control Bus) Protocol
 
 Xilinx FIFO Generator
 
-- dual-port FIFO configuration used as buffer
-
-- first-word-fall-through
+- standard dual-port FIFO w/ independent clocks
 
 Image Filtering Algorithms
 
