@@ -1,0 +1,7 @@
+verilog xil_defaultlib  \
+"../../../bd/CamRead_FIFO/ip/CamRead_FIFO_fifo_generator_0_0/sim/CamRead_FIFO_fifo_generator_0_0.v" \
+"../../../bd/CamRead_FIFO/sim/CamRead_FIFO.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+nosort

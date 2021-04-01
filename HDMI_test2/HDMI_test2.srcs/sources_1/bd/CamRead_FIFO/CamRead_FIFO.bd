@@ -1,0 +1,167 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0x72CB84E19016CC87",
+      "device": "xc7z020clg400-3",
+      "gen_directory": "../../../../HDMI_test2.gen/sources_1/bd/CamRead_FIFO",
+      "name": "CamRead_FIFO",
+      "rev_ctrl_bd_flag": "RevCtrlBdOff",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2020.2",
+      "validated": "true"
+    },
+    "design_tree": {
+      "fifo_generator_0": ""
+    },
+    "interface_ports": {
+      "FIFO_WRITE_0": {
+        "mode": "Slave",
+        "vlnv": "xilinx.com:interface:fifo_write_rtl:1.0"
+      },
+      "FIFO_READ_0": {
+        "mode": "Slave",
+        "vlnv": "xilinx.com:interface:fifo_read_rtl:1.0"
+      }
+    },
+    "ports": {
+      "rst_0": {
+        "direction": "I"
+      },
+      "wr_clk_0": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "CamRead_FIFO_wr_clk_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.000",
+            "value_src": "default"
+          }
+        }
+      },
+      "rd_clk_0": {
+        "type": "clk",
+        "direction": "I",
+        "parameters": {
+          "CLK_DOMAIN": {
+            "value": "CamRead_FIFO_rd_clk_0",
+            "value_src": "default"
+          },
+          "FREQ_HZ": {
+            "value": "100000000",
+            "value_src": "default"
+          },
+          "FREQ_TOLERANCE_HZ": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "INSERT_VIP": {
+            "value": "0",
+            "value_src": "default"
+          },
+          "PHASE": {
+            "value": "0.000",
+            "value_src": "default"
+          }
+        }
+      },
+      "wr_ack_0": {
+        "direction": "O"
+      },
+      "valid_0": {
+        "direction": "O"
+      }
+    },
+    "components": {
+      "fifo_generator_0": {
+        "vlnv": "xilinx.com:ip:fifo_generator:13.2",
+        "xci_name": "CamRead_FIFO_fifo_generator_0_0",
+        "xci_path": "ip\\CamRead_FIFO_fifo_generator_0_0\\CamRead_FIFO_fifo_generator_0_0.xci",
+        "inst_hier_path": "fifo_generator_0",
+        "parameters": {
+          "Fifo_Implementation": {
+            "value": "Independent_Clocks_Builtin_FIFO"
+          },
+          "Input_Data_Width": {
+            "value": "8"
+          },
+          "Input_Depth": {
+            "value": "512"
+          },
+          "Read_Clock_Frequency": {
+            "value": "100"
+          },
+          "Valid_Flag": {
+            "value": "true"
+          },
+          "Write_Acknowledge_Flag": {
+            "value": "true"
+          },
+          "Write_Clock_Frequency": {
+            "value": "25"
+          }
+        }
+      }
+    },
+    "interface_nets": {
+      "FIFO_WRITE_0_1": {
+        "interface_ports": [
+          "FIFO_WRITE_0",
+          "fifo_generator_0/FIFO_WRITE"
+        ]
+      },
+      "FIFO_READ_0_1": {
+        "interface_ports": [
+          "FIFO_READ_0",
+          "fifo_generator_0/FIFO_READ"
+        ]
+      }
+    },
+    "nets": {
+      "rst_0_1": {
+        "ports": [
+          "rst_0",
+          "fifo_generator_0/rst"
+        ]
+      },
+      "wr_clk_0_1": {
+        "ports": [
+          "wr_clk_0",
+          "fifo_generator_0/wr_clk"
+        ]
+      },
+      "rd_clk_0_1": {
+        "ports": [
+          "rd_clk_0",
+          "fifo_generator_0/rd_clk"
+        ]
+      },
+      "fifo_generator_0_wr_ack": {
+        "ports": [
+          "fifo_generator_0/wr_ack",
+          "wr_ack_0"
+        ]
+      },
+      "fifo_generator_0_valid": {
+        "ports": [
+          "fifo_generator_0/valid",
+          "valid_0"
+        ]
+      }
+    }
+  }
+}

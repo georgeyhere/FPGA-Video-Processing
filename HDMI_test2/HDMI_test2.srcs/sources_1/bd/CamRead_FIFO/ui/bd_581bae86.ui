@@ -1,0 +1,29 @@
+{
+   "ActiveEmotionalView":"Default View",
+   "Default View_ScaleFactor":"1.12557",
+   "Default View_TopLeft":"-198,-335",
+   "ExpandedHierarchyInLayout":"",
+   "guistr":"# # String gsaved with Nlview 7.0r6  2020-01-29 bk=1.5227 VDI=41 GEI=36 GUI=JA:10.0 non-TLS
+#  -string -flagsOSRD
+preplace port FIFO_WRITE_0 -pg 1 -lvl 0 -x -60 -y -110 -defaultsOSRD
+preplace port FIFO_READ_0 -pg 1 -lvl 0 -x -60 -y -80 -defaultsOSRD
+preplace port rst_0 -pg 1 -lvl 0 -x -60 -y -50 -defaultsOSRD
+preplace port wr_clk_0 -pg 1 -lvl 0 -x -60 -y -20 -defaultsOSRD
+preplace port rd_clk_0 -pg 1 -lvl 0 -x -60 -y 10 -defaultsOSRD
+preplace port wr_ack_0 -pg 1 -lvl 2 -x 340 -y -20 -defaultsOSRD
+preplace port valid_0 -pg 1 -lvl 2 -x 340 -y 10 -defaultsOSRD
+preplace inst fifo_generator_0 -pg 1 -lvl 1 -x 160 -y 0 -defaultsOSRD
+preplace netloc rst_0_1 1 0 1 -20 -50n
+preplace netloc wr_clk_0_1 1 0 1 -30 -20n
+preplace netloc rd_clk_0_1 1 0 1 -40 10n
+preplace netloc fifo_generator_0_wr_ack 1 1 1 320 -20n
+preplace netloc fifo_generator_0_valid 1 1 1 N 10
+preplace netloc FIFO_WRITE_0_1 1 0 1 0 -110n
+preplace netloc FIFO_READ_0_1 1 0 1 -10 -80n
+levelinfo -pg 1 -60 160 340
+pagesize -pg 1 -db -bbox -sgen -200 -130 450 340
+"
+}
+{
+   "da_clkrst_cnt":"2"
+}

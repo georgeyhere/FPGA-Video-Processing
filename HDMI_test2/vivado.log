@@ -1,0 +1,289 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Wed Mar 31 18:24:13 2021
+# Process ID: 12800
+# Current directory: C:/Users/George/Desktop/Edge-Detection/HDMI_test2
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent14148 C:\Users\George\Desktop\Edge-Detection\HDMI_test2\HDMI_test2.xpr
+# Log file: C:/Users/George/Desktop/Edge-Detection/HDMI_test2/vivado.log
+# Journal file: C:/Users/George/Desktop/Edge-Detection/HDMI_test2\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.xpr
+WARNING: [filemgmt 56-3] Default IP Output Path : Could not find the directory 'C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2020.2/data/ip'.
+open_project: Time (s): cpu = 00:00:17 ; elapsed = 00:00:10 . Memory (MB): peak = 1005.770 ; gain = 0.000
+add_files -norecurse {C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/MasterControl.v C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/OV7670_config_rom.v C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/OV7670_config.v C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/SCCB_interface.v C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/camera_configure.v}
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+open_project C:/Users/George/Desktop/Edge-Detection/Archive/test_HDMI/test_HDMI.xpr
+INFO: [Project 1-313] Project file moved from 'C:/Users/George/Edge-Detection/test_HDMI' since last save.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository 'C:/Xilinx/Vivado/2020.2/data/ip'.
+open_project: Time (s): cpu = 00:00:14 ; elapsed = 00:00:07 . Memory (MB): peak = 1005.770 ; gain = 0.000
+update_compile_order -fileset sources_1
+open_bd_design {C:/Users/George/Desktop/Edge-Detection/Archive/test_HDMI/test_HDMI.srcs/sources_1/bd/BRAM_1_FIFO/BRAM_1_FIFO.bd}
+Reading block design file <C:/Users/George/Desktop/Edge-Detection/Archive/test_HDMI/test_HDMI.srcs/sources_1/bd/BRAM_1_FIFO/BRAM_1_FIFO.bd>...
+Adding component instance block -- xilinx.com:ip:fifo_generator:13.2 - fifo_generator_0
+INFO: [xilinx.com:ip:fifo_generator:13.2-5968] /fifo_generator_0Executing the post_config_ip from bd
+Successfully read diagram <BRAM_1_FIFO> from block design file <C:/Users/George/Desktop/Edge-Detection/Archive/test_HDMI/test_HDMI.srcs/sources_1/bd/BRAM_1_FIFO/BRAM_1_FIFO.bd>
+open_bd_design: Time (s): cpu = 00:00:06 ; elapsed = 00:00:09 . Memory (MB): peak = 1005.770 ; gain = 0.000
+current_project HDMI_test2
+create_bd_design "CamRead_FIFO"
+Wrote  : <C:\Users\George\Desktop\Edge-Detection\HDMI_test2\HDMI_test2.srcs\sources_1\bd\CamRead_FIFO\CamRead_FIFO.bd> 
+update_compile_order -fileset sources_1
+startgroup
+create_bd_cell -type ip -vlnv xilinx.com:ip:fifo_generator:13.2 fifo_generator_0
+INFO: [xilinx.com:ip:fifo_generator:13.2-5968] /fifo_generator_0Executing the post_config_ip from bd
+endgroup
+set_property -dict [list CONFIG.Fifo_Implementation {Independent_Clocks_Builtin_FIFO} CONFIG.Input_Data_Width {8} CONFIG.Input_Depth {512} CONFIG.Output_Data_Width {8} CONFIG.Output_Depth {512} CONFIG.Reset_Type {Asynchronous_Reset} CONFIG.Use_Dout_Reset {false} CONFIG.Data_Count_Width {9} CONFIG.Write_Data_Count_Width {9} CONFIG.Read_Data_Count_Width {9} CONFIG.Read_Clock_Frequency {100} CONFIG.Write_Clock_Frequency {25} CONFIG.Full_Threshold_Assert_Value {505} CONFIG.Full_Threshold_Negate_Value {504} CONFIG.Empty_Threshold_Assert_Value {5} CONFIG.Empty_Threshold_Negate_Value {6}] [get_bd_cells fifo_generator_0]
+INFO: [xilinx.com:ip:fifo_generator:13.2-5968] /fifo_generator_0Executing the post_config_ip from bd
+startgroup
+apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {New Clocking Wizard} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins fifo_generator_0/rd_clk]
+apply_bd_automation -rule xilinx.com:bd_rule:clkrst -config { Clk {New Clocking Wizard} Freq {100} Ref_Clk0 {} Ref_Clk1 {} Ref_Clk2 {}}  [get_bd_pins fifo_generator_0/wr_clk]
+endgroup
+delete_bd_objs [get_bd_nets clk_wiz_1_clk_out1] [get_bd_cells clk_wiz_1]
+delete_bd_objs [get_bd_nets clk_wiz_clk_out1] [get_bd_cells clk_wiz]
+startgroup
+make_bd_intf_pins_external  [get_bd_intf_pins fifo_generator_0/FIFO_WRITE]
+endgroup
+startgroup
+make_bd_intf_pins_external  [get_bd_intf_pins fifo_generator_0/FIFO_READ]
+endgroup
+startgroup
+make_bd_pins_external  [get_bd_pins fifo_generator_0/rst]
+endgroup
+startgroup
+make_bd_pins_external  [get_bd_pins fifo_generator_0/wr_clk]
+endgroup
+startgroup
+make_bd_pins_external  [get_bd_pins fifo_generator_0/rd_clk]
+endgroup
+generate_target all [get_files  C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd]
+Wrote  : <C:\Users\George\Desktop\Edge-Detection\HDMI_test2\HDMI_test2.srcs\sources_1\bd\CamRead_FIFO\CamRead_FIFO.bd> 
+Wrote  : <C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/ui/bd_581bae86.ui> 
+VHDL Output written to : C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/synth/CamRead_FIFO.v
+VHDL Output written to : C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/sim/CamRead_FIFO.v
+VHDL Output written to : C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hdl/CamRead_FIFO_wrapper.v
+INFO: [BD 41-1029] Generation completed for the IP Integrator block fifo_generator_0 .
+Exporting to file C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hw_handoff/CamRead_FIFO.hwh
+Generated Block Design Tcl file C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hw_handoff/CamRead_FIFO_bd.tcl
+Generated Hardware Definition File C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/synth/CamRead_FIFO.hwdef
+generate_target: Time (s): cpu = 00:00:08 ; elapsed = 00:00:21 . Memory (MB): peak = 1327.434 ; gain = 154.172
+catch { config_ip_cache -export [get_ips -all CamRead_FIFO_fifo_generator_0_0] }
+export_ip_user_files -of_objects [get_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd] -no_script -sync -force -quiet
+create_ip_run [get_files -of_objects [get_fileset sources_1] C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd]
+launch_runs CamRead_FIFO_fifo_generator_0_0_synth_1 -jobs 4
+[Wed Mar 31 18:35:04 2021] Launched CamRead_FIFO_fifo_generator_0_0_synth_1...
+Run output will be captured here: C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.runs/CamRead_FIFO_fifo_generator_0_0_synth_1/runme.log
+export_simulation -of_objects [get_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd] -directory C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.ip_user_files/sim_scripts -ip_user_files_dir C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.ip_user_files -ipstatic_source_dir C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.ip_user_files/ipstatic -lib_map_path [list {modelsim=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/modelsim} {questa=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/questa} {riviera=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/riviera} {activehdl=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/activehdl}] -use_ip_compiled_libs -force -quiet
+add_files -norecurse C:/Users/George/Desktop/Edge-Detection/Archive/test_HDMI/test_HDMI.srcs/sources_1/new/camera_read.v
+update_compile_order -fileset sources_1
+close [ open C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_input.v w ]
+add_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_input.v
+update_compile_order -fileset sources_1
+current_project test_HDMI
+current_project HDMI_test2
+set_property is_enabled false [get_files  C:/Users/George/Desktop/Edge-Detection/Archive/test_HDMI/test_HDMI.srcs/sources_1/new/camera_read.v]
+add_files -norecurse C:/Users/George/Desktop/Edge-Detection/Archive/test_HDMI/test_HDMI.srcs/sources_1/new/camera_interface_output.v
+update_compile_order -fileset sources_1
+close [ open C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_output.v w ]
+add_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_output.v
+update_compile_order -fileset sources_1
+open_bd_design {C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd}
+startgroup
+set_property -dict [list CONFIG.Write_Acknowledge_Flag {true}] [get_bd_cells fifo_generator_0]
+INFO: [xilinx.com:ip:fifo_generator:13.2-5968] /fifo_generator_0Executing the post_config_ip from bd
+endgroup
+startgroup
+make_bd_pins_external  [get_bd_pins fifo_generator_0/wr_ack]
+endgroup
+generate_target all [get_files  C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd]
+Wrote  : <C:\Users\George\Desktop\Edge-Detection\HDMI_test2\HDMI_test2.srcs\sources_1\bd\CamRead_FIFO\CamRead_FIFO.bd> 
+Wrote  : <C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/ui/bd_581bae86.ui> 
+VHDL Output written to : C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/synth/CamRead_FIFO.v
+VHDL Output written to : C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/sim/CamRead_FIFO.v
+VHDL Output written to : C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hdl/CamRead_FIFO_wrapper.v
+INFO: [BD 41-1029] Generation completed for the IP Integrator block fifo_generator_0 .
+Exporting to file C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hw_handoff/CamRead_FIFO.hwh
+Generated Block Design Tcl file C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hw_handoff/CamRead_FIFO_bd.tcl
+Generated Hardware Definition File C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/synth/CamRead_FIFO.hwdef
+catch { config_ip_cache -export [get_ips -all CamRead_FIFO_fifo_generator_0_0] }
+export_ip_user_files -of_objects [get_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd] -no_script -sync -force -quiet
+create_ip_run [get_files -of_objects [get_fileset sources_1] C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd]
+launch_runs CamRead_FIFO_fifo_generator_0_0_synth_1 -jobs 4
+[Wed Mar 31 19:00:56 2021] Launched CamRead_FIFO_fifo_generator_0_0_synth_1...
+Run output will be captured here: C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.runs/CamRead_FIFO_fifo_generator_0_0_synth_1/runme.log
+export_simulation -of_objects [get_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd] -directory C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.ip_user_files/sim_scripts -ip_user_files_dir C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.ip_user_files -ipstatic_source_dir C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.ip_user_files/ipstatic -lib_map_path [list {modelsim=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/modelsim} {questa=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/questa} {riviera=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/riviera} {activehdl=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/activehdl}] -use_ip_compiled_libs -force -quiet
+current_project test_HDMI
+current_project HDMI_test2
+make_wrapper -files [get_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd] -top
+import_files -force -norecurse c:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hdl/CamRead_FIFO_wrapper.v
+set_property is_enabled false [get_files  C:/Users/George/Desktop/Edge-Detection/Archive/test_HDMI/test_HDMI.srcs/sources_1/new/camera_interface_output.v]
+update_compile_order -fileset sources_1
+open_bd_design {C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd}
+startgroup
+set_property -dict [list CONFIG.Valid_Flag {true}] [get_bd_cells fifo_generator_0]
+INFO: [xilinx.com:ip:fifo_generator:13.2-5968] /fifo_generator_0Executing the post_config_ip from bd
+endgroup
+startgroup
+make_bd_pins_external  [get_bd_pins fifo_generator_0/valid]
+endgroup
+generate_target all [get_files  C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd]
+Wrote  : <C:\Users\George\Desktop\Edge-Detection\HDMI_test2\HDMI_test2.srcs\sources_1\bd\CamRead_FIFO\CamRead_FIFO.bd> 
+Wrote  : <C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/ui/bd_581bae86.ui> 
+VHDL Output written to : C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/synth/CamRead_FIFO.v
+VHDL Output written to : C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/sim/CamRead_FIFO.v
+VHDL Output written to : C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hdl/CamRead_FIFO_wrapper.v
+INFO: [BD 41-1029] Generation completed for the IP Integrator block fifo_generator_0 .
+Exporting to file C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hw_handoff/CamRead_FIFO.hwh
+Generated Block Design Tcl file C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/hw_handoff/CamRead_FIFO_bd.tcl
+Generated Hardware Definition File C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/synth/CamRead_FIFO.hwdef
+catch { config_ip_cache -export [get_ips -all CamRead_FIFO_fifo_generator_0_0] }
+export_ip_user_files -of_objects [get_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd] -no_script -sync -force -quiet
+create_ip_run [get_files -of_objects [get_fileset sources_1] C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd]
+launch_runs CamRead_FIFO_fifo_generator_0_0_synth_1 -jobs 4
+[Wed Mar 31 19:03:46 2021] Launched CamRead_FIFO_fifo_generator_0_0_synth_1...
+Run output will be captured here: C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.runs/CamRead_FIFO_fifo_generator_0_0_synth_1/runme.log
+export_simulation -of_objects [get_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd] -directory C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.ip_user_files/sim_scripts -ip_user_files_dir C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.ip_user_files -ipstatic_source_dir C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.ip_user_files/ipstatic -lib_map_path [list {modelsim=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/modelsim} {questa=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/questa} {riviera=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/riviera} {activehdl=C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.cache/compile_simlib/activehdl}] -use_ip_compiled_libs -force -quiet
+current_project test_HDMI
+current_project HDMI_test2
+close [ open C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_Top.v w ]
+add_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_Top.v
+update_compile_order -fileset sources_1
+close [ open C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/The_Top.v w ]
+add_files C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/The_Top.v
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+create_ip_run [get_files -of_objects [get_fileset sources_1] C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd]
+synth_design -rtl -rtl_skip_mlo -name rtl_1
+Command: synth_design -rtl -rtl_skip_mlo -name rtl_1
+Starting synth_design
+Using part: xc7z020clg400-3
+Top: The_Top
+INFO: [Device 21-403] Loading part xc7z020clg400-3
+ERROR: [Synth 8-1031] cam_Dout is not declared [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_input.v:80]
+INFO: [Synth 8-2350] module CamRead_Input ignored due to previous errors [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_input.v:26]
+Failed to read verilog 'C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_input.v'
+2 Infos, 0 Warnings, 0 Critical Warnings and 2 Errors encountered.
+synth_design failed
+ERROR: [Vivado_Tcl 4-5] Elaboration failed - please see the console for details
+create_ip_run [get_files -of_objects [get_fileset sources_1] C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/bd/CamRead_FIFO/CamRead_FIFO.bd]
+synth_design -rtl -rtl_skip_mlo -name rtl_1
+Command: synth_design -rtl -rtl_skip_mlo -name rtl_1
+Starting synth_design
+Using part: xc7z020clg400-3
+Top: The_Top
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1737.523 ; gain = 19.156
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'The_Top' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/The_Top.v:23]
+INFO: [Synth 8-6157] synthesizing module 'MasterControl' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/MasterControl.v:23]
+	Parameter s0_idle bound to: 2'b00 
+	Parameter s1_configure bound to: 2'b01 
+	Parameter s2_operate bound to: 2'b10 
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/MasterControl.v:63]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/MasterControl.v:81]
+INFO: [Synth 8-6155] done synthesizing module 'MasterControl' (1#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/MasterControl.v:23]
+INFO: [Synth 8-6157] synthesizing module 'CamConfigure_Top' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/camera_configure.v:23]
+	Parameter CLK_FREQ bound to: 25000000 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'OV7670_config_rom' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/OV7670_config_rom.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'OV7670_config_rom' (2#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/OV7670_config_rom.v:23]
+INFO: [Synth 8-6157] synthesizing module 'OV7670_config' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/OV7670_config.v:23]
+	Parameter CLK_FREQ bound to: 25000000 - type: integer 
+	Parameter FSM_IDLE bound to: 0 - type: integer 
+	Parameter FSM_SEND_CMD bound to: 1 - type: integer 
+	Parameter FSM_DONE bound to: 2 - type: integer 
+	Parameter FSM_TIMER bound to: 3 - type: integer 
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/OV7670_config.v:73]
+INFO: [Synth 8-6155] done synthesizing module 'OV7670_config' (3#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/OV7670_config.v:23]
+INFO: [Synth 8-6157] synthesizing module 'SCCB_interface' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/SCCB_interface.v:23]
+	Parameter CLK_FREQ bound to: 25000000 - type: integer 
+	Parameter SCCB_FREQ bound to: 100000 - type: integer 
+	Parameter CAMERA_ADDR bound to: 8'b01000010 
+	Parameter FSM_IDLE bound to: 0 - type: integer 
+	Parameter FSM_START_SIGNAL bound to: 1 - type: integer 
+	Parameter FSM_LOAD_BYTE bound to: 2 - type: integer 
+	Parameter FSM_TX_BYTE_1 bound to: 3 - type: integer 
+	Parameter FSM_TX_BYTE_2 bound to: 4 - type: integer 
+	Parameter FSM_TX_BYTE_3 bound to: 5 - type: integer 
+	Parameter FSM_TX_BYTE_4 bound to: 6 - type: integer 
+	Parameter FSM_END_SIGNAL_1 bound to: 7 - type: integer 
+	Parameter FSM_END_SIGNAL_2 bound to: 8 - type: integer 
+	Parameter FSM_END_SIGNAL_3 bound to: 9 - type: integer 
+	Parameter FSM_END_SIGNAL_4 bound to: 10 - type: integer 
+	Parameter FSM_DONE bound to: 11 - type: integer 
+	Parameter FSM_TIMER bound to: 12 - type: integer 
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/SCCB_interface.v:92]
+INFO: [Synth 8-6155] done synthesizing module 'SCCB_interface' (4#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/SCCB_interface.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'CamConfigure_Top' (5#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/camera_configure.v:23]
+INFO: [Synth 8-6157] synthesizing module 'CamRead_Top' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_Top.v:23]
+INFO: [Synth 8-6157] synthesizing module 'CamRead_Input' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_input.v:26]
+	Parameter s0_Idle bound to: 1'b0 
+	Parameter s1_Write bound to: 1'b1 
+INFO: [Synth 8-6155] done synthesizing module 'CamRead_Input' (6#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_input.v:26]
+INFO: [Synth 8-6157] synthesizing module 'CamRead_FIFO_wrapper' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/imports/hdl/CamRead_FIFO_wrapper.v:12]
+INFO: [Synth 8-6157] synthesizing module 'CamRead_FIFO' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/synth/CamRead_FIFO.v:13]
+INFO: [Synth 8-6157] synthesizing module 'CamRead_FIFO_fifo_generator_0_0' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/.Xil/Vivado-12800-LAPTOP-H7O8ATU0/realtime/CamRead_FIFO_fifo_generator_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'CamRead_FIFO_fifo_generator_0_0' (7#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/.Xil/Vivado-12800-LAPTOP-H7O8ATU0/realtime/CamRead_FIFO_fifo_generator_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'CamRead_FIFO' (8#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/synth/CamRead_FIFO.v:13]
+WARNING: [Synth 8-7071] port 'valid_0' of module 'CamRead_FIFO' is unconnected for instance 'CamRead_FIFO_i' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/imports/hdl/CamRead_FIFO_wrapper.v:45]
+WARNING: [Synth 8-7023] instance 'CamRead_FIFO_i' of module 'CamRead_FIFO' has 11 connections declared, but only 10 given [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/imports/hdl/CamRead_FIFO_wrapper.v:45]
+INFO: [Synth 8-6155] done synthesizing module 'CamRead_FIFO_wrapper' (9#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/imports/hdl/CamRead_FIFO_wrapper.v:12]
+WARNING: [Synth 8-7071] port 'rst_0' of module 'CamRead_FIFO_wrapper' is unconnected for instance 'UUTb' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_Top.v:62]
+WARNING: [Synth 8-7023] instance 'UUTb' of module 'CamRead_FIFO_wrapper' has 10 connections declared, but only 9 given [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_Top.v:62]
+INFO: [Synth 8-6157] synthesizing module 'CamRead_Output' [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_output.v:23]
+	Parameter s0_Idle bound to: 2'b00 
+	Parameter s1_Read bound to: 2'b01 
+	Parameter s2_Timer bound to: 2'b10 
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_output.v:63]
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_output.v:115]
+INFO: [Synth 8-6155] done synthesizing module 'CamRead_Output' (10#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_output.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'CamRead_Top' (11#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/CamRead_Top.v:23]
+INFO: [Synth 8-6155] done synthesizing module 'The_Top' (12#1) [C:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.srcs/sources_1/new/The_Top.v:23]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:08 ; elapsed = 00:00:07 . Memory (MB): peak = 1790.484 ; gain = 72.117
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1803.547 ; gain = 85.180
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 1803.547 ; gain = 85.180
+---------------------------------------------------------------------------------
+INFO: [Project 1-454] Reading design checkpoint 'c:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/ip/CamRead_FIFO_fifo_generator_0_0/CamRead_FIFO_fifo_generator_0_0.dcp' for cell 'UUT3/UUTb/CamRead_FIFO_i/fifo_generator_0'
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.019 . Memory (MB): peak = 1836.078 ; gain = 0.000
+INFO: [Netlist 29-17] Analyzing 1 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2020.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [c:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/ip/CamRead_FIFO_fifo_generator_0_0/CamRead_FIFO_fifo_generator_0_0.xdc] for cell 'UUT3/UUTb/CamRead_FIFO_i/fifo_generator_0/U0'
+Finished Parsing XDC File [c:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/ip/CamRead_FIFO_fifo_generator_0_0/CamRead_FIFO_fifo_generator_0_0.xdc] for cell 'UUT3/UUTb/CamRead_FIFO_i/fifo_generator_0/U0'
+Parsing XDC File [c:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/ip/CamRead_FIFO_fifo_generator_0_0/CamRead_FIFO_fifo_generator_0_0_clocks.xdc] for cell 'UUT3/UUTb/CamRead_FIFO_i/fifo_generator_0/U0'
+Finished Parsing XDC File [c:/Users/George/Desktop/Edge-Detection/HDMI_test2/HDMI_test2.gen/sources_1/bd/CamRead_FIFO/ip/CamRead_FIFO_fifo_generator_0_0/CamRead_FIFO_fifo_generator_0_0_clocks.xdc] for cell 'UUT3/UUTb/CamRead_FIFO_i/fifo_generator_0/U0'
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1915.141 ; gain = 0.000
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+RTL Elaboration Complete:  : Time (s): cpu = 00:00:20 ; elapsed = 00:00:13 . Memory (MB): peak = 1968.242 ; gain = 249.875
+36 Infos, 4 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:21 ; elapsed = 00:00:15 . Memory (MB): peak = 1968.242 ; gain = 249.875
+close_project
+exit
+INFO: [Common 17-206] Exiting Vivado at Wed Mar 31 20:26:45 2021...
