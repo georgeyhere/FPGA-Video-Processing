@@ -1,2 +1,0 @@
-C:\Users\George\Edge-Detection\testcases\Debug\testcases.exe
-C:\Users\George\Edge-Detection\testcases\Debug\testcases.pdb

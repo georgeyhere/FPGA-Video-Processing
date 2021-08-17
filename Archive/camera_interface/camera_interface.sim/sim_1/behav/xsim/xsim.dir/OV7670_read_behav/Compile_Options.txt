@@ -1,1 +1,0 @@
--wto "c698809d618a438780ec25d64aa71bec" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "unisims_ver" -L "unimacro_ver" -L "secureip" -L "xpm" --snapshot "OV7670_read_behav" "xil_defaultlib.OV7670_read" "xil_defaultlib.glbl" -log "elaborate.log" 

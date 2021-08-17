@@ -1,1 +1,0 @@
--wto "d9eb7c936cf446199cbe8708a2007f80" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "unisims_ver" -L "unimacro_ver" -L "secureip" --snapshot "camera_config_tb_behav" "xil_defaultlib.camera_config_tb" "xil_defaultlib.glbl" -log "elaborate.log" 

@@ -1,4 +1,0 @@
-ClockGen_clk_wiz_0_0_clk_wiz.v,verilog,xil_defaultlib,../../../bd/ClockGen/ip/ClockGen_clk_wiz_0_0/ClockGen_clk_wiz_0_0_clk_wiz.v,incdir="$ref_dir/../../../../test_HDMI.gen/sources_1/bd/ClockGen/ipshared/d0f7"incdir="../../../../test_HDMI.gen/sources_1/bd/ClockGen/ipshared/d0f7"
-ClockGen_clk_wiz_0_0.v,verilog,xil_defaultlib,../../../bd/ClockGen/ip/ClockGen_clk_wiz_0_0/ClockGen_clk_wiz_0_0.v,incdir="$ref_dir/../../../../test_HDMI.gen/sources_1/bd/ClockGen/ipshared/d0f7"incdir="../../../../test_HDMI.gen/sources_1/bd/ClockGen/ipshared/d0f7"
-ClockGen.v,verilog,xil_defaultlib,../../../bd/ClockGen/sim/ClockGen.v,incdir="$ref_dir/../../../../test_HDMI.gen/sources_1/bd/ClockGen/ipshared/d0f7"incdir="../../../../test_HDMI.gen/sources_1/bd/ClockGen/ipshared/d0f7"
-glbl.v,Verilog,xil_defaultlib,glbl.v
