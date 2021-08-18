@@ -1,0 +1,9 @@
+Goal:
+Do edge detection on OV7670 video stream.
+
+Intermediate Goals: 
+1) button debounce module
+2) VGA driver
+3) independent clock FIFO
+4) i2c module
+5) system state machine
