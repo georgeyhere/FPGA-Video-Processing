@@ -1,0 +1,88 @@
+- OV7670
+	- 2-wire SCCB
+	- SCCB is functionally same as i2c but ack/nack bit replaced w/ don't care
+
+
+- SCCB
+	-> spec: https://www.waveshare.com/w/upload/1/14/OmniVision_Technologies_Seril_Camera_Control_Bus%28SCCB%29_Specification.pdf
+
+	i2c spec: https://www.nxp.com/docs/en/user-guide/UM10204.pdf
+	-> start/stop:  page 9,  figure 5
+	-> ack/nack:    page 10, figure 6
+	-> dataframe:   page 15, figure 11
+	-> timing spec: page 48
+	
+	- SCL
+		- idle: logical 1
+
+		- data transmission starts when SCL driven to logic 0
+
+		- minimum period: t_CYC = 10us
+
+	- SDA
+		- idle: high z
+
+		- can occur only when SCL is driven to logic 0
+
+	- Transmission Phases
+
++++++++++++++++   ++++++++++++++  +++++++++++++                          
+|   Phase 1   |---|   Phase 2  |--|  Phase 3  |                        
+ Slave Address      Sub-address    Write Data                             
+                    
+        - each phase is 9 bits
+        - 8-bits of data, 1 ack/nack bit (don't care in SCCB)
+
+
+
+    1) START Condition: 
+    -> SDA is driven low while SCL is high
+        __  
+    SDA   \_
+        ____
+    SCL   
+	
+	2) Send Bit pt1
+	-> SCL is driven low 
+        __    
+    SDA   \___
+        ____  
+    SCL     \_
+
+    3) Send Bit pt2
+    -> When SCL is low, send bit on SDA
+        __     _
+    SDA   \___/_
+        ____  
+    SCL     \___
+
+    4) Send Bit pt3
+    -> Bring SCL high
+        __     ___
+    SDA   \___/___
+        ____     _
+    SCL     \___/
+
+	5/6) Release SDA, Check ACK
+	-> After 8th bit of a data frame, master releases SDA, allowing slave to drive
+	    -> ACK:  SDA is low on following SCL high period
+	    -> NACK: SDA is high on following SCL high period
+
+	ACK:
+	      _____
+    SDA  /__8__\_______
+           ___    ___
+    SCL __/ 8 \__/ 9 \
+
+    NACK:
+	      _____  ____
+    SDA  /__8__\/
+           ___    ___
+    SCL __/ 8 \__/ 9 \_
+
+    - if a NACK is detected, the master can either:
+        1) generate a STOP condition
+        2) repeat a START condition to start a new transfer
+            -> master needs to pull SCL back high
+	
+*/

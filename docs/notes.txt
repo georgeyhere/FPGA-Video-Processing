@@ -1,9 +1,28 @@
 Goal:
 Do edge detection on OV7670 video stream.
 
-Intermediate Goals: 
-1) button debounce module
-2) VGA driver
-3) independent clock FIFO
-4) i2c module
-5) system state machine
+Intermediate Goal: 
+-> Buffer camera video data in external memory
+-> Read video data from external memory 
+-> Display video data via VGA 
+
+
+    1) button debounce module
+        - verilog testbench
+
+    2) VGA driver
+        - formal
+        - verilog testbench
+
+    3) independent clock FIFO
+        - formal
+        - systemverilog testbench
+
+    4) memory interface
+        
+    5) i2c module
+        - formal
+        
+    6) system state machine
+        - formal
+        - systemverilog testbench
