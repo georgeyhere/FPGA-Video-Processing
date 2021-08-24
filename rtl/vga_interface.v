@@ -64,8 +64,8 @@ module vga_interface
 		// FIFO control
 		nxt_rd       = 0;
 
-		nxt_vsync    = vsync;
-		nxt_hsync    = hsync;
+		nxt_vsync    = 0;
+		nxt_hsync    = 0;
 		nxt_red      = 0;
 		nxt_green    = 0;
 		nxt_blue     = 0;
@@ -77,8 +77,8 @@ module vga_interface
 		// - Initial state; wait one frame to allow
 		//                  for camera configuration 
 			STATE_INITIAL: begin
-				if((counterX == 1) && (counterY == 1)) begin
-					NEXT_STATE = STATE_IDLE;
+				if((counterX == 640) && (counterY == 480)) begin
+					NEXT_STATE = STATE_ACTIVE;
 				end
 			end
 
@@ -87,6 +87,8 @@ module vga_interface
 			STATE_ACTIVE: begin
 				if(active && !i_empty) begin
 					nxt_rd    = 1;
+					nxt_vsync = vsync;
+					nxt_hsync = hsync;
 					nxt_red   = i_data[15:11];
 					nxt_green = i_data[10:5];
 					nxt_blue  = i_data[4:0];
