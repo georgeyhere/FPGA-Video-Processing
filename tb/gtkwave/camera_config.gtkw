@@ -1,0 +1,49 @@
+[*]
+[*] GTKWave Analyzer v3.3.109 (w)1999-2020 BSI
+[*] Tue Aug 24 21:32:54 2021
+[*]
+[dumpfile] "C:\Users\work\Documents\repos\Edge-Detection\tb\gtkwave\camera_config_tb.vcd"
+[savefile] "C:\Users\work\Documents\repos\Edge-Detection\tb\gtkwave\camera_config.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*-9.000000 705 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] camera_config_tb.
+[treeopen] camera_config_tb.DUT.
+[sst_width] 192
+[signals_width] 166
+[sst_expanded] 1
+[sst_vpaned_height] 158
+@28
+camera_config_tb.clk
+camera_config_tb.rstn
+@200
+-i/o
+@28
+camera_config_tb.SCL
+camera_config_tb.SDA
+@200
+-config state
+@28
+camera_config_tb.DUT.STATE[1:0]
+camera_config_tb.DUT.NEXT_STATE[1:0]
+@200
+-controls
+@22
+camera_config_tb.DUT.rom_addr[7:0]
+@28
+camera_config_tb.DUT.wr
+@22
+camera_config_tb.DUT.reg_addr[7:0]
+camera_config_tb.DUT.wdata[7:0]
+@200
+-ROM
+@22
+camera_config_tb.DUT.config_rom_i.i_addr[7:0]
+camera_config_tb.DUT.config_rom_i.o_data[15:0]
+@200
+-i2c master
+@29
+camera_config_tb.DUT.i2c_master_i.o_busy
+[pattern_trace] 1
+[pattern_trace] 0

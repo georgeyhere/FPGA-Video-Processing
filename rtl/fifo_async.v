@@ -26,7 +26,7 @@
 */
 
 module fifo_async 
-	#(parameter DATA_WIDTH = 2,
+	#(parameter DATA_WIDTH = 16,
 	  parameter ADDR_WIDTH = 4)
 	 
 	(
@@ -82,7 +82,7 @@ module fifo_async
 //
 // FIFO MEMORY
 // synthesized with ram primitives
-    assign o_rdata = mem[raddr];
+    assign o_rdata = mem[raddr]; // FWFT
     always@(posedge i_wclk) begin
         if((i_wr) && (!o_wfull)) mem[waddr] <= i_wdata;
     end

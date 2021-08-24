@@ -39,23 +39,28 @@ module vga_interface
 	reg STATE;
 	reg NEXT_STATE;
 
-	localparam STATE_INITIAL = 1,
-	           STATE_ACTIVE  = 2;
+	localparam STATE_INITIAL = 0,
+	           STATE_ACTIVE  = 1;
 
 	// Next State
-	reg nxt_rd;
+	reg       nxt_rd;
+	reg       nxt_vsync;
+	reg       nxt_hsync;
+	reg [4:0] nxt_red;
+	reg [5:0] nxt_green;
+	reg [4:0] nxt_blue;
 
 
 // **** Instantiate VTC ****
 //
 	vtc vtc_inst(
-	.i_clk      (i_clk),
-	.i_rstn     (i_rstn),
-	.o_vsync    (o_vsync),
-	.o_hsync    (o_hsync),
-	.o_active   (active),
-	.o_counterX (counterX),
-	.o_counterY (counterY)
+	.i_clk      (i_clk     ),
+	.i_rstn     (i_rstn    ),
+	.o_vsync    (vsync     ),
+	.o_hsync    (hsync     ),
+	.o_active   (active    ),
+	.o_counterX (counterX  ),
+	.o_counterY (counterY  )
 	);
 
 // **** Next State Logic  ****
