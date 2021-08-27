@@ -53,7 +53,7 @@
 //
 `default_nettype none
 //
-module i2c_master#
+module cfg_i2c_master#
 	(
 		parameter T_CLK = 10
 	) 

@@ -5,43 +5,48 @@
 //
 
 module vtc 
-	(
-	input wire i_clk,  
-	input wire i_rstn,
-
-	// display timing
-	output wire o_vsync,
-	output wire o_hsync,
-	output wire o_active,
-
-	// counter passthrough
-	output wire [9:0] o_counterX,
-	output wire [9:0] o_counterY
-	);
-
+	#(
 	// total frame size
-	localparam RES_WIDTH  = 800;
-	localparam RES_HEIGHT = 525;
-
-	// active area
-	localparam ACTIVE_X   = 640;
-    localparam ACTIVE_Y   = 480;
+	parameter RES_WIDTH     = 800,
+	parameter RES_HEIGHT    = 525,
+  
+	// active area  
+	parameter ACTIVE_X      = 640,
+    parameter ACTIVE_Y      = 480,
 
 	// hsync pulse width, back porch, front porch
-	localparam HSYNC_WIDTH = 96;
-	localparam HSYNC_BP    = 48;
-	localparam HSYNC_FP    = 16;
+	parameter HSYNC_WIDTH   = 96,
+	parameter HSYNC_BP      = 48,
+	parameter HSYNC_FP      = 16,
 
 	// vsync pulse width, back porch, front porch
-	localparam VSYNC_WIDTH = 2;
-	localparam VSYNC_BP    = 33;
-	localparam VSYNC_FP    = 16;
+	parameter VSYNC_WIDTH   = 2,
+	parameter VSYNC_BP      = 33,
+	parameter VSYNC_FP      = 10,
+
+	parameter COUNTER_WIDTH = 10
+	)
+	(
+	input wire i_clk,  // pixel clock
+	input wire i_rstn, // synchronous active low reset
+
+	// display timing
+	output reg o_vsync,
+	output reg o_hsync,
+	output reg o_active,
+
+	// counter passthrough
+	output wire [COUNTER_WIDTH-1:0] o_counterX,
+	output wire [COUNTER_WIDTH-1:0] o_counterY
+	);
+
+	
 
 	// horizontal and vertical counters
 	//localparam COUNTER_X_WIDTH = $clog2(RES_WIDTH);	
 	//localparam COUNTER_Y_WIDTH = $clog2(RES_HEIGHT);
-	reg [9:0] counterX;
-	reg [9:0] counterY;
+	reg [COUNTER_WIDTH-1:0] counterX;
+	reg [COUNTER_WIDTH-1:0] counterY;
 
 
 	initial begin
@@ -50,14 +55,14 @@ module vtc
 	end
 
 //
-//
+// vsync and hsync counters
 //
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
 			counterX <= 0;
 		end
 		else begin
-			counterX <= (counterX == RES_WIDTH-1) ? 0 : counterX + 1;
+			counterX <= (counterX == 799) ? 0 : (counterX + 1);
 		end
 	end
 
@@ -66,15 +71,28 @@ module vtc
 			counterY <= 0;
 		end
 		else begin
-			if(counterX == RES_WIDTH-1) begin
-				counterY <= (counterY == RES_HEIGHT-1) ? 0 : counterY + 1;
+			if(counterX == 799) begin
+				counterY <= (counterY == 524) ? 0 : (counterY + 1);
 			end
 		end
 	end
 
 //
+// output combinatorial logic
 //
-//
+	always@(posedge i_clk) begin
+		if(!i_rstn) begin
+			o_active <= 0;
+			o_hsync  <= 0;
+			o_vsync  <= 0;
+		end
+		else begin
+			o_active <= (counterX < 640) && (counterY < 480);
+			o_hsync  <= (counterX >= 656) && (counterX < 752);
+			o_vsync  <= (counterY >= 490) && (counterY < 492);
+		end
+	end
+/*
     assign o_hsync  = ((counterX >= ACTIVE_X + HSYNC_FP) && 
     	               (counterX <  ACTIVE_X + HSYNC_FP + HSYNC_WIDTH));
  
@@ -83,7 +101,7 @@ module vtc
 
     assign o_active = ((counterX >= 0) && (counterX < ACTIVE_X) &&
     	               (counterY >= 0) && (counterY < ACTIVE_Y));
-
+*/
     assign o_counterX = counterX;
     assign o_counterY = counterY;
 

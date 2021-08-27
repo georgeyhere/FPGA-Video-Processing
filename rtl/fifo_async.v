@@ -23,6 +23,29 @@
 
     - full flag  (write domain)
         - removed with synchronized read pointer
+
+    INSTANTIATION TEMPLATE:
+
+    fifo_async
+    #(.DATA_WIDTH (12),
+      .ADDR_WIDTH (4))
+    fifo_i(
+    // write interface
+    .i_wclk   (),
+    .i_wrstn  (),
+    .i_wr     (),
+    .i_wdata  (),
+    .o_wfull  (),
+    .o_wfill  (),
+    
+    // read interface
+    .i_rclk   (),
+    .i_rrstn  (),
+    .i_rd     (),
+    .o_rdata  (),
+    .o_rempty (),
+    .o_rfill  ()
+    );
 */
 
 module fifo_async 
@@ -32,7 +55,7 @@ module fifo_async
 	(
     // WRITE-DOMAIN INTERFACE
     input  wire                  i_wclk,   // write-domain clock
-    input  wire                  i_wrstn,  // write-domain active low reset
+    input  wire                  i_wrstn,  // write-domain async active low reset
     input  wire                  i_wr,     // write enable
     input  wire [DATA_WIDTH-1:0] i_wdata,  // write data in
     output reg                   o_wfull,  // FIFO is full
@@ -46,8 +69,6 @@ module fifo_async
     output reg                   o_rempty, // FIFO is empty
     output reg  [ADDR_WIDTH-1:0] o_rfill   // read-domain fill level
 	);
-
-	//localparam ADDR_WIDTH = $clog2(MEM_DEPTH);
 
     reg  [DATA_WIDTH-1:0] mem [0:((1<<ADDR_WIDTH)-1)];
  

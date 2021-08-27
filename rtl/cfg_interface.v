@@ -1,13 +1,14 @@
-// module: camera_config.v
+// module: cfg_interface.v
 //
 // This module reads from config_rom and initiates i2c_master writes.
-// It operates in the 100 MHz clock domain.
+// It operates in the 125 MHz clock domain.
 //
 `default_nettype none
 //
-module camera_config 
+module cfg_interface 
+	#(parameter T_CLK = 8)
 	(
-	input  wire i_clk,  // 100 MHz clock
+	input  wire i_clk,  // 125 MHz clock
 	input  wire i_rstn, 
 
 	// i2c pins
@@ -38,13 +39,13 @@ module camera_config
 	           STATE_TIMER  = 2;
 	           
 
-	localparam T_CLK       = 10;
 	localparam DELAY_VAL   = 1_000_000/T_CLK - 2; // clks for 1ms delay
 	localparam TIMER_WIDTH = $clog2(DELAY_VAL);
 
 	reg [TIMER_WIDTH-1:0] timer, nxt_timer;
 
 // **** Initial Values ****
+//
 	initial begin
 		wr       = 0;
 		rom_addr = 0;
@@ -133,7 +134,7 @@ module camera_config
 
 // **** Submodule Instantiation ****
 //
-	config_rom config_rom_i (
+	cfg_rom config_rom_i (
 	.i_clk         (i_clk),
 	.i_rstn        (i_rstn),
 	.i_addr        (rom_addr),
@@ -142,7 +143,7 @@ module camera_config
 
 
 	// SCCB is the same as i2c but no ACK/NACK
-	i2c_master 
+	cfg_i2c_master 
 	#(
 	.T_CLK (T_CLK)
 	) 
