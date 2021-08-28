@@ -6,7 +6,7 @@ module display_interface
 
 	// FIFO read interface
 	output reg         o_rd,
-	input  wire [11:0] i_rgb,
+	input  wire [11:0] i_rgb,   // {red, green, blue}
 	input  wire        i_empty,
 
 	// TMDS out

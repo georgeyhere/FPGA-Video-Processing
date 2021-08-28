@@ -17,7 +17,7 @@ module capture
  
 	// FIFO write interface
 	output reg         o_wr,    // fifo write enable
-	output reg  [11:0] o_wdata, // fifo write data
+	output reg  [11:0] o_wdata, // fifo write data; {red, green, blue}
 	input  wire        i_full   // fifo full flag
 	);
 
@@ -51,16 +51,16 @@ module capture
 				if(i_href) begin
 					nxt_pixel_half = ~nxt_pixel_half;
 
-					// back half of data frame (green, blue)
+					// RGB444: Second Byte (green, blue)
 					if(pixel_half) begin
-						nxt_wr         = 0;
-						nxt_wdata      = {i_data, o_wdata[3:0]};
+						nxt_wr         = 1;
+						nxt_wdata      = {o_wdata[11:8], i_data};
 					end
 
-					// front half of data frame (red)
+					// RGB444: First Byte (red)
 					else begin
-						nxt_wr         = 1;
-						nxt_wdata[3:0] = i_data[3:0];
+						nxt_wr          = 0;
+						nxt_wdata[11:8] = i_data[3:0];
 					end          
 				end
 				NEXT_STATE = (i_vsync) ? STATE_IDLE : STATE_ACTIVE;
@@ -73,7 +73,7 @@ module capture
 		if(!i_rstn) begin
 			o_wr         <= 0;
 			o_wdata      <= 0;
-			pixel_half   <= nxt_pixel_half;
+			pixel_half   <= 0;
 			STATE        <= STATE_IDLE;
 		end
 		else begin

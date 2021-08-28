@@ -101,6 +101,9 @@ module cfg_rom
                 72: o_data <= 16'ha9_90; // HAECC6
                 73: o_data <= 16'haa_94; // HAECC7
                 74: o_data <= 16'h13_e5; // COM8, enable AGC / AEC
+                75: o_data <= 16'h15_20; // disable PCLK toggle on horizontal blank
+                76: o_data <= 16'h1E_23; // mirror image
+                77: o_data <= 16'h69_06; // RGB gain
                 default: o_data <= 16'hFF_FF;  //mark end of ROM
 			endcase
 		end
