@@ -88,7 +88,7 @@ module sys_top
 // 
 	clk_wiz_0 dcm_i (
 	.clk_in1    (i_sysclk      ), // 125MHz board clock
-	.reset      (i_rst         ),
+	.reset      (1'b0          ),
 	.clk_24MHz  (o_cam_xclk    ), // camera reference clock output
 	.clk_25MHz  (clk_25MHz     ), // display pixel clock
 	.clk_250MHz (clk_250MHz    )  // display TMDS clock

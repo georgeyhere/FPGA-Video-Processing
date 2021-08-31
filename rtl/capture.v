@@ -23,6 +23,8 @@ module capture
 
 	reg        nxt_wr;
 	reg [11:0] nxt_wdata;
+	reg [3:0]  byte1_data, nxt_byte1_data;
+
 	reg        pixel_half, nxt_pixel_half;
 
 	reg        STATE, NEXT_STATE;
@@ -33,8 +35,9 @@ module capture
 // **** Next State Logic ****
 //
 	always@* begin
-		nxt_wr           = o_wr;
+		nxt_wr           = 0;
 		nxt_wdata        = o_wdata;
+		nxt_byte1_data   = byte1_data;
 		nxt_pixel_half   = pixel_half;
 		NEXT_STATE       = STATE;
 
@@ -42,8 +45,9 @@ module capture
 
 			// camera not outputting 
 			STATE_IDLE: begin
+				nxt_wr         = 0;
 				nxt_pixel_half = 0;
-				NEXT_STATE = (i_vsync) ? STATE_ACTIVE : STATE_IDLE;
+				NEXT_STATE = (!i_vsync) ? STATE_ACTIVE : STATE_IDLE;
 			end
 
 			// camera outputting display data
@@ -53,14 +57,14 @@ module capture
 
 					// RGB444: Second Byte (green, blue)
 					if(pixel_half) begin
-						nxt_wr         = 1;
-						nxt_wdata      = {o_wdata[11:8], i_data};
+						nxt_wr         = (i_href == 1'b1);
+						nxt_wdata      = {byte1_data, i_data};
 					end
 
 					// RGB444: First Byte (red)
 					else begin
-						nxt_wr          = 0;
-						nxt_wdata[11:8] = i_data[3:0];
+						nxt_wr         = 0;
+						nxt_byte1_data = i_data[3:0];
 					end          
 				end
 				NEXT_STATE = (i_vsync) ? STATE_IDLE : STATE_ACTIVE;
@@ -73,12 +77,14 @@ module capture
 		if(!i_rstn) begin
 			o_wr         <= 0;
 			o_wdata      <= 0;
+			byte1_data   <= 0;
 			pixel_half   <= 0;
 			STATE        <= STATE_IDLE;
 		end
 		else begin
 			o_wr         <= nxt_wr;
 			o_wdata      <= nxt_wdata;
+			byte1_data   <= nxt_byte1_data;
 			pixel_half   <= nxt_pixel_half;
 			STATE        <= NEXT_STATE;
 		end

@@ -26,3 +26,8 @@ Intermediate Goal:
     6) system state machine
         - formal
         - systemverilog testbench
+
+///////////////////////////////////////////////
+Log:
+
+8/28: 
