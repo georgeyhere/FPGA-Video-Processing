@@ -30,4 +30,17 @@ Intermediate Goal:
 ///////////////////////////////////////////////
 Log:
 
-8/28: 
+8/31:
+- implemented a self-checking testbench for the capture module. 
+
+- found a bug in the capture module. Incorrect default statement for the FIFO write control signal
+  caused consecutive writes of the same data. 
+
+- found a bug in the memory interface. The memory interface logic reads continuously from the camera FIFO 
+  unless the empty flag is asserted. There's a one-cycle delay on the read being deasserted, resulting in
+  invalid data being read.
+        -> the solution: implemented programmable almost-empty flag on the FIFO. The read-domain 
+                         synchronized write pointer (double ff) is converted to binary and used to compute
+                         a fill level, which in turn is used to control the empty flag. Did the same on the
+                         write side, with a full flag.
+    

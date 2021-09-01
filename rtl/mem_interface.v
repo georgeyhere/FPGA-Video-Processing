@@ -20,6 +20,7 @@ module mem_interface
 
 	localparam BRAM_DEPTH = 307200;
 
+	reg         empty;
 	reg         nxt_rd;
 	reg  [18:0] addra, nxt_addra;
 	reg  [11:0] dina, nxt_dina;
@@ -37,7 +38,7 @@ module mem_interface
 	end
 
 	always@* begin
-		nxt_rd    = o_rd;
+		nxt_rd    = 0;
 		nxt_dina  = dina;
 		nxt_wea   = 0;
 		nxt_addra = addra;
@@ -51,7 +52,7 @@ module mem_interface
 	end
 
 	always@* begin
-		nxt_wr    = o_wr;
+		nxt_wr    = 0;
 		nxt_data  = o_data;
 		nxt_addrb = addrb;
 		//

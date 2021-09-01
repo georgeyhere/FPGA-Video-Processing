@@ -4,76 +4,57 @@
 //
 // Follows the Gray code counter - Style #2 from the following paper:
 // -> http://www.sunburst-design.com/papers/CummingsSNUG2002SJ_FIFO1.pdf
+// 
+// Another good resource:
+// -> http://www.idc-online.com/technical_references/pdfs/electronic_engineering/New_Asynchronous_FIFO_Design.pdf
 //
 // Formally verified based on:
 // -> https://zipcpu.com/blog/2018/07/06/afifo.html
 /*
-
 - multi-bit synchronization
     - use an n-bit Gray-code pointer to synchronize read and write pointers
-
 - flags
+    - registered for better performance
     - pessimistic
         - flags are removed late
         - two cycle delay due to double FFs
         - note that flags are still set 'accurately'
-
     - empty flag (read domain)
         - removed with synchronized write pointer
-
     - full flag  (write domain)
         - removed with synchronized read pointer
-
-    INSTANTIATION TEMPLATE:
-
-    fifo_async
-    #(.DATA_WIDTH (12),
-      .ADDR_WIDTH (4))
-    fifo_i(
-    // write interface
-    .i_wclk   (),
-    .i_wrstn  (),
-    .i_wr     (),
-    .i_wdata  (),
-    .o_wfull  (),
-    .o_wfill  (),
-    
-    // read interface
-    .i_rclk   (),
-    .i_rrstn  (),
-    .i_rd     (),
-    .o_rdata  (),
-    .o_rempty (),
-    .o_rfill  ()
-    );
 */
 
 module fifo_async 
-	#(parameter DATA_WIDTH = 16,
-	  parameter ADDR_WIDTH = 4)
-	 
-	(
-    // WRITE-DOMAIN INTERFACE
-    input  wire                  i_wclk,   // write-domain clock
-    input  wire                  i_wrstn,  // write-domain async active low reset
-    input  wire                  i_wr,     // write enable
-    input  wire [DATA_WIDTH-1:0] i_wdata,  // write data in
-    output reg                   o_wfull,  // FIFO is full
-    output reg  [ADDR_WIDTH-1:0] o_wfill,  // write-domain fill level
+    #(parameter DATA_WIDTH         = 2,
+      parameter ADDR_WIDTH         = 4,
+      parameter ALMOSTFULL_OFFSET  = 2,
+      parameter ALMOSTEMPTY_OFFSET = 2)
+     
+    (
+    input  wire                  i_wclk,
+    input  wire                  i_wrstn,
+    input  wire                  i_wr,
+    input  wire [DATA_WIDTH-1:0] i_wdata,
+    output reg                   o_wfull,
+    output reg                   o_walmostfull,
+    output reg  [ADDR_WIDTH-1:0] o_wfill,
 
-    // READ-DOMAIN INTERFACE
-    input  wire                  i_rclk,   // read-domain clock
-    input  wire                  i_rrstn,  // read-domain async active low reset
-    input  wire                  i_rd,     // read enable
-    output wire [DATA_WIDTH-1:0] o_rdata,  // read data out
-    output reg                   o_rempty, // FIFO is empty
-    output reg  [ADDR_WIDTH-1:0] o_rfill   // read-domain fill level
-	);
+    input  wire                  i_rclk,
+    input  wire                  i_rrstn,
+    input  wire                  i_rd,
+    output wire [DATA_WIDTH-1:0] o_rdata,
+    output reg                   o_rempty,
+    output reg                   o_ralmostempty,
+    output reg  [ADDR_WIDTH-1:0] o_rfill
+    );
 
-    reg  [DATA_WIDTH-1:0] mem [0:((1<<ADDR_WIDTH)-1)];
- 
-    reg  [ADDR_WIDTH  :0] rq1_wptr;
-    reg  [ADDR_WIDTH  :0] rq2_wptr;
+    //localparam ADDR_WIDTH = $clog2(MEM_DEPTH);
+
+    reg [DATA_WIDTH-1:0] mem [0:((1<<ADDR_WIDTH)-1)];
+
+    reg [ADDR_WIDTH  :0] rq1_wptr;
+    reg [ADDR_WIDTH  :0] rq2_wptr;
 
     wire [ADDR_WIDTH-1:0] raddr;
 
@@ -83,11 +64,10 @@ module fifo_async
     reg  [ADDR_WIDTH  :0] rptr;
     wire [ADDR_WIDTH  :0] rgraynext; 
 
-    wire                  rempty_val;
-    wire [ADDR_WIDTH-1:0] rfill_val;
+    wire rempty_val;
 
-    reg  [ADDR_WIDTH  :0] wq1_rptr;
-    reg  [ADDR_WIDTH  :0] wq2_rptr;
+    reg [ADDR_WIDTH  :0] wq1_rptr;
+    reg [ADDR_WIDTH  :0] wq2_rptr;
 
     wire [ADDR_WIDTH-1:0] waddr;
 
@@ -97,20 +77,16 @@ module fifo_async
     reg  [ADDR_WIDTH  :0] wptr;
     wire [ADDR_WIDTH  :0] wgraynext;
 
-    wire                  wfull_val;
-    wire [ADDR_WIDTH-1:0] wfill_val;
+    wire wfull_val;
 
 //
 // FIFO MEMORY
 // synthesized with ram primitives
-    assign o_rdata = mem[raddr]; // FWFT
+    assign o_rdata = mem[raddr];
     always@(posedge i_wclk) begin
         if((i_wr) && (!o_wfull)) mem[waddr] <= i_wdata;
     end
 
-// ****
-//
-//
 
 //
 // synchronize write pointer to read clock domain
@@ -145,19 +121,35 @@ module fifo_async
 
     // EMPTY FLAG LOGIC
     initial o_rempty = 1;
-    always@(posedge i_rclk or negedge i_rrstn) begin
+    always@(posedge i_rclk or negedge i_rrstn) begin 
         if(!i_rrstn) o_rempty <= 1;
-        else         o_rempty <= rempty_val;        
+        else         o_rempty <= rempty_val; 
     end
     assign rempty_val = (rgraynext == rq2_wptr);
 
-    // READ DOMAIN FILL LEVEL
+    // READ FILL LEVEL
+    wire [ADDR_WIDTH-1:0] rdiff;
+    wire [ADDR_WIDTH-1:0] rq2_wptr_bin;
+    assign rq2_wptr_bin[ADDR_WIDTH-1] = rgraynext[ADDR_WIDTH-1];
+    for(genvar i=ADDR_WIDTH-2; i>=0; i=i-1) begin
+        xor(rq2_wptr_bin[i], rq2_wptr[i], rq2_wptr_bin[i+1]);
+    end
+
+    assign rdiff = (rbinnext >= rq2_wptr_bin) ? (rq2_wptr_bin - rbinnext) :
+                                    ((1<<ADDR_WIDTH) - rbinnext + rq2_wptr_bin); 
+
     always@(posedge i_rclk or negedge i_rrstn) begin
         if(!i_rrstn) o_rfill <= 0;
-        else         o_rfill <= rfill_val;
+        else         o_rfill <= rdiff;
     end
-    assign rfill_val = (rq2_wptr >= rptr) ? (rq2_wptr - rptr) :
-                                            ((1<<ADDR_WIDTH) - rptr + rq2_wptr);
+
+    // ALMOST EMPTY FLAG
+    wire almostempty_val;
+    assign almostempty_val = (rdiff <= ALMOSTEMPTY_OFFSET);
+    always@(posedge i_rclk or negedge i_rrstn) begin
+        if(!i_rrstn) o_ralmostempty <= 1;
+        else         o_ralmostempty <= almostempty_val;
+    end
 
 // ****
 //
@@ -185,7 +177,7 @@ module fifo_async
         if(!i_wrstn) wbin <= 0;
         else         wbin <= wbinnext;
     end
-    assign wbinnext = wbin + { {(ADDR_WIDTH){1'b0}}, ((i_wr) && (!o_wfull)) };;
+    assign wbinnext = wbin + { {(ADDR_WIDTH){1'b0}}, ((i_wr) && (!o_wfull)) };
 
     // GRAY-CODE WRITE POINTER
     initial wptr = 0;
@@ -204,14 +196,29 @@ module fifo_async
     assign wfull_val = (wgraynext == {~wq2_rptr[ADDR_WIDTH:ADDR_WIDTH-1], 
                                        wq2_rptr[ADDR_WIDTH-2:0]});
 
-    // READ DOMAIN FILL LEVEL
-    always@(posedge i_wclk or negedge i_wrstn) begin
-        if(!i_wrstn) o_wfill <= 0;
-        else         o_wfill <= wfill_val;
+    // WRITE FILL LEVEL
+    wire [ADDR_WIDTH-1:0] wdiff;
+    wire [ADDR_WIDTH-1:0] wq2_rptr_bin;
+    assign wq2_rptr_bin[ADDR_WIDTH-1] = wgraynext[ADDR_WIDTH-1];
+    for(genvar i=ADDR_WIDTH-2; i>=0; i=i-1) begin
+        xor(wq2_rptr_bin[i], wq2_rptr[i], wq2_rptr_bin[i+1]);
     end
-    assign wfill_val = (wptr >= wq2_rptr) ? (wptr - wq2_rptr) :
-                                            ((1<<ADDR_WIDTH) - wq2_rptr + wptr);
 
+    assign wdiff = (wq2_rptr_bin >= wbinnext) ? (wbinnext - wq2_rptr_bin) :
+                                    ((1<<ADDR_WIDTH) - wq2_rptr_bin + wbinnext); 
+
+    always@(posedge i_wclk or negedge i_wrstn) begin
+        if(!i_rrstn) o_wfill <= 0;
+        else         o_wfill <= wdiff;
+    end
+
+    // ALMOST FULL FLAG
+    wire almostfull_val;
+    assign almostfull_val = (wdiff >= ((1<<ADDR_WIDTH)-ALMOSTFULL_OFFSET));
+    always@(posedge i_wclk or negedge i_wrstn) begin
+        if(!i_rrstn) o_walmostfull <= 1;
+        else         o_walmostfull <= almostfull_val;
+    end
 
 //
 //
@@ -397,7 +404,7 @@ module fifo_async
         if(f_fill == 1)
             assert((rempty_val) || (!i_rd) || (o_rempty));
 
-    // check gray-code to binary translations
+    // check binary to gray code translations
     always@*
         assert(wptr == ((wbin>>1)^wbin));
     always@*
