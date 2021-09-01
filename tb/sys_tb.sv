@@ -21,16 +21,20 @@ module sys_tb();
 	logic [11:0] rdata_24_125;
 	logic empty_24_125;
 	logic almostempty_24_125;
-	logic [7:0] rfill_24_125;
-
-	logic ALMOSTFULL;
-	logic ALMOSTEMPTY;
-	logic [9:0] RDCOUNT, WRCOUNT;
-	logic RDERR, WRERR;
+	logic [9:0] rfill_24_125;
 
 	// 125MHz to 25MHz FIFO
 	logic wr_125_25;
 	logic [11:0] wdata_125_25;
+	logic full_125_25;
+	logic almostfull_125_25;
+	logic [9:0] wfill_125_25;
+
+	logic rd_125_25;
+	logic [11:0] rdata_125_25;
+	logic empty_125_25;
+	logic almostempty_125_25;
+	logic [9:0] rfill_125_25;
 
 	//
 	logic [11:0] test_data;
@@ -57,9 +61,11 @@ module sys_tb();
 //
 
 	fifo_async
-	#(.DATA_WIDTH  (12),
-	  .ADDR_WIDTH  (8),
-	  .ALMOSTEMPTY (2))
+	#(.DATA_WIDTH         (12),
+	  .PTR_WIDTH          (10),
+	  .ALMOSTFULL_OFFSET  (2),
+	  .ALMOSTEMPTY_OFFSET (2) 
+	 )
 	fifo_24_125_i(
 	// write interface
 	.i_wclk         (i_cam_pclk    ), // 24 MHz camera pclk
@@ -81,27 +87,60 @@ module sys_tb();
 
 // **** BRAM Buffer (125MHz) ****
 //
-	mem_interface mem_i(
-	.i_clk  (i_sysclk     ),
-	.i_rstn (db_rstn      ),
+	mem_interface 
+	#(.ROWLENGTH  (10),
+	  .DATA_WIDTH (12),
+	  .BRAM_DEPTH (16384) 
+	 )
+	mem_i(
+	.i_clk         (i_sysclk     ),
+	.i_rstn        (db_rstn      ),
 
 	// read interface: 24MHz to 125MHz FIFO
-	.o_rd   (rd_24_125    ),
-	.i_data (rdata_24_125 ),
-	.i_empty(almostempty_24_125 ),
+	.o_rd          (rd_24_125    ),
+	.i_data        (rdata_24_125 ),
+	.i_almostempty (almostempty_24_125 ),
+	.i_fill        (rfill_24_125),
  
 	// write interface: 125MHz to 25MHz FIFO
-	.o_wr   (wr_125_25    ),
-	.o_data (wdata_125_25 ),
-	.i_full (1'b0         )
+	.o_wr          (wr_125_25    ),
+	.o_data        (wdata_125_25 ),
+	.i_almostfull  (almostfull_125_25  )
 	);
 
+// **** CDC FIFO: 125MHz to 25MHz ****
+//
+
+	fifo_async
+	#(.DATA_WIDTH         (12),
+	  .PTR_WIDTH          (10),
+	  .ALMOSTFULL_OFFSET  (2),
+	  .ALMOSTEMPTY_OFFSET (2)  )
+	fifo_125_25_i(
+	// write interface
+	.i_wclk         (i_sysclk      ), // 125 MHz sys clock
+	.i_wrstn        (db_rstn       ), // active-low async reset
+	.i_wr           (wr_125_25     ), // write enable
+	.i_wdata        (wdata_125_25  ), // write data
+	.o_wfull        (full_125_25   ), // full flag
+	.o_walmostfull  (almostfull_125_25),
+	.o_wfill        (wfill_125_25),
+ 	
+ 	// read interface
+	.i_rclk         (i_dispclk     ), // 25 MHz display clock 
+	.i_rrstn        (db_rstn       ), // active-low async reset
+	.i_rd           (rd_125_25     ), // read enable
+	.o_rdata        (rdata_125_25  ), // read data
+	.o_rempty       (empty_125_25  ), // empty flag
+	.o_ralmostempty (almostempty_125_25),
+	.o_rfill        (rfill_125_25)
+	);
 
 // Testbench Setup
 //
-	localparam TESTRUNS  = 2;
-	localparam ROWCOUNT  = 480;
-	localparam ROWLENGTH = 640;
+	localparam TESTRUNS  = 2;  // 2 frames
+	localparam ROWCOUNT  = 10; // # of rows
+	localparam ROWLENGTH = 20; // # of bytes per line (pixels*2)
 
 	// test data 
 	logic [11:0] test_queue[$];
@@ -136,10 +175,6 @@ module sys_tb();
         repeat(6) @(negedge i_cam_pclk);
         
         db_rstn  = 1;
-
-        @(posedge i_cam_pclk) i_cam_vsync = 1;
-        repeat(3) @(posedge i_cam_pclk);
-        @(posedge i_cam_pclk) i_cam_vsync = 0;
 
         repeat(17) @(posedge i_cam_pclk);
 

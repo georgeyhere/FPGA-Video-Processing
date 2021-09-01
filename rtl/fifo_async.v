@@ -27,7 +27,7 @@
 
 module fifo_async 
     #(parameter DATA_WIDTH         = 2,
-      parameter ADDR_WIDTH         = 4,
+      parameter PTR_WIDTH          = 4,
       parameter ALMOSTFULL_OFFSET  = 2,
       parameter ALMOSTEMPTY_OFFSET = 2)
      
@@ -38,7 +38,7 @@ module fifo_async
     input  wire [DATA_WIDTH-1:0] i_wdata,
     output reg                   o_wfull,
     output reg                   o_walmostfull,
-    output reg  [ADDR_WIDTH-1:0] o_wfill,
+    output reg  [PTR_WIDTH-1:0]  o_wfill,
 
     input  wire                  i_rclk,
     input  wire                  i_rrstn,
@@ -46,36 +46,35 @@ module fifo_async
     output wire [DATA_WIDTH-1:0] o_rdata,
     output reg                   o_rempty,
     output reg                   o_ralmostempty,
-    output reg  [ADDR_WIDTH-1:0] o_rfill
+    output reg  [PTR_WIDTH-1:0]  o_rfill
     );
 
-    //localparam ADDR_WIDTH = $clog2(MEM_DEPTH);
 
-    reg [DATA_WIDTH-1:0] mem [0:((1<<ADDR_WIDTH)-1)];
+    reg  [DATA_WIDTH-1:0] mem [0:((1<<PTR_WIDTH)-1)];
+ 
+    reg  [PTR_WIDTH  :0]  rq1_wptr;
+    reg  [PTR_WIDTH  :0]  rq2_wptr;
 
-    reg [ADDR_WIDTH  :0] rq1_wptr;
-    reg [ADDR_WIDTH  :0] rq2_wptr;
+    wire [PTR_WIDTH-1:0] raddr;
 
-    wire [ADDR_WIDTH-1:0] raddr;
+    reg  [PTR_WIDTH  :0] rbin; 
+    wire [PTR_WIDTH  :0] rbinnext;
 
-    reg  [ADDR_WIDTH  :0] rbin; 
-    wire [ADDR_WIDTH  :0] rbinnext;
-
-    reg  [ADDR_WIDTH  :0] rptr;
-    wire [ADDR_WIDTH  :0] rgraynext; 
+    reg  [PTR_WIDTH  :0] rptr;
+    wire [PTR_WIDTH  :0] rgraynext; 
 
     wire rempty_val;
 
-    reg [ADDR_WIDTH  :0] wq1_rptr;
-    reg [ADDR_WIDTH  :0] wq2_rptr;
+    reg  [PTR_WIDTH  :0] wq1_rptr;
+    reg  [PTR_WIDTH  :0] wq2_rptr;
 
-    wire [ADDR_WIDTH-1:0] waddr;
+    wire [PTR_WIDTH-1:0] waddr;
 
-    reg  [ADDR_WIDTH  :0] wbin;
-    wire [ADDR_WIDTH  :0] wbinnext;
+    reg  [PTR_WIDTH  :0] wbin;
+    wire [PTR_WIDTH  :0] wbinnext;
 
-    reg  [ADDR_WIDTH  :0] wptr;
-    wire [ADDR_WIDTH  :0] wgraynext;
+    reg  [PTR_WIDTH  :0] wptr;
+    wire [PTR_WIDTH  :0] wgraynext;
 
     wire wfull_val;
 
@@ -101,7 +100,7 @@ module fifo_async
 // read pointer and empty generation logic
 //
     // MEMORY READ ADDRESS POINTER (binary)
-    assign raddr = rbin[ADDR_WIDTH-1:0];
+    assign raddr = rbin[PTR_WIDTH-1:0];
 
     // BINARY COUNTER FOR MEMORY ADDRESSING
     initial rbin = 0;
@@ -109,7 +108,7 @@ module fifo_async
         if(!i_rrstn) rbin <= 0;
         else         rbin <= rbinnext;
     end
-    assign rbinnext  = rbin + { {(ADDR_WIDTH){1'b0}}, ((i_rd)&&(!o_rempty)) };
+    assign rbinnext  = rbin + { {(PTR_WIDTH){1'b0}}, ((i_rd)&&(!o_rempty)) };
 
      // GRAY-CODE READ POINTER
     initial rptr = 0;
@@ -128,15 +127,15 @@ module fifo_async
     assign rempty_val = (rgraynext == rq2_wptr);
 
     // READ FILL LEVEL
-    wire [ADDR_WIDTH-1:0] rdiff;
-    wire [ADDR_WIDTH-1:0] rq2_wptr_bin;
-    assign rq2_wptr_bin[ADDR_WIDTH-1] = rgraynext[ADDR_WIDTH-1];
-    for(genvar i=ADDR_WIDTH-2; i>=0; i=i-1) begin
+    wire [PTR_WIDTH-1:0] rdiff;
+    wire [PTR_WIDTH-1:0] rq2_wptr_bin;
+    assign rq2_wptr_bin[PTR_WIDTH-1] = rgraynext[PTR_WIDTH-1];
+    for(genvar i=PTR_WIDTH-2; i>=0; i=i-1) begin
         xor(rq2_wptr_bin[i], rq2_wptr[i], rq2_wptr_bin[i+1]);
     end
 
     assign rdiff = (rbinnext >= rq2_wptr_bin) ? (rq2_wptr_bin - rbinnext) :
-                                    ((1<<ADDR_WIDTH) - rbinnext + rq2_wptr_bin); 
+                                    ((1<<PTR_WIDTH) - rbinnext + rq2_wptr_bin); 
 
     always@(posedge i_rclk or negedge i_rrstn) begin
         if(!i_rrstn) o_rfill <= 0;
@@ -169,7 +168,7 @@ module fifo_async
 // write pointer and full generation logic
 //
     // MEMORY WRITE ADDRESS POINTER (binary)
-    assign waddr = wbin[ADDR_WIDTH-1:0];
+    assign waddr = wbin[PTR_WIDTH-1:0];
 
     // BINARY COUNTER FOR MEMORY ADDRESSING
     initial wbin = 0;
@@ -177,7 +176,7 @@ module fifo_async
         if(!i_wrstn) wbin <= 0;
         else         wbin <= wbinnext;
     end
-    assign wbinnext = wbin + { {(ADDR_WIDTH){1'b0}}, ((i_wr) && (!o_wfull)) };
+    assign wbinnext = wbin + { {(PTR_WIDTH){1'b0}}, ((i_wr) && (!o_wfull)) };
 
     // GRAY-CODE WRITE POINTER
     initial wptr = 0;
@@ -193,30 +192,30 @@ module fifo_async
         if(!i_wrstn) o_wfull <= 0;
         else         o_wfull <= wfull_val;
     end
-    assign wfull_val = (wgraynext == {~wq2_rptr[ADDR_WIDTH:ADDR_WIDTH-1], 
-                                       wq2_rptr[ADDR_WIDTH-2:0]});
+    assign wfull_val = (wgraynext == {~wq2_rptr[PTR_WIDTH:PTR_WIDTH-1], 
+                                       wq2_rptr[PTR_WIDTH-2:0]});
 
     // WRITE FILL LEVEL
-    wire [ADDR_WIDTH-1:0] wdiff;
-    wire [ADDR_WIDTH-1:0] wq2_rptr_bin;
-    assign wq2_rptr_bin[ADDR_WIDTH-1] = wgraynext[ADDR_WIDTH-1];
-    for(genvar i=ADDR_WIDTH-2; i>=0; i=i-1) begin
+    wire [PTR_WIDTH-1:0] wdiff;
+    wire [PTR_WIDTH-1:0] wq2_rptr_bin;
+    assign wq2_rptr_bin[PTR_WIDTH-1] = wgraynext[PTR_WIDTH-1];
+    for(genvar i=PTR_WIDTH-2; i>=0; i=i-1) begin
         xor(wq2_rptr_bin[i], wq2_rptr[i], wq2_rptr_bin[i+1]);
     end
 
     assign wdiff = (wq2_rptr_bin >= wbinnext) ? (wbinnext - wq2_rptr_bin) :
-                                    ((1<<ADDR_WIDTH) - wq2_rptr_bin + wbinnext); 
+                                    ((1<<PTR_WIDTH) - wq2_rptr_bin + wbinnext); 
 
     always@(posedge i_wclk or negedge i_wrstn) begin
-        if(!i_rrstn) o_wfill <= 0;
+        if(!i_wrstn) o_wfill <= 0;
         else         o_wfill <= wdiff;
     end
 
     // ALMOST FULL FLAG
     wire almostfull_val;
-    assign almostfull_val = (wdiff >= ((1<<ADDR_WIDTH)-ALMOSTFULL_OFFSET));
+    assign almostfull_val = (wdiff >= ((1<<PTR_WIDTH)-ALMOSTFULL_OFFSET));
     always@(posedge i_wclk or negedge i_wrstn) begin
-        if(!i_rrstn) o_walmostfull <= 1;
+        if(!i_wrstn) o_walmostfull <= 1;
         else         o_walmostfull <= almostfull_val;
     end
 
@@ -373,7 +372,7 @@ module fifo_async
 // -> note that this is the 'true' level of fill in the FIFO
 // --> the actual FIFO empty/full logic will never know this value
     
-    wire [ADDR_WIDTH:0] f_fill;
+    wire [PTR_WIDTH:0] f_fill;
 
     assign f_fill = (wbin - rbin);
 
@@ -382,16 +381,16 @@ module fifo_async
 
     // check that FIFO is never overfilled
     always@($global_clock)
-        assert(f_fill <= {1'b1, {ADDR_WIDTH{1'b0}} }); 
+        assert(f_fill <= {1'b1, {PTR_WIDTH{1'b0}} }); 
 
     // check that full flag is asserted when FIFO is full
     always@($global_clock)
-        if(f_fill == {1'b1, {(ADDR_WIDTH){1'b0}} })
+        if(f_fill == {1'b1, {(PTR_WIDTH){1'b0}} })
             assert(o_wfull);
 
     // check next state behavior for when FIFO is about to be full
     always@($global_clock)
-        if(f_fill == {1'b1, {ADDR_WIDTH{1'b0}} })    
+        if(f_fill == {1'b1, {PTR_WIDTH{1'b0}} })    
             assert((wfull_val) || (!i_wr) || (o_wfull));
 
     // check that empty flag is asserted when FIFO is empty
@@ -412,8 +411,8 @@ module fifo_async
 
     // compare the read and write pointers when FIFO is full
     always@*
-        assert( (rptr == { ~wptr[ADDR_WIDTH:ADDR_WIDTH-1], wptr[ADDR_WIDTH-2:0] }) ==
-                (f_fill == {1'b1, {ADDR_WIDTH{1'b0}} }) );
+        assert( (rptr == { ~wptr[PTR_WIDTH:PTR_WIDTH-1], wptr[PTR_WIDTH-2:0] }) ==
+                (f_fill == {1'b1, {PTR_WIDTH{1'b0}} }) );
 
     // check that read and write pointers are equal when FIFO is empty
     always@*
@@ -423,10 +422,10 @@ module fifo_async
 
 // **** CHECK CDC REGS ****
 // 
-    reg  [ADDR_WIDTH:0] f_w2r_rbin, f_w1r_rbin;
-    reg  [ADDR_WIDTH:0] f_r2w_wbin, f_r1w_wbin;
+    reg  [PTR_WIDTH:0] f_w2r_rbin, f_w1r_rbin;
+    reg  [PTR_WIDTH:0] f_r2w_wbin, f_r1w_wbin;
 
-    wire [ADDR_WIDTH:0] f_w2r_fill, f_r2w_fill;
+    wire [PTR_WIDTH:0] f_w2r_fill, f_r2w_fill;
 
     // create formal versions of cdc regs
     //
@@ -461,14 +460,14 @@ module fifo_async
 
     // check that cdc regs' fill level within legal bounds
     always@*
-        assert(f_w2r_fill <= {1'b1, {(ADDR_WIDTH){1'b0}} });
+        assert(f_w2r_fill <= {1'b1, {(PTR_WIDTH){1'b0}} });
     always@* 
-        assert(f_r2w_fill <= {1'b1, {(ADDR_WIDTH){1'b0}} });
+        assert(f_r2w_fill <= {1'b1, {(PTR_WIDTH){1'b0}} });
 
 // **** CHECK FULL/EMPTY FLAGS ****
 //
     always@* 
-        if(wptr == { ~wq2_rptr[ADDR_WIDTH:ADDR_WIDTH-1], wq2_rptr[ADDR_WIDTH-2:0] })
+        if(wptr == { ~wq2_rptr[PTR_WIDTH:PTR_WIDTH-1], wq2_rptr[PTR_WIDTH-2:0] })
             assert(o_wfull);
 
     always@*
@@ -493,8 +492,8 @@ module fifo_async
     
 
     // get arbitrary address
-    (* anyconst *) wire [ADDR_WIDTH-1:0] f_const_addr;
-    wire [ADDR_WIDTH:0] f_const_next_addr;
+    (* anyconst *) wire [PTR_WIDTH-1:0] f_const_addr;
+    wire [PTR_WIDTH:0] f_const_next_addr;
     assign f_const_next_addr = f_const_addr + 1;
 
     // get arbitrary values

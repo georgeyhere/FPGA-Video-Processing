@@ -1,101 +1,95 @@
 `default_nettype none
 //
 //
-//
 module mem_interface
+	#(
+	parameter ROWLENGTH  = 128,
+	parameter DATA_WIDTH = 12,
+	parameter BRAM_DEPTH = 16384
+	)
 	(
-	input  wire        i_clk,
-	input  wire        i_rstn,
+	input wire                   i_clk,         // 125 MHz board clock
+	input wire                   i_rstn,        // sync active low reset
 
 	// 24MHz to 125MHz input FIFO
-	output reg         o_rd,
-	input  wire [11:0] i_data,
-	input  wire        i_empty,
-
+	output wire                  o_rd,          // read enable
+	input  wire [DATA_WIDTH-1:0] i_data,        // read data
+	input  wire                  i_almostempty, // almost-empty flag
+	input  wire [9:0]            i_fill,        // read-side fill level
+ 
 	// 125MHz to 25MHz output FIFO
-	output reg         o_wr,
-	output reg  [11:0] o_data,
-	input  wire        i_full
+	output wire                  o_wr,          // write enable
+	output wire [DATA_WIDTH-1:0] o_wdata,       // write data
+	input  wire                  i_almostfull,  // almost-full flag
+
+	// display request
+	input  wire                  i_req          // asserted when display is active
 	);
 
-	localparam BRAM_DEPTH = 307200;
-
-	reg         empty;
-	reg         nxt_rd;
-	reg  [18:0] addra, nxt_addra;
-	reg  [11:0] dina, nxt_dina;
-	reg         wea, nxt_wea;
-
-	reg  [18:0] addrb, nxt_addrb;
-	wire [11:0] doutb;
-
-	reg         nxt_wr;
-	reg  [11:0] nxt_data;
-
-	initial begin
-		o_rd = 0;
-		o_wr = 0;
-	end
-
-	always@* begin
-		nxt_rd    = 0;
-		nxt_dina  = dina;
-		nxt_wea   = 0;
-		nxt_addra = addra;
-		//
-		if(!i_empty) begin
-			nxt_rd    = 1;
-			nxt_dina  = i_data;
-			nxt_wea   = 1;
-			nxt_addra = (addra == (BRAM_DEPTH-1)) ? 0 : addra+1;
-		end
-	end
-
-	always@* begin
-		nxt_wr    = 0;
-		nxt_data  = o_data;
-		nxt_addrb = addrb;
-		//
-		if(!i_full) begin
-			nxt_wr    = 1;
-			nxt_data  = doutb;
-			nxt_addrb = (addrb == (BRAM_DEPTH-1)) ? 0 : addrb+1;
-		end
-	end
-
-	always@(posedge i_clk) begin
-		if(!i_rstn) begin
-			addra  <= 0;
-			dina   <= 0;
-			addrb  <= 0;
-			o_rd   <= 0;
-			o_wr   <= 0;
-			o_data <= 0;
-		end
-		else begin
-			addra  <= nxt_addra;
-			dina   <= nxt_dina;
-			wea    <= nxt_wea;
-			addrb  <= nxt_addrb;
-			o_rd   <= nxt_rd;
-			o_wr   <= nxt_wr;
-			o_data <= nxt_data;
-		end
-	end
-
-// BRAM
 //
-    framebuffer fb_i (
-    // write port
-    .addra (addra  ),
-    .clka  (i_clk  ),
-    .dina  (dina   ),
-    .wea   (wea    ),
+// Intermediate Wires
+//
+	wire [$clog2(DATA_WIDTH)-1:0] mem_waddr;
+	wire [DATA_WIDTH-1:0]         mem_wdata;
+	wire                          mem_wr;
+	wire [$clog2(DATA_WIDTH)-1:0] mem_raddr;
+	wire [DATA_WIDTH-1:0]         mem_rdata;
 
-    // read port
-    .addrb (addrb  ),
-    .clkb  (i_clk  ),
-    .doutb (doutb  )
-    );
+
+//
+// Submodule Instantiation
+//	
+	//
+	mem_bram
+	#(.BRAM_WIDTH (DATA_WIDTH),
+	  .BRAM_DEPTH (BRAM_DEPTH)
+	)
+	mem_bram_i (
+	.i_clk        (i_clk     ),
+      
+	.i_waddr      (mem_waddr ), // write address
+	.i_wdata      (mem_wdata ), // write data
+	.i_wr         (mem_wr    ), // write enable
+      
+	.i_raddr      (mem_raddr ), // read address
+	.o_rdata      (o_wdata   )  // read data
+	);
+
+	//
+	mem_wr 
+	#(.ROWLENGTH  (ROWLENGTH),
+	  .BRAM_WIDTH (DATA_WIDTH),
+	  .BRAM_DEPTH (BRAM_DEPTH)
+    )
+	mem_wr_i (
+	.i_clk        (i_clk         ), 
+	.i_rstn       (i_rstn        ), // sync active low reset
+     
+    // 24_125 MHz FIFO interface
+	.o_rd         (o_rd          ), // read enable 
+	.i_data       (i_data        ), // read data 
+	.i_empty      (i_almostempty ), // almost empty flag 
+	.i_fill       (i_fill        ), // read-side fill level 
+     
+	.o_waddr      (mem_waddr     ), // bram write addr
+	.o_wdata      (mem_wdata     ), // bram write data
+	.o_wr         (mem_wr        )  // bram write enable
+	);
+
+	//
+	mem_rd 
+	#(.BRAM_DEPTH (BRAM_DEPTH)
+	 )
+	mem_rd_i (
+    .i_clk        (i_clk        ), 
+    .i_rstn       (i_rstn       ), // sync active low reset
+       
+    .i_req        (i_req        ), // request from display module (25MHz)
+    
+    // 125_25 MHz FIFO interface
+    .o_wr         (o_wr         ), // write enable 
+    .i_almostfull (i_almostfull ), // almost-full flag
+    .o_raddr      (mem_raddr    )  // bram read addr
+	);
 
 endmodule
