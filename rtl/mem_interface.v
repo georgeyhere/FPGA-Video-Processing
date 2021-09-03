@@ -13,7 +13,7 @@ module mem_interface
 
 	// 24MHz to 125MHz input FIFO
 	output wire                  o_rd,          // read enable
-	input  wire [DATA_WIDTH-1:0] i_data,        // read data
+	input  wire [DATA_WIDTH-1:0] i_rdata,       // read data
 	input  wire                  i_almostempty, // almost-empty flag
 	input  wire [9:0]            i_fill,        // read-side fill level
  
@@ -29,10 +29,10 @@ module mem_interface
 //
 // Intermediate Wires
 //
-	wire [$clog2(DATA_WIDTH)-1:0] mem_waddr;
+	wire [$clog2(BRAM_DEPTH)-1:0] mem_waddr;
 	wire [DATA_WIDTH-1:0]         mem_wdata;
 	wire                          mem_wr;
-	wire [$clog2(DATA_WIDTH)-1:0] mem_raddr;
+	wire [$clog2(BRAM_DEPTH)-1:0] mem_raddr;
 	wire [DATA_WIDTH-1:0]         mem_rdata;
 
 
@@ -67,7 +67,7 @@ module mem_interface
      
     // 24_125 MHz FIFO interface
 	.o_rd         (o_rd          ), // read enable 
-	.i_data       (i_data        ), // read data 
+	.i_data       (i_rdata       ), // read data 
 	.i_empty      (i_almostempty ), // almost empty flag 
 	.i_fill       (i_fill        ), // read-side fill level 
      

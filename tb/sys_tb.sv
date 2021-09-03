@@ -21,20 +21,23 @@ module sys_tb();
 	logic [11:0] rdata_24_125;
 	logic empty_24_125;
 	logic almostempty_24_125;
-	logic [9:0] rfill_24_125;
+	logic [12:0] rfill_24_125;
 
 	// 125MHz to 25MHz FIFO
 	logic wr_125_25;
 	logic [11:0] wdata_125_25;
 	logic full_125_25;
 	logic almostfull_125_25;
-	logic [9:0] wfill_125_25;
+	logic [7:0] wfill_125_25;
 
 	logic rd_125_25;
 	logic [11:0] rdata_125_25;
 	logic empty_125_25;
 	logic almostempty_125_25;
-	logic [9:0] rfill_125_25;
+	logic [7:0] rfill_125_25;
+
+	//
+	logic req;
 
 	//
 	logic [11:0] test_data;
@@ -62,7 +65,7 @@ module sys_tb();
 
 	fifo_async
 	#(.DATA_WIDTH         (12),
-	  .PTR_WIDTH          (10),
+	  .PTR_WIDTH          (12),
 	  .ALMOSTFULL_OFFSET  (2),
 	  .ALMOSTEMPTY_OFFSET (2) 
 	 )
@@ -88,9 +91,9 @@ module sys_tb();
 // **** BRAM Buffer (125MHz) ****
 //
 	mem_interface 
-	#(.ROWLENGTH  (10),
+	#(.ROWLENGTH  (640),
 	  .DATA_WIDTH (12),
-	  .BRAM_DEPTH (16384) 
+	  .BRAM_DEPTH (307200) 
 	 )
 	mem_i(
 	.i_clk         (i_sysclk     ),
@@ -98,14 +101,17 @@ module sys_tb();
 
 	// read interface: 24MHz to 125MHz FIFO
 	.o_rd          (rd_24_125    ),
-	.i_data        (rdata_24_125 ),
+	.i_rdata       (rdata_24_125 ),
 	.i_almostempty (almostempty_24_125 ),
 	.i_fill        (rfill_24_125),
  
 	// write interface: 125MHz to 25MHz FIFO
 	.o_wr          (wr_125_25    ),
-	.o_data        (wdata_125_25 ),
-	.i_almostfull  (almostfull_125_25  )
+	.o_wdata       (wdata_125_25 ),
+	.i_almostfull  (almostfull_125_25  ),
+
+	// data request from display interface
+	.i_req         (req)
 	);
 
 // **** CDC FIFO: 125MHz to 25MHz ****
@@ -113,7 +119,7 @@ module sys_tb();
 
 	fifo_async
 	#(.DATA_WIDTH         (12),
-	  .PTR_WIDTH          (10),
+	  .PTR_WIDTH          (8),
 	  .ALMOSTFULL_OFFSET  (2),
 	  .ALMOSTEMPTY_OFFSET (2)  )
 	fifo_125_25_i(
@@ -136,11 +142,29 @@ module sys_tb();
 	.o_rfill        (rfill_125_25)
 	);
 
+// **** Display Interface ****
+//
+	display_interface display_i(
+    .i_p_clk    (i_dispclk),
+    .i_tmds_clk (),
+    .i_rstn     (db_rstn),
+
+    .o_rd       (rd_125_25),
+    .i_rgb      (rdata_125_25),
+    .i_empty    (almostempty_125_25),
+  
+    .o_req      (req),
+  
+    .o_TMDS_P   (),
+    .o_TMDS_N   ()
+	);
+
+
 // Testbench Setup
 //
-	localparam TESTRUNS  = 2;  // 2 frames
-	localparam ROWCOUNT  = 10; // # of rows
-	localparam ROWLENGTH = 20; // # of bytes per line (pixels*2)
+	localparam TESTRUNS  = 2;    // 2 frames
+	localparam ROWCOUNT  = 480;  // # of rows
+	localparam ROWLENGTH = 1280; // # of bytes per line (pixels*2)
 
 	// test data 
 	logic [11:0] test_queue[$];
@@ -157,9 +181,9 @@ module sys_tb();
 			i_cam_vsync = 0;
         	@(posedge i_cam_pclk);
         	i_cam_vsync = 1;
-        	repeat(3) @(posedge i_cam_pclk);  // mimic vsync pulse
+        	repeat(4704) @(posedge i_cam_pclk);  // mimic vsync pulse
         	i_cam_vsync = 0;
-        	repeat(17) @(posedge i_cam_pclk); // mimic vsync back porch
+        	repeat(26656) @(posedge i_cam_pclk); // mimic vsync back porch
 		end
 	endtask
 
@@ -202,7 +226,7 @@ module sys_tb();
         	    	end
         	    end
         	    @(negedge i_cam_pclk) i_cam_href = 0;  // drop href to signal end of row
-        	    repeat(5) @(posedge i_cam_pclk); 
+        	    repeat(288) @(posedge i_cam_pclk);     // 288 clocks until next href 
         	end
         end
         #1us;

@@ -9,9 +9,12 @@ module display_interface
 	input  wire [11:0] i_rgb,   // {red, green, blue}
 	input  wire        i_empty,
 
+	// Memory Data Request
+	output wire        o_req,
+
 	// TMDS out
-	output wire [3:0] o_TMDS_P,
-	output wire [3:0] o_TMDS_N
+	output wire [3:0]  o_TMDS_P,
+	output wire [3:0]  o_TMDS_N
 	);
 
 	reg        nxt_rd;
@@ -28,6 +31,8 @@ module display_interface
 	assign red   = {i_rgb[11:8], {3{1'b0}} };
 	assign green = {i_rgb[7:4],  {3{1'b0}} }; 
 	assign blue  = {i_rgb[3:0],  {3{1'b0}} }; 
+
+	assign o_req = ((counterX == 799) && (counterY == 524));
 
 	initial begin
 		o_rd  = 0;

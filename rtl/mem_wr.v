@@ -29,7 +29,7 @@ module mem_wr
 	reg                           nxt_wr;
 	reg  [11:0]                   nxt_data;
 
-	reg  [7:0]  rowcounter, nxt_rowcounter;
+	reg  [9:0]  rowcounter, nxt_rowcounter;
 
 	reg STATE, NEXT_STATE;
 	localparam STATE_IDLE   = 0,
@@ -38,7 +38,9 @@ module mem_wr
 //
 //
 	initial begin
-		o_wr = 0;
+		o_wr    = 0;
+		o_waddr = 0;
+		STATE   = STATE_IDLE;
 	end
 
 	assign o_wdata = i_data;
@@ -67,7 +69,7 @@ module mem_wr
 					nxt_waddr = (o_waddr == (BRAM_DEPTH-1)) ? 0 : o_waddr+1;
 					nxt_rowcounter = rowcounter + 1;
 				end
-				else NEXT_STATE = STATE_IDLE;
+				if(rowcounter >= ROWLENGTH-1) NEXT_STATE = STATE_IDLE;
 			end
 		endcase
 	end

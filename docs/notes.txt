@@ -30,6 +30,16 @@ Intermediate Goal:
 ///////////////////////////////////////////////
 Log:
 
+9/2: 
+- found a bug in async fifo where the wrong inequality was used for computing
+  fill level
+
+- found a bug in async fifo where binary to graycode conversion fails for 
+  wbinnext = 0x1000. Yielding 0x1800 instead of expected 0x0800. Critical bug!!
+  Need to find a fix still. Highest priority.
+
+- adjusted testbench to match real timings
+
 8/31:
 - implemented a self-checking testbench for the capture module. 
 

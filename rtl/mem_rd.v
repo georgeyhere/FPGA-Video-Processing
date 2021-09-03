@@ -20,6 +20,15 @@ module mem_rd
 	reg                          nxt_wr;
 	reg [$clog2(BRAM_DEPTH)-1:0] nxt_raddr;
 
+	reg STATE, NEXT_STATE;
+	localparam STATE_IDLE   = 0,
+	           STATE_ACTIVE = 1;
+
+	initial begin
+		o_wr = 0;
+		o_raddr = 0;
+		STATE = STATE_IDLE;
+	end
 
 // double flop request signal
 	reg q1_req, sync_req;
@@ -39,15 +48,15 @@ module mem_rd
 
 			STATE_IDLE: begin
 				nxt_raddr  = 0;
-				NEXT_STATE = (sync_req);
+				if(sync_req) NEXT_STATE = STATE_ACTIVE;
 			end
 
 			STATE_ACTIVE: begin
 				if(!i_almostfull) begin
-					nxt_raddr = (raddr == BRAM_DEPTH-1) ? 0 : raddr+1;
+					nxt_raddr = (o_raddr == BRAM_DEPTH-1) ? 0 : o_raddr+1;
 					nxt_wr    = 1;
 				end
-				NEXT_STATE = (raddr == BRAM_DEPTH-1) ? STATE_IDLE : STATE_ACTIVE; 
+				NEXT_STATE = (o_raddr == BRAM_DEPTH-1) ? STATE_IDLE : STATE_ACTIVE; 
 			end
 		endcase
 	end

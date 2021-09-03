@@ -46,7 +46,7 @@ module fifo_async
     output wire [DATA_WIDTH-1:0] o_rdata,
     output reg                   o_rempty,
     output reg                   o_ralmostempty,
-    output reg  [PTR_WIDTH-1:0]  o_rfill
+    output reg  [PTR_WIDTH-1 :0] o_rfill
     );
 
 
@@ -59,6 +59,7 @@ module fifo_async
 
     reg  [PTR_WIDTH  :0] rbin; 
     wire [PTR_WIDTH  :0] rbinnext;
+    wire [PTR_WIDTH  :0] rbinnext2;
 
     reg  [PTR_WIDTH  :0] rptr;
     wire [PTR_WIDTH  :0] rgraynext; 
@@ -110,6 +111,7 @@ module fifo_async
     end
     assign rbinnext  = rbin + { {(PTR_WIDTH){1'b0}}, ((i_rd)&&(!o_rempty)) };
 
+
      // GRAY-CODE READ POINTER
     initial rptr = 0;
     always@(posedge i_rclk or negedge i_rrstn) begin
@@ -127,14 +129,14 @@ module fifo_async
     assign rempty_val = (rgraynext == rq2_wptr);
 
     // READ FILL LEVEL
-    wire [PTR_WIDTH-1:0] rdiff;
-    wire [PTR_WIDTH-1:0] rq2_wptr_bin;
-    assign rq2_wptr_bin[PTR_WIDTH-1] = rgraynext[PTR_WIDTH-1];
-    for(genvar i=PTR_WIDTH-2; i>=0; i=i-1) begin
+    wire [PTR_WIDTH:0] rdiff;
+    wire [PTR_WIDTH:0] rq2_wptr_bin;
+    assign rq2_wptr_bin[PTR_WIDTH] = rgraynext[PTR_WIDTH];
+    for(genvar i=PTR_WIDTH-1; i>=0; i=i-1) begin
         xor(rq2_wptr_bin[i], rq2_wptr[i], rq2_wptr_bin[i+1]);
     end
 
-    assign rdiff = (rbinnext >= rq2_wptr_bin) ? (rq2_wptr_bin - rbinnext) :
+    assign rdiff = (rbinnext <= rq2_wptr_bin) ? (rq2_wptr_bin - rbinnext) :
                                     ((1<<PTR_WIDTH) - rbinnext + rq2_wptr_bin); 
 
     always@(posedge i_rclk or negedge i_rrstn) begin
@@ -184,7 +186,7 @@ module fifo_async
         if(!i_wrstn) wptr <= 0;
         else         wptr <= wgraynext;
     end
-    assign wgraynext = (wbinnext >> 1) ^ wbinnext;
+    assign wgraynext = (wbinnext >> 1) ^ wbinnext; // 100
 
     // FULL FLAG LOGIC
     initial o_wfull = 0;
@@ -196,14 +198,14 @@ module fifo_async
                                        wq2_rptr[PTR_WIDTH-2:0]});
 
     // WRITE FILL LEVEL
-    wire [PTR_WIDTH-1:0] wdiff;
-    wire [PTR_WIDTH-1:0] wq2_rptr_bin;
-    assign wq2_rptr_bin[PTR_WIDTH-1] = wgraynext[PTR_WIDTH-1];
-    for(genvar i=PTR_WIDTH-2; i>=0; i=i-1) begin
+    wire [PTR_WIDTH:0] wdiff;
+    wire [PTR_WIDTH:0] wq2_rptr_bin;
+    assign wq2_rptr_bin[PTR_WIDTH] = wgraynext[PTR_WIDTH];
+    for(genvar i=PTR_WIDTH-1; i>=0; i=i-1) begin
         xor(wq2_rptr_bin[i], wq2_rptr[i], wq2_rptr_bin[i+1]);
     end
 
-    assign wdiff = (wq2_rptr_bin >= wbinnext) ? (wbinnext - wq2_rptr_bin) :
+    assign wdiff = (wq2_rptr_bin <= wbinnext) ? (wbinnext - wq2_rptr_bin) :
                                     ((1<<PTR_WIDTH) - wq2_rptr_bin + wbinnext); 
 
     always@(posedge i_wclk or negedge i_wrstn) begin
