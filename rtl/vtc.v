@@ -31,9 +31,9 @@ module vtc
 	input wire i_rstn, // synchronous active low reset
 
 	// display timing
-	output reg o_vsync,
-	output reg o_hsync,
-	output reg o_active,
+	output wire o_vsync,
+	output wire o_hsync,
+	output wire o_active,
 
 	// counter passthrough
 	output wire [COUNTER_WIDTH-1:0] o_counterX,
@@ -80,6 +80,7 @@ module vtc
 //
 // output combinatorial logic
 //
+/*
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
 			o_active <= 0;
@@ -92,7 +93,7 @@ module vtc
 			o_vsync  <= (counterY >= 490) && (counterY < 492);
 		end
 	end
-/*
+*/
     assign o_hsync  = ((counterX >= ACTIVE_X + HSYNC_FP) && 
     	               (counterX <  ACTIVE_X + HSYNC_FP + HSYNC_WIDTH));
  
@@ -101,7 +102,7 @@ module vtc
 
     assign o_active = ((counterX >= 0) && (counterX < ACTIVE_X) &&
     	               (counterY >= 0) && (counterY < ACTIVE_Y));
-*/
+
     assign o_counterX = counterX;
     assign o_counterY = counterY;
 

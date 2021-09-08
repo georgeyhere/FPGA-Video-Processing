@@ -7,7 +7,8 @@
 //
 module capture 
 	(
-	input  wire        i_clk,   // 24 MHz; sourced from OV7670 camera
+	input  wire        i_pclk,  // 24 MHz; sourced from OV7670 camera
+	//input  wire        i_xclk,  // 24 MHz; sourced from clocking wizard
 	input  wire        i_rstn,  // synchronous active low reset
 
 	// OV7670 camera interface
@@ -23,7 +24,7 @@ module capture
 
 	reg        nxt_wr;
 	reg [11:0] nxt_wdata;
-	reg [3:0]  byte1_data, nxt_byte1_data;
+	reg [7:0]  byte1_data, nxt_byte1_data;
 
 	reg        pixel_half, nxt_pixel_half;
 
@@ -57,14 +58,14 @@ module capture
 
 					// RGB444: Second Byte (green, blue)
 					if(pixel_half) begin
-						nxt_wr         = (i_href == 1'b1);
-						nxt_wdata      = {byte1_data, i_data};
+						nxt_wr         = 1;
+						nxt_wdata      = {byte1_data[3:0], i_data};
 					end
 
 					// RGB444: First Byte (red)
 					else begin
-						nxt_wr         = 0;
-						nxt_byte1_data = i_data[3:0];
+						nxt_wr              = 0;
+						nxt_byte1_data[3:0] = i_data[3:0];
 					end          
 				end
 				NEXT_STATE = (i_vsync) ? STATE_IDLE : STATE_ACTIVE;
@@ -73,7 +74,7 @@ module capture
 		endcase
 	end
 
-	always@(posedge i_clk) begin
+	always@(posedge i_pclk) begin
 		if(!i_rstn) begin
 			o_wr         <= 0;
 			o_wdata      <= 0;

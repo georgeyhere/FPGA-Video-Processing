@@ -21,22 +21,35 @@ module display_interface
 
 	wire       vsync, hsync, active;
 	wire [9:0] counterX, counterY;
-	wire [7:0] red, green, blue;
+	reg [7:0] red, green, blue;
 
-	reg        STATE, NEXT_STATE;
+	reg  [1:0] STATE, NEXT_STATE;
 	localparam STATE_INITIAL = 0,
-	           STATE_ACTIVE  = 1;
+	           STATE_DELAY   = 1,
+	           STATE_ACTIVE  = 2;
 
 
-	assign red   = {i_rgb[11:8], {3{1'b0}} };
-	assign green = {i_rgb[7:4],  {3{1'b0}} }; 
-	assign blue  = {i_rgb[3:0],  {3{1'b0}} }; 
-
-	assign o_req = ((counterX == 799) && (counterY == 524));
+	// request six clocks prior to SoF
+	assign o_req = ((counterX == 794) && (counterY == 524) && (STATE==STATE_ACTIVE)); 
 
 	initial begin
 		o_rd  = 0;
 		STATE = STATE_INITIAL;
+	end
+
+	always@(posedge i_p_clk) begin
+		if(!i_rstn) begin
+			red   <= 0;
+			green <= 0;
+			blue  <= 0;
+		end
+		else begin
+			if(active) begin
+				red   <= {i_rgb[11:8], {4{1'b0}} };
+				green <= {i_rgb[7:4],  {4{1'b0}} }; 
+				blue  <= {i_rgb[3:0],  {4{1'b0}} }; 
+			end
+		end
 	end
 
 	always@* begin
@@ -44,16 +57,46 @@ module display_interface
 		NEXT_STATE = STATE;
 		case(STATE)
 
-			// wait 1 frame for camera configuration on reset/startup
+			// wait 2 frames for camera configuration on reset/startup
 			STATE_INITIAL: begin
-				NEXT_STATE = ((counterX == 640) && (counterY == 480)) ? STATE_ACTIVE:STATE_INITIAL;
+				NEXT_STATE = ((counterX == 640) && (counterY == 480)) ? STATE_DELAY:STATE_INITIAL;
 			end
 
-			// normal operation: read from FIFO during active part of frame
+			STATE_DELAY: begin
+				NEXT_STATE = ((counterX == 640) && (counterY == 480)) ? STATE_ACTIVE:STATE_DELAY;
+			end
+
+			// normal operation: begin reading from FIFO at start of frame
 			STATE_ACTIVE: begin
-				if((active) && (!i_empty)) begin
-					nxt_rd = 1; 
+
+				// active part of frame
+				if((counterY == 524 || counterY < 480) && (!i_empty)) begin
+				
+					// read prior to SoF
+					if((counterX == 799) && (counterY == 524))
+						nxt_rd = 1;
+
+					// read 1 clock prior to SoR
+					else if((counterX == 799) && (counterY < 480))
+						nxt_rd = 1;
+
+					// stop reading 1 clock prior to EoR
+					else if((counterX >= 639) && (counterY < 480))
+						nxt_rd = 0;
+
+					// read during active region
+					else if(active)
+						nxt_rd = 1; 
 				end
+
+				// empty the fifo during vertical blanking period
+				else begin
+					nxt_rd = (!i_empty);
+				end
+			end
+
+			default: begin
+				NEXT_STATE = STATE;
 			end
 		endcase
 	end
@@ -61,7 +104,7 @@ module display_interface
 	always@(posedge i_p_clk) begin
 		if(!i_rstn) begin
 			o_rd  <= 0;
-			STATE <= STATE_INITIAL;
+			STATE <= STATE_DELAY;
 		end
 		else begin
 			o_rd  <= nxt_rd;
@@ -71,7 +114,10 @@ module display_interface
 
 //
 //
-	vtc vtc_i (
+	vtc #(
+	.COUNTER_WIDTH(10)
+	)
+	vtc_i (
 	.i_clk         (i_p_clk  ), // pixel clock
 	.i_rstn        (i_rstn   ), 
 

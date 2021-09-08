@@ -25,9 +25,9 @@ module mem_rd
 	           STATE_ACTIVE = 1;
 
 	initial begin
-		o_wr = 0;
+		o_wr    = 0;
 		o_raddr = 0;
-		STATE = STATE_IDLE;
+		STATE   = STATE_IDLE;
 	end
 
 // double flop request signal
@@ -47,14 +47,19 @@ module mem_rd
 		case(STATE)
 
 			STATE_IDLE: begin
-				nxt_raddr  = 0;
-				if(sync_req) NEXT_STATE = STATE_ACTIVE;
+				
+				if(!sync_req) begin
+					nxt_raddr  = 0;
+				end
+				else begin
+					NEXT_STATE = STATE_ACTIVE;
+				end
 			end
 
 			STATE_ACTIVE: begin
 				if(!i_almostfull) begin
-					nxt_raddr = (o_raddr == BRAM_DEPTH-1) ? 0 : o_raddr+1;
-					nxt_wr    = 1;
+					nxt_raddr = ((o_raddr == BRAM_DEPTH-1) || (sync_req)) ? 0 : o_raddr+1;
+					nxt_wr    = (!sync_req);
 				end
 				NEXT_STATE = (o_raddr == BRAM_DEPTH-1) ? STATE_IDLE : STATE_ACTIVE; 
 			end

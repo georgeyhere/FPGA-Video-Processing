@@ -85,7 +85,7 @@ module cfg_interface
 						end
 
 						default: begin
-							nxt_wr = 1;
+							nxt_wr       = 1;
 							nxt_reg_addr = rom_data[15:8];
 							nxt_wdata    = rom_data[7:0];
 							nxt_rom_addr = rom_addr + 1;

@@ -3,18 +3,18 @@
 //
 //
 module mem_wr
-	#(parameter ROWLENGTH  = 128,
+	#(parameter ROWLENGTH  = 640,
 	  parameter BRAM_WIDTH = 12,
-	  parameter BRAM_DEPTH = 16384)
+	  parameter BRAM_DEPTH = 307200)
 	(
-	input  wire        i_clk,
-	input  wire        i_rstn,
+	input  wire                          i_clk,
+	input  wire                          i_rstn,
 
 	// 24MHz to 125MHz input FIFO
-	output reg         o_rd,
-	input  wire [11:0] i_data,
-	input  wire        i_empty,
-	input  wire [9:0]  i_fill,
+	output reg                           o_rd,
+	input  wire [11:0]                   i_data,
+	input  wire                          i_empty,
+	input  wire [11:0]                   i_fill,
 
 	// BRAM interface
 	output reg  [$clog2(BRAM_DEPTH)-1:0] o_waddr,
@@ -30,6 +30,7 @@ module mem_wr
 	reg  [11:0]                   nxt_data;
 
 	reg  [9:0]  rowcounter, nxt_rowcounter;
+	reg  [9:0]  pixelcounter, nxt_pixelcounter;
 
 	reg STATE, NEXT_STATE;
 	localparam STATE_IDLE   = 0,
@@ -47,49 +48,80 @@ module mem_wr
 
 // Next State Logic
 //
+
+
 	always@* begin
-		nxt_rd    = 0;
-		nxt_wr    = 0;
-		nxt_waddr = o_waddr;
-		nxt_rowcounter = rowcounter;
-		NEXT_STATE = STATE;
+		nxt_rd           = 0;
+		nxt_wr           = 0;
+		nxt_waddr        = o_waddr;
+		nxt_pixelcounter = pixelcounter;
+		nxt_rowcounter   = rowcounter;
+		NEXT_STATE       = STATE;
 		//
 		case(STATE)
-			// idle state; wait for fifo to be loaded with a row of data
+			
+
 			STATE_IDLE: begin
-				if(i_fill == ROWLENGTH-1) NEXT_STATE = STATE_ACTIVE;
-				nxt_rowcounter = 0;
+				if(!i_empty) begin
+					nxt_rd     = 1;
+				    NEXT_STATE = STATE_ACTIVE;
+				end
 			end
 
-			// active state; read from fifo and write to block ram
 			STATE_ACTIVE: begin
-				if(!i_empty && rowcounter <= ROWLENGTH-1) begin
-					nxt_rd    = 1;
-					nxt_wr    = 1;
-					nxt_waddr = (o_waddr == (BRAM_DEPTH-1)) ? 0 : o_waddr+1;
-					nxt_rowcounter = rowcounter + 1;
+				nxt_rd = (!i_empty);
+				nxt_wr = (!i_empty);
+				nxt_waddr = (o_waddr == 307199) ? 0:o_waddr + 1;
+				nxt_pixelcounter = (pixelcounter == 639) ? 0:pixelcounter+1;
+				if(pixelcounter == ROWLENGTH) begin
+					nxt_rowcounter = (rowcounter == 480) ? 0:rowcounter+1;
 				end
-				if(rowcounter >= ROWLENGTH-1) NEXT_STATE = STATE_IDLE;
+				if(i_empty) begin
+					NEXT_STATE = STATE_IDLE;
+				end
 			end
 		endcase
 	end
+
+/*
+	always@* begin
+		nxt_rd           = 0;
+		nxt_wr           = 0;
+		nxt_waddr        = o_waddr;
+		nxt_pixelcounter = pixelcounter;
+		nxt_rowcounter   = rowcounter;
+		NEXT_STATE       = STATE;
+
+		if(!i_empty) begin
+			nxt_rd = 1;
+			nxt_wr = 1;
+			nxt_waddr = (o_waddr == 307199) ? 0:o_waddr + 1;
+			nxt_pixelcounter = (pixelcounter == ROWLENGTH) ? 0:pixelcounter+1;
+			if(pixelcounter == ROWLENGTH) begin
+				nxt_rowcounter = (rowcounter == 480) ? 0:rowcounter+1;
+			end
+		end
+	end
+*/
 
 //
 //
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
-			o_waddr    <= 0;
-			o_wr       <= 0;
-			o_rd       <= 0;
-			rowcounter <= 0;
-			STATE      <= STATE_IDLE;
+			o_waddr      <= 0;
+			o_wr         <= 0;
+			o_rd         <= 0;
+			pixelcounter <= 0;
+			rowcounter   <= 0;
+			STATE        <= STATE_IDLE;
 		end
 		else begin
-			o_waddr    <= nxt_waddr;
-			o_wr       <= nxt_wr;
-			o_rd       <= nxt_rd;
-			rowcounter <= nxt_rowcounter;
-			STATE      <= NEXT_STATE;
+			o_waddr      <= nxt_waddr;
+			o_wr         <= nxt_wr;
+			o_rd         <= nxt_rd;
+			pixelcounter <= nxt_pixelcounter;
+			rowcounter   <= nxt_rowcounter;
+			STATE        <= NEXT_STATE;
 		end
 	end
 

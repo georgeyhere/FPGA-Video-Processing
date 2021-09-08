@@ -87,6 +87,11 @@ module fifo_async
         if((i_wr) && (!o_wfull)) mem[waddr] <= i_wdata;
     end
 
+    /*
+    always@(posedge i_rclk) begin
+        o_rdata <= mem[raddr];
+    end
+    */
 
 //
 // synchronize write pointer to read clock domain
@@ -131,7 +136,7 @@ module fifo_async
     // READ FILL LEVEL
     wire [PTR_WIDTH:0] rdiff;
     wire [PTR_WIDTH:0] rq2_wptr_bin;
-    assign rq2_wptr_bin[PTR_WIDTH] = rgraynext[PTR_WIDTH];
+    assign rq2_wptr_bin[PTR_WIDTH] = rq2_wptr[PTR_WIDTH];
     for(genvar i=PTR_WIDTH-1; i>=0; i=i-1) begin
         xor(rq2_wptr_bin[i], rq2_wptr[i], rq2_wptr_bin[i+1]);
     end
@@ -159,7 +164,6 @@ module fifo_async
 //
 // synchronize read pointer to write clock domain
 //
-    
     initial {wq1_rptr, wq2_rptr} = 0;
     always@(posedge i_wclk or negedge i_wrstn) begin
         if(!i_wrstn) {wq2_rptr, wq1_rptr} <= 0;
@@ -200,7 +204,7 @@ module fifo_async
     // WRITE FILL LEVEL
     wire [PTR_WIDTH:0] wdiff;
     wire [PTR_WIDTH:0] wq2_rptr_bin;
-    assign wq2_rptr_bin[PTR_WIDTH] = wgraynext[PTR_WIDTH];
+    assign wq2_rptr_bin[PTR_WIDTH] = wq2_rptr[PTR_WIDTH];
     for(genvar i=PTR_WIDTH-1; i>=0; i=i-1) begin
         xor(wq2_rptr_bin[i], wq2_rptr[i], wq2_rptr_bin[i+1]);
     end
@@ -215,7 +219,9 @@ module fifo_async
 
     // ALMOST FULL FLAG
     wire almostfull_val;
-    assign almostfull_val = (wdiff >= ((1<<PTR_WIDTH)-ALMOSTFULL_OFFSET));
+    assign almostfull_val = (o_wfill >= ( ((1<<PTR_WIDTH)-ALMOSTFULL_OFFSET)) ) ||
+                            (wgraynext == {~wq2_rptr[PTR_WIDTH:PTR_WIDTH-1], wq2_rptr[PTR_WIDTH-2:0]});
+                                                       
     always@(posedge i_wclk or negedge i_wrstn) begin
         if(!i_wrstn) o_walmostfull <= 1;
         else         o_walmostfull <= almostfull_val;

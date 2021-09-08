@@ -151,7 +151,7 @@ module sys_tb();
 
     .o_rd       (rd_125_25),
     .i_rgb      (rdata_125_25),
-    .i_empty    (almostempty_125_25),
+    .i_empty    (empty_125_25),
   
     .o_req      (req),
   
@@ -162,7 +162,7 @@ module sys_tb();
 
 // Testbench Setup
 //
-	localparam TESTRUNS  = 2;    // 2 frames
+	localparam TESTRUNS  = 5;    // # of frames
 	localparam ROWCOUNT  = 480;  // # of rows
 	localparam ROWLENGTH = 1280; // # of bytes per line (pixels*2)
 
@@ -229,7 +229,18 @@ module sys_tb();
         	    repeat(288) @(posedge i_cam_pclk);     // 288 clocks until next href 
         	end
         end
-        #1us;
+        #2ms;
+        $finish;
+	end
+
+	always@(posedge i_dispclk) begin
+		if((display_i.active) && (display_i.STATE == 2)) begin
+			test_expected = test_queue.pop_back();
+			// $display("Expected data: %h, Actual data: %h", test_expected, display_i.i_rgb);
+			assert(display_i.i_rgb == test_expected)
+			else $error("Checking failed: Expected data = %h, Actual data = %h", test_expected, display_i.i_rgb);
+
+		end
 	end
 
 

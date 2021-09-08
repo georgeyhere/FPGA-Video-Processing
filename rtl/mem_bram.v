@@ -1,3 +1,8 @@
+// module: mem_bram.v
+//
+// This module infers a simple common-clock dual-port block RAM.
+// -> template from UG901
+//
 `default_nettype none
 //
 //
@@ -11,17 +16,17 @@ module mem_bram
 	input  wire                          i_wr,
 
 	input  wire [$clog2(BRAM_DEPTH)-1:0] i_raddr,
-	output wire [BRAM_WIDTH-1:0]         o_rdata
+	output reg  [BRAM_WIDTH-1:0]         o_rdata
 	);
 
-// BRAM
-//
 	reg [BRAM_WIDTH-1:0] mem [0:BRAM_DEPTH];
 
 	always@(posedge i_clk) begin
 		if(i_wr) mem[i_waddr] <= i_wdata;
 	end
 
-	assign o_rdata = mem[i_raddr];
+	always@(posedge i_clk) begin
+		o_rdata <= mem[i_raddr];
+	end
 
 endmodule

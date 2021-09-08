@@ -30,6 +30,10 @@ Intermediate Goal:
 ///////////////////////////////////////////////
 Log:
 
+
+9/3:
+- 
+
 9/2: 
 - found a bug in async fifo where the wrong inequality was used for computing
   fill level
@@ -37,6 +41,7 @@ Log:
 - found a bug in async fifo where binary to graycode conversion fails for 
   wbinnext = 0x1000. Yielding 0x1800 instead of expected 0x0800. Critical bug!!
   Need to find a fix still. Highest priority.
+      -> 9/3 UPDATE: stupid typo in conversion. kinda emb
 
 - adjusted testbench to match real timings
 

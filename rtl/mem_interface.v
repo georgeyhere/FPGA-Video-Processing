@@ -15,7 +15,7 @@ module mem_interface
 	output wire                  o_rd,          // read enable
 	input  wire [DATA_WIDTH-1:0] i_rdata,       // read data
 	input  wire                  i_almostempty, // almost-empty flag
-	input  wire [9:0]            i_fill,        // read-side fill level
+	input  wire [11:0]           i_fill,        // fill level
  
 	// 125MHz to 25MHz output FIFO
 	output wire                  o_wr,          // write enable
@@ -33,7 +33,7 @@ module mem_interface
 	wire [DATA_WIDTH-1:0]         mem_wdata;
 	wire                          mem_wr;
 	wire [$clog2(BRAM_DEPTH)-1:0] mem_raddr;
-	wire [DATA_WIDTH-1:0]         mem_rdata;
+
 
 
 //

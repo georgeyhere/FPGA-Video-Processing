@@ -27,53 +27,73 @@ module sys_top
 	assign o_cam_rstn = 1'b1; // doing a SW reset instead, see cfg_rom.v
 	assign o_cam_pwdn = 1'b0;  
 
-	// DCM
+
+// **** Intermediate Wires ****
+//
+
+// DCM
 	wire clk_25MHz;
+	wire clk_75MHz;
 	wire clk_250MHz;
 
-	// Debounce
+// Debounce
 	wire db_rstn;
 
-	// Camera Configuration
+// Camera Configuration
 	wire i_scl, i_sda;
 	wire o_scl, o_sda;
 
-	// 24MHz to 125MHz FIFO
-	wire        wr_24_125;
-	wire [11:0] wdata_24_125;
-	wire        full_24_125;
-	wire        rd_24_125;
-	wire [11:0] rdata_24_125;
-	wire        empty_24_125;
+// Front Side FIFO: 24MHz to 75MHz 
+    // write side
+	wire        frontFIFO_wr;
+	wire [11:0] frontFIFO_wdata;
+	wire        frontFIFO_wfull;
 
-	// 125MHz to 25MHz FIFO
-	wire        wr_125_25;
-	wire [11:0] wdata_125_25;
-	wire        full_125_25;
-	wire        rd_125_25;
-	wire [11:0] rdata_125_25;
-	wire        empty_125_25;
+	// read side
+	wire        frontFIFO_rd;
+	wire [11:0] frontFIFO_rdata;
+	wire        frontFIFO_rempty;
+	wire        frontFIFO_ralmostempty;
+	wire [11:0] frontFIFO_rfill;
 
+// Back Side FIFO: 75MHz to 25MHz 
+	// write side
+	wire        backFIFO_wrstn;
+	wire        backFIFO_wr;
+	wire [11:0] backFIFO_wdata;
+	wire        backFIFO_wfull;
+	wire        backFIFO_walmostfull;
+	wire [7:0]  backFIFO_wfill;
+
+	// read side
+	wire        backFIFO_rd;
+	wire [11:0] backFIFO_rdata;
+	wire        backFIFO_rempty;
+	wire        backFIFO_ralmostempty;
+	wire [7:0]  backFIFO_rfill;
+
+// Display Interface
+	wire        req;
 	
 // **** Debounce Reset button ****
 // -> debounced in camera pclk domain (24MHz)
 //
 	debounce 
-	#(.DB_COUNT(500_000))
+	#(.DB_COUNT(100))
 	db_inst (
 	.i_clk   (i_cam_pclk ),
 	.i_input (~i_rst     ),
-	.o_db    (db_rstn    )
+	.o_db    (db_rstn    )  // 24MHz clock domain debounced reset
 	);
 
 
 // **** Async Reset Synchronizers ****
 //
 	// 125 MHz
-	reg sync_rstn_125, q_rstn_125;
-	always@(posedge i_sysclk or negedge db_rstn) begin
-		if(!db_rstn) {sync_rstn_125, q_rstn_125} <= 2'b0;
-		else         {sync_rstn_125, q_rstn_125} <= {q_rstn_125, 1'b1};
+	reg sync_rstn_75, q_rstn_75;
+	always@(posedge clk_75MHz or negedge db_rstn) begin
+		if(!db_rstn) {sync_rstn_75, q_rstn_75} <= 2'b0;
+		else         {sync_rstn_75, q_rstn_75} <= {q_rstn_75, 1'b1};
 	end
 
 	// 25 MHz
@@ -91,6 +111,7 @@ module sys_top
 	.reset      (1'b0          ),
 	.clk_24MHz  (o_cam_xclk    ), // camera reference clock output
 	.clk_25MHz  (clk_25MHz     ), // display pixel clock
+	.clk_75MHz  (clk_75MHz     ),
 	.clk_250MHz (clk_250MHz    )  // display TMDS clock
 	);
 
@@ -98,17 +119,17 @@ module sys_top
 // **** Camera Configuration (125MHz) ****
 //
 	cfg_interface 
-	#(.T_CLK(8) )
+	#(.T_CLK(13) )
 
 	cfg_i (
-	.i_clk   (i_sysclk ), // 125 MHz
-	.i_rstn  (db_rstn  ), // active-low sync reset
+	.i_clk   (clk_75MHz     ), // 75 MHz
+	.i_rstn  (db_rstn       ), // active-low sync reset
 
 	// i2c pins
-	.i_scl   (i_scl    ), 
-	.i_sda   (i_sda    ),
-	.o_scl   (o_scl    ),
-	.o_sda   (o_sda    )
+	.i_scl   (i_scl         ), 
+	.i_sda   (i_sda         ),
+	.o_scl   (o_scl         ),
+	.o_sda   (o_sda         )
 	);
 
 	// setup inout pins
@@ -120,102 +141,122 @@ module sys_top
 // **** Pixel Capture (24MHz) ****
 //
 	capture capture_i (
-	.i_clk   (i_cam_pclk  ),  // camera pclk
-	.i_rstn  (db_rstn     ),  // active-low sync reset
+	.i_pclk  (i_cam_pclk      ), // camera pclk
+	.i_rstn  (db_rstn         ), // active-low sync reset
 
 	// Camera Interface
-	.i_vsync (i_cam_vsync ),  // vsync from camera
-	.i_href  (i_cam_href  ),  // href from camera
-	.i_data  (i_cam_data  ),  // 8-bit data
-
+	.i_vsync (i_cam_vsync     ), // vsync from camera
+	.i_href  (i_cam_href      ), // href from camera
+	.i_data  (i_cam_data      ), // 8-bit data
+	
 	// 24MHz to 125MHz FIFO Write interface
-	.o_wr    (wr_24_125    ), // FIFO write enable
-	.o_wdata (wdata_24_125 ), // 12-bit RGB data
-	.i_full  (full_24_125  )  // FIFO full flag
+	.o_wr    (frontFIFO_wr    ), // FIFO write enable
+	.o_wdata (frontFIFO_wdata ), // 12-bit RGB data
+	.i_full  (frontFIFO_wfull )  // FIFO full flag
 	);
 
 
-// **** CDC FIFO: 24MHz to 125MHz ****
+// **** CDC FIFO (front-side): 24MHz to 75MHz ****
 //
+
 	fifo_async
-	#(.DATA_WIDTH (12),
-	  .ADDR_WIDTH (8))
-	fifo_24_125_i(
+	#(.DATA_WIDTH         (12),
+	  .PTR_WIDTH          (12),
+	  .ALMOSTFULL_OFFSET  (2),
+	  .ALMOSTEMPTY_OFFSET (2) 
+	 )
+	frontFIFO_i (
 	// write interface
-	.i_wclk   (i_cam_pclk    ), // 24 MHz camera pclk
-	.i_wrstn  (db_rstn       ), // active-low async reset
-	.i_wr     (wr_24_125     ), // write enable
-	.i_wdata  (wdata_24_125  ), // write data
-	.o_wfull  (full_24_125   ), // full flag
-	.o_wfill  (), // unused
+	.i_wclk         (i_cam_pclk        ), // 24 MHz camera pclk
+	.i_wrstn        (db_rstn           ), // active-low async reset (24MHz)
+	.i_wr           (frontFIFO_wr      ), // write enable
+	.i_wdata        (frontFIFO_wdata   ), // write data
+	.o_wfull        (frontFIFO_wfull   ), // full flag
+	.o_walmostfull  (), // unused
+	.o_wfill        (), // unused
  	
  	// read interface
-	.i_rclk   (i_sysclk      ), // 125 MHz sysclock domain
-	.i_rrstn  (sync_rstn_125 ), // active-low async reset
-	.i_rd     (rd_24_125     ), // read enable
-	.o_rdata  (rdata_24_125  ), // read data
-	.o_rempty (empty_24_125  ), // empty flag
-	.o_rfill  ()  // unused
+	.i_rclk         (clk_75MHz         ), // 75 MHz clock
+	.i_rrstn        (sync_rstn_75      ), // active-low async reset (75 MHz)
+	.i_rd           (frontFIFO_rd      ), // read enable
+	.o_rdata        (frontFIFO_rdata   ), // read data
+	.o_rempty       (frontFIFO_rempty  ), // empty flag
+	.o_ralmostempty (frontFIFO_ralmostempty ),
+	.o_rfill        (frontFIFO_rfill   )
 	);
 
 
 // **** BRAM Buffer (125MHz) ****
 //
-	mem_interface mem_i(
-	.i_clk  (i_sysclk     ),
-	.i_rstn (db_rstn      ),
+	mem_interface 
+	#(.ROWLENGTH  (640),
+	  .DATA_WIDTH (12),
+	  .BRAM_DEPTH (307200) 
+	 )
+	mem_i(
+	.i_clk         (clk_75MHz              ), // 75 MHz board clock
+	.i_rstn        (sync_rstn_75           ), // active-low sync reset
 
 	// read interface: 24MHz to 125MHz FIFO
-	.o_rd   (rd_24_125    ),
-	.i_data (rdata_24_125 ),
-	.i_empty(empty_24_125 ),
+	.o_rd          (frontFIFO_rd           ), // FIFO read enable 
+	.i_rdata       (frontFIFO_rdata        ), // FIFO read data 
+	.i_almostempty (frontFIFO_ralmostempty ), // almost-empty flag
+	.i_fill        (frontFIFO_rfill        ), // FIFO fill level
  
 	// write interface: 125MHz to 25MHz FIFO
-	.o_wr   (wr_125_25    ),
-	.o_data (wdata_125_25 ),
-	.i_full (full_125_25  )
-	);
+	.o_wr          (backFIFO_wr            ), // FIFO write enable 
+	.o_wdata       (backFIFO_wdata         ), // FIFO write data 
+	.i_almostfull  (backFIFO_walmostfull   ), // almost-full flag
 
+	// data request from display interface
+	.i_req         (req                    )  
+	); 
 
 
 // **** CDC FIFO: 125MHz to 25MHz ****
 //
+
 	fifo_async
-	#(.DATA_WIDTH (12),
-	  .ADDR_WIDTH (8))
-	fifo_125_25_i(
+	#(.DATA_WIDTH         (12),
+	  .PTR_WIDTH          (8),
+	  .ALMOSTFULL_OFFSET  (4),
+	  .ALMOSTEMPTY_OFFSET (2)  )
+	backFIFO_i (
 	// write interface
-	.i_wclk   (i_sysclk      ), // 125 MHz sysclock domain
-	.i_wrstn  (sync_rstn_125 ), // active-low async reset
-	.i_wr     (wr_125_25     ), // write enable
-	.i_wdata  (wdata_125_25  ), // write data
-	.o_wfull  (full_125_25   ), // full flag
-	.o_wfill  (), // unused
+	.i_wclk         (clk_75MHz             ), // 75 MHz sys clock
+	.i_wrstn        (sync_rstn_75          ), // active-low async reset
+	.i_wr           (backFIFO_wr           ), // write enable
+	.i_wdata        (backFIFO_wdata        ), // write data
+	.o_wfull        (backFIFO_wfull        ), // full flag
+	.o_walmostfull  (backFIFO_walmostfull  ), // almost-full flag
+	.o_wfill        (), // unused
  	
  	// read interface
-	.i_rclk   (clk_25MHz     ), // 25 MHz display clock domain
-	.i_rrstn  (sync_rstn_25  ), // active-low async reset
-	.i_rd     (rd_125_25     ), // read enable
-	.o_rdata  (rdata_125_25  ), // read data
-	.o_rempty (empty_125_25  ), // empty flag
-	.o_rfill  () // unused
+	.i_rclk         (clk_25MHz             ), // 25 MHz display clock 
+	.i_rrstn        (sync_rstn_25          ), // active-low async reset
+	.i_rd           (backFIFO_rd           ), // read enable
+	.o_rdata        (backFIFO_rdata        ), // read data
+	.o_rempty       (backFIFO_rempty       ), // empty flag
+	.o_ralmostempty (backFIFO_ralmostempty ), // almost-full flag
+	.o_rfill        ()  // unused
 	);
 
-// **** Display Out (25MHz) ****
+// **** Display Interface ****
 //
-	display_interface display_i (
-	.i_p_clk    (clk_25MHz    ), // pixel clock
-	.i_tmds_clk (clk_250MHz   ), // TMDS clock 
-	.i_rstn     (db_rstn      ), // active-low sync reset
-
-	// fifo read interface
-	.o_rd       (rd_125_25    ), // FIFO read enable
-	.i_rgb      (rdata_125_25 ), // FIFO read data (RGB444)
-	.i_empty    (empty_125_25 ), // FIFO empty flag
-
-	// HDMI TMDS out
-	.o_TMDS_P   (o_TMDS_P     ),
-	.o_TMDS_N   (o_TMDS_N     )
+	display_interface display_i(
+    .i_p_clk    (clk_25MHz       ), // 25 MHz display clock
+    .i_tmds_clk (clk_250MHz      ), // 250 MHz TMDS clock
+    .i_rstn     (db_rstn         ), // active-low async reset
+ 
+    .o_rd       (backFIFO_rd     ), // FIFO read enable
+    .i_rgb      (backFIFO_rdata  ), // FIFO read data
+    .i_empty    (backFIFO_rempty ), // FIFO empty flag
+   
+    .o_req      (req             ), // Request flag to memory interface
+      
+    .o_TMDS_P   (o_TMDS_P        ), // HDMI outputs
+    .o_TMDS_N   (o_TMDS_N        )
 	);
+
 
 endmodule
