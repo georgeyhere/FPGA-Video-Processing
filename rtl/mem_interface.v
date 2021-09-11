@@ -15,7 +15,6 @@ module mem_interface
 	output wire                  o_rd,          // read enable
 	input  wire [DATA_WIDTH-1:0] i_rdata,       // read data
 	input  wire                  i_almostempty, // almost-empty flag
-	input  wire [11:0]           i_fill,        // fill level
  
 	// 125MHz to 25MHz output FIFO
 	output wire                  o_wr,          // write enable
@@ -69,7 +68,6 @@ module mem_interface
 	.o_rd         (o_rd          ), // read enable 
 	.i_data       (i_rdata       ), // read data 
 	.i_empty      (i_almostempty ), // almost empty flag 
-	.i_fill       (i_fill        ), // read-side fill level 
      
 	.o_waddr      (mem_waddr     ), // bram write addr
 	.o_wdata      (mem_wdata     ), // bram write data

@@ -14,7 +14,6 @@ module mem_wr
 	output reg                           o_rd,
 	input  wire [11:0]                   i_data,
 	input  wire                          i_empty,
-	input  wire [11:0]                   i_fill,
 
 	// BRAM interface
 	output reg  [$clog2(BRAM_DEPTH)-1:0] o_waddr,
@@ -84,27 +83,6 @@ module mem_wr
 		endcase
 	end
 
-/*
-	always@* begin
-		nxt_rd           = 0;
-		nxt_wr           = 0;
-		nxt_waddr        = o_waddr;
-		nxt_pixelcounter = pixelcounter;
-		nxt_rowcounter   = rowcounter;
-		NEXT_STATE       = STATE;
-
-		if(!i_empty) begin
-			nxt_rd = 1;
-			nxt_wr = 1;
-			nxt_waddr = (o_waddr == 307199) ? 0:o_waddr + 1;
-			nxt_pixelcounter = (pixelcounter == ROWLENGTH) ? 0:pixelcounter+1;
-			if(pixelcounter == ROWLENGTH) begin
-				nxt_rowcounter = (rowcounter == 480) ? 0:rowcounter+1;
-			end
-		end
-	end
-*/
-//
 //
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin

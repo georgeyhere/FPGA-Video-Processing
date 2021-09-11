@@ -24,15 +24,14 @@ module cfg_rom
 		else begin
 			case(i_addr)
 				0:  o_data <= 16'h12_80; // reset     
-                //1:  o_data <= 16'hFF_F0; // delay     1ms, hardcoded in camera_interface
-                1:  o_data <= 16'h0C_00; // delay     1ms, hardcoded in camera_interface
+                1:  o_data <= 16'hFF_F0; // delay     1ms, hardcoded in camera_interface
                 2:  o_data <= 16'h12_04; // COM7,     set RGB color output
-                3:  o_data <= 16'h11_80; // CLKRC     internal PLL matches input clock
+                3:  o_data <= 16'h11_40; // CLKRC     internal PLL matches input clock
                 4:  o_data <= 16'h0C_00; // COM3,     default settings
                 5:  o_data <= 16'h3E_00; // COM14,    no scaling, normal pclock
                 6:  o_data <= 16'h04_00; // COM1,     disable CCIR656
-                7:  o_data <= 16'h40_d0; // COM15,    RGB444, full output range
-                8:  o_data <= 16'h8c_02; // RGB444,   RGB444, {xR} {GB} sequence
+                7:  o_data <= 16'h8c_02; // RGB444,   RGB444, {xR} {GB} sequence
+                8:  o_data <= 16'h40_d0; // COM15,    RGB444, full output range
                 9:  o_data <= 16'h3a_04; // TSLB      set correct output data sequence (magic)
                 10: o_data <= 16'h14_18; // COM9      MAX AGC value x4
                 11: o_data <= 16'h4F_B3; // MTX1      all of these are magical matrix coefficients
@@ -101,10 +100,8 @@ module cfg_rom
                 71: o_data <= 16'ha8_f0; // HAECC5
                 72: o_data <= 16'ha9_90; // HAECC6
                 73: o_data <= 16'haa_94; // HAECC7
-                74: o_data <= 16'h13_e5; // COM8, enable AGC / AEC
-                75: o_data <= 16'h15_20; // disable PCLK toggle on horizontal blank
-                76: o_data <= 16'h1E_23; // mirror image
-                77: o_data <= 16'h69_06; // RGB gain
+                74: o_data <= 16'h13_a7; // COM8, enable AGC / AEC
+                75: o_data <= 16'h1E_23; // mirror image
                 default: o_data <= 16'hFF_FF;  //mark end of ROM
 			endcase
 		end

@@ -24,12 +24,13 @@ module sys_top
     output wire [3:0] o_TMDS_N,
 
     // debug
-    output wire       cfg_led
+    output wire       cfg_led,
+    output wire       capture_led
 	);
 
-	assign o_cam_rstn = ~i_rst; 
+	assign o_cam_rstn = 1'b1; // sw reset instead
 	assign o_cam_pwdn = 1'b0;  
-
+	assign cfg_led    = cfg_done;
 
 // **** Intermediate Wires ****
 //
@@ -45,6 +46,7 @@ module sys_top
 // Camera Configuration
 	wire i_scl, i_sda;
 	wire o_scl, o_sda;
+	wire cfg_done;
 
 // Front Side FIFO: 24MHz to 75MHz 
     // write side
@@ -57,7 +59,7 @@ module sys_top
 	wire [11:0] frontFIFO_rdata;
 	wire        frontFIFO_rempty;
 	wire        frontFIFO_ralmostempty;
-	wire [11:0] frontFIFO_rfill;
+	wire [3:0]  frontFIFO_rfill;
 
 // Back Side FIFO: 75MHz to 25MHz 
 	// write side
@@ -106,8 +108,6 @@ module sys_top
 		else         {sync_rstn_25, q_rstn_25} <= {q_rstn_25, 1'b1};
 	end
 
-
-//
 //
 //
 	reg STATE;
@@ -155,7 +155,7 @@ module sys_top
 	.i_clk   (clk_75MHz     ), // 75 MHz
 	.i_rstn  (db_rstn       ), // active-low sync reset
 	.i_start (start         ),
-	.o_done  (cfg_led       ),
+	.o_done  (cfg_done      ),
 
 	// i2c pins
 	.i_scl   (i_scl         ), 
@@ -170,31 +170,23 @@ module sys_top
 	assign i_scl = SCL;
 	assign i_sda = SDA;
 
-/*
-	camera_configure cfg_i(
-	.clk   (clk_75MHz),
-	.start (start),
-	.sioc  (SCL),
-	.siod  (SDA),
-	.done  (cfg_led)
-	);
-*/
-
 // **** Pixel Capture (24MHz) ****
 //
 	capture capture_i (
-	.i_pclk  (i_cam_pclk      ), // camera pclk
-	.i_rstn  (db_rstn         ), // active-low sync reset
+	.i_pclk     (i_cam_pclk      ), // camera pclk
+	.i_rstn     (db_rstn         ), // active-low sync reset
+	.i_cfg_done (cfg_done        ), // config module done flag
+	.o_status   (capture_led     ), // indicates capturing data
 
 	// Camera Interface
-	.i_vsync (i_cam_vsync     ), // vsync from camera
-	.i_href  (i_cam_href      ), // href from camera
-	.i_data  (i_cam_data      ), // 8-bit data
+	.i_vsync    (i_cam_vsync     ), // vsync from camera
+	.i_href     (i_cam_href      ), // href from camera
+	.i_data     (i_cam_data      ), // 8-bit data
 	
 	// 24MHz to 125MHz FIFO Write interface
-	.o_wr    (frontFIFO_wr    ), // FIFO write enable
-	.o_wdata (frontFIFO_wdata ), // 12-bit RGB data
-	.i_full  (frontFIFO_wfull )  // FIFO full flag
+	.o_wr       (frontFIFO_wr    ), // FIFO write enable
+	.o_wdata    (frontFIFO_wdata ), // 12-bit RGB data
+	.i_full     (frontFIFO_wfull )  // FIFO full flag
 	);
 
 
@@ -203,7 +195,7 @@ module sys_top
 
 	fifo_async
 	#(.DATA_WIDTH         (12),
-	  .PTR_WIDTH          (12),
+	  .PTR_WIDTH          (4),
 	  .ALMOSTFULL_OFFSET  (2),
 	  .ALMOSTEMPTY_OFFSET (2) 
 	 )
@@ -224,7 +216,7 @@ module sys_top
 	.o_rdata        (frontFIFO_rdata   ), // read data
 	.o_rempty       (frontFIFO_rempty  ), // empty flag
 	.o_ralmostempty (frontFIFO_ralmostempty ),
-	.o_rfill        (frontFIFO_rfill   )
+	.o_rfill        () // unused
 	);
 
 
@@ -243,7 +235,6 @@ module sys_top
 	.o_rd          (frontFIFO_rd           ), // FIFO read enable 
 	.i_rdata       (frontFIFO_rdata        ), // FIFO read data 
 	.i_almostempty (frontFIFO_ralmostempty ), // almost-empty flag
-	.i_fill        (frontFIFO_rfill        ), // FIFO fill level
  
 	// write interface: 125MHz to 25MHz FIFO
 	.o_wr          (backFIFO_wr            ), // FIFO write enable 

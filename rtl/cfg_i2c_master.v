@@ -1,6 +1,6 @@
 // i2c module for communication w/ ov7670
 //
-// Timing parameters from i2c datasheet (p48, fast mode)
+// Timing parameters from i2c datasheet (p48, standard mode)
 // -> https://www.nxp.com/docs/en/user-guide/UM10204.pdf
 //
 // Cross-referenced w/ OV7670 datasheet (p6)
@@ -48,8 +48,14 @@
     .o_scl         (),
     .o_sda         ()
 	);
-
+	
+    assign SCL = (o_scl) ? 1'bz : 1'b0;
+    assign SDA = (o_sda) ? 1'bz : 1'b0;
+    assign i_scl = SCL;
+    assign i_sda = SDA;
 */
+
+
 //
 `default_nettype none
 //
@@ -79,20 +85,11 @@ module cfg_i2c_master#
 	// SCL and SDA pins
 	input  wire       i_scl,
 	input  wire       i_sda,
-	output reg        o_scl,
+
+	output reg        o_scl, // when asserted, 'releases' the pin
 	output reg        o_sda   
 );
 
-
-
-// **** SCL and SDA pin setup *****
-/*
-	// - insert this code in top level
-    assign SCL = (o_scl) ? 1'bz : 1'b0;
-    assign SDA = (o_sda) ? 1'bz : 1'b0;
-    assign i_scl = SCL;
-    assign i_sda = SDA;
-*/
 	
 
 // **** Timing Parameters ****
