@@ -24,8 +24,7 @@ module cfg_rom
 		else begin
 			case(i_addr)
 				0:  o_data <= 16'h12_80; // reset     
-                //1:  o_data <= 16'hFF_F0; // delay     1ms, hardcoded in camera_interface
-                1:  o_data <= 16'h0C_00; // delay     1ms, hardcoded in camera_interface
+                1:  o_data <= 16'hFF_F0; // delay     1ms, hardcoded in camera_interface
                 2:  o_data <= 16'h12_04; // COM7,     set RGB color output
                 3:  o_data <= 16'h11_80; // CLKRC     internal PLL matches input clock
                 4:  o_data <= 16'h0C_00; // COM3,     default settings

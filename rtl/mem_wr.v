@@ -29,9 +29,6 @@ module mem_wr
 	reg                           nxt_wr;
 	reg  [11:0]                   nxt_data;
 
-	reg  [9:0]  rowcounter, nxt_rowcounter;
-	reg  [9:0]  pixelcounter, nxt_pixelcounter;
-
 	reg STATE, NEXT_STATE;
 	localparam STATE_IDLE   = 0,
 	           STATE_ACTIVE = 1;
@@ -44,7 +41,7 @@ module mem_wr
 		STATE   = STATE_IDLE;
 	end
 
-	assign o_wdata = i_data;
+	assign o_wdata = i_data; // passthrough
 
 // Next State Logic
 //
@@ -54,8 +51,6 @@ module mem_wr
 		nxt_rd           = 0;
 		nxt_wr           = 0;
 		nxt_waddr        = o_waddr;
-		nxt_pixelcounter = pixelcounter;
-		nxt_rowcounter   = rowcounter;
 		NEXT_STATE       = STATE;
 		//
 		case(STATE)
@@ -73,37 +68,12 @@ module mem_wr
 				nxt_rd = (!i_empty);
 				nxt_wr = (!i_empty);
 				nxt_waddr = (o_waddr == 307199) ? 0:o_waddr + 1;
-				nxt_pixelcounter = (pixelcounter == 639) ? 0:pixelcounter+1;
-				if(pixelcounter == ROWLENGTH) begin
-					nxt_rowcounter = (rowcounter == 480) ? 0:rowcounter+1;
-				end
-				if(i_empty) begin
-					NEXT_STATE = STATE_IDLE;
-				end
+				NEXT_STATE = (i_empty) ? STATE_IDLE : STATE_ACTIVE;
 			end
 		endcase
 	end
 
-/*
-	always@* begin
-		nxt_rd           = 0;
-		nxt_wr           = 0;
-		nxt_waddr        = o_waddr;
-		nxt_pixelcounter = pixelcounter;
-		nxt_rowcounter   = rowcounter;
-		NEXT_STATE       = STATE;
 
-		if(!i_empty) begin
-			nxt_rd = 1;
-			nxt_wr = 1;
-			nxt_waddr = (o_waddr == 307199) ? 0:o_waddr + 1;
-			nxt_pixelcounter = (pixelcounter == ROWLENGTH) ? 0:pixelcounter+1;
-			if(pixelcounter == ROWLENGTH) begin
-				nxt_rowcounter = (rowcounter == 480) ? 0:rowcounter+1;
-			end
-		end
-	end
-*/
 //
 //
 	always@(posedge i_clk) begin
@@ -111,16 +81,12 @@ module mem_wr
 			o_waddr      <= 0;
 			o_wr         <= 0;
 			o_rd         <= 0;
-			pixelcounter <= 0;
-			rowcounter   <= 0;
 			STATE        <= STATE_IDLE;
 		end
 		else begin
 			o_waddr      <= nxt_waddr;
 			o_wr         <= nxt_wr;
 			o_rd         <= nxt_rd;
-			pixelcounter <= nxt_pixelcounter;
-			rowcounter   <= nxt_rowcounter;
 			STATE        <= NEXT_STATE;
 		end
 	end

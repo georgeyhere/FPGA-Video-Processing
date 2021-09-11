@@ -54,8 +54,8 @@ module cfg_interface
 	initial begin
 		wr       = 0;
 		rom_addr = 0;
-		nxt_done = 0;
-		STATE    = STATE_IDLE;
+		o_done   = 0;
+		STATE    = STATE_OP;
 	end
 
 

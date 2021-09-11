@@ -45,6 +45,7 @@ module sys_top
 // Camera Configuration
 	wire i_scl, i_sda;
 	wire o_scl, o_sda;
+	wire cfg_done;
 
 // Front Side FIFO: 24MHz to 75MHz 
     // write side
@@ -79,14 +80,14 @@ module sys_top
 	wire        req;
 	
 // **** Debounce Reset button ****
-// -> debounced in camera pclk domain (24MHz)
+// -> debounced in slowest clock domain (24MHz)
 //
 	debounce 
 	#(.DB_COUNT(100))
 	db_inst (
-	.i_clk   (i_cam_pclk ),
+	.i_clk   (i_cam_pclk ), // 24 MHz clock
 	.i_input (~i_rst     ),
-	.o_db    (db_rstn    )  // 24MHz clock domain debounced reset
+	.o_db    (db_rstn    )  // debounced reset
 	);
 
 
@@ -110,7 +111,7 @@ module sys_top
 //
 //
 //
-	reg STATE;
+	reg STATE = 0;
 	reg start = 0;
 	always@(posedge clk_75MHz) begin
 		if(!db_rstn) begin
@@ -132,6 +133,7 @@ module sys_top
 		end
 	end
 
+	assign cfg_led = cfg_done;
 
 // **** Clocking Wizard ****
 // 
@@ -154,10 +156,10 @@ module sys_top
 	cfg_i (
 	.i_clk   (clk_75MHz     ), // 75 MHz
 	.i_rstn  (db_rstn       ), // active-low sync reset
-	.i_start (start         ),
-	.o_done  (cfg_led       ),
+	.i_start (start         ), // start; driven by system FSM
+	.o_done  (cfg_done      ), // done flag
 
-	// i2c pins
+	// i2c pins (these have pullup resistors)
 	.i_scl   (i_scl         ), 
 	.i_sda   (i_sda         ),
 	.o_scl   (o_scl         ),
@@ -165,36 +167,27 @@ module sys_top
 	);
 
 	// setup inout pins
-	assign SCL = (o_scl) ? 1'bz : 1'b0;
+	assign SCL = (o_scl) ? 1'bz : 1'b0; 
 	assign SDA = (o_sda) ? 1'bz : 1'b0;
-	assign i_scl = SCL;
+	assign i_scl = SCL; // ov7670 sccb doesn't use ack/nack
 	assign i_sda = SDA;
-
-/*
-	camera_configure cfg_i(
-	.clk   (clk_75MHz),
-	.start (start),
-	.sioc  (SCL),
-	.siod  (SDA),
-	.done  (cfg_led)
-	);
-*/
 
 // **** Pixel Capture (24MHz) ****
 //
 	capture capture_i (
-	.i_pclk  (i_cam_pclk      ), // camera pclk
-	.i_rstn  (db_rstn         ), // active-low sync reset
+	.i_pclk     (i_cam_pclk      ), // camera pclk
+	.i_rstn     (db_rstn         ), // active-low sync reset
+	.i_cfg_done (cfg_done        ), // done flag from config interface
 
 	// Camera Interface
-	.i_vsync (i_cam_vsync     ), // vsync from camera
-	.i_href  (i_cam_href      ), // href from camera
-	.i_data  (i_cam_data      ), // 8-bit data
+	.i_vsync    (i_cam_vsync     ), // vsync from camera
+	.i_href     (i_cam_href      ), // href from camera
+	.i_data     (i_cam_data      ), // 8-bit data
 	
 	// 24MHz to 125MHz FIFO Write interface
-	.o_wr    (frontFIFO_wr    ), // FIFO write enable
-	.o_wdata (frontFIFO_wdata ), // 12-bit RGB data
-	.i_full  (frontFIFO_wfull )  // FIFO full flag
+	.o_wr       (frontFIFO_wr    ), // FIFO write enable
+	.o_wdata    (frontFIFO_wdata ), // 12-bit RGB data
+	.i_full     (frontFIFO_wfull )  // FIFO full flag
 	);
 
 
@@ -228,7 +221,7 @@ module sys_top
 	);
 
 
-// **** BRAM Buffer (125MHz) ****
+// **** BRAM Buffer (75MHz) ****
 //
 	mem_interface 
 	#(.ROWLENGTH  (640),
@@ -255,7 +248,7 @@ module sys_top
 	); 
 
 
-// **** CDC FIFO: 125MHz to 25MHz ****
+// **** CDC FIFO: 75MHz to 25MHz ****
 //
 
 	fifo_async
@@ -299,8 +292,5 @@ module sys_top
     .o_TMDS_P   (o_TMDS_P        ), // HDMI outputs
     .o_TMDS_N   (o_TMDS_N        )
 	);
-
-
-
 
 endmodule
