@@ -142,7 +142,7 @@ module fifo_async
     end
 
     assign rdiff = (rbinnext <= rq2_wptr_bin) ? (rq2_wptr_bin - rbinnext) :
-                                    ((1<<PTR_WIDTH) - rbinnext + rq2_wptr_bin); 
+                                    ((1<<(PTR_WIDTH+1)) - rbinnext + rq2_wptr_bin); 
 
     always@(posedge i_rclk or negedge i_rrstn) begin
         if(!i_rrstn) o_rfill <= 0;
@@ -210,7 +210,7 @@ module fifo_async
     end
 
     assign wdiff = (wq2_rptr_bin <= wbinnext) ? (wbinnext - wq2_rptr_bin) :
-                                    ((1<<PTR_WIDTH) - wq2_rptr_bin + wbinnext); 
+                                    ((1<<(PTR_WIDTH+1)) - wq2_rptr_bin + wbinnext); 
 
     always@(posedge i_wclk or negedge i_wrstn) begin
         if(!i_wrstn) o_wfill <= 0;

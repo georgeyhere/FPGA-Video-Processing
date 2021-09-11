@@ -21,10 +21,13 @@ module sys_top
 
     // HDMI interface
     output wire [3:0] o_TMDS_P,
-    output wire [3:0] o_TMDS_N
+    output wire [3:0] o_TMDS_N,
+
+    // debug
+    output wire       cfg_led
 	);
 
-	assign o_cam_rstn = 1'b1; // doing a SW reset instead, see cfg_rom.v
+	assign o_cam_rstn = ~i_rst; 
 	assign o_cam_pwdn = 1'b0;  
 
 
@@ -104,6 +107,32 @@ module sys_top
 	end
 
 
+//
+//
+//
+	reg STATE;
+	reg start = 0;
+	always@(posedge clk_75MHz) begin
+		if(!db_rstn) begin
+			start <= 0;
+			STATE <= 0;
+		end
+		else begin
+			case(STATE)
+				0: begin
+					start <= 1;
+					STATE <= 1;
+				end
+
+				1: begin
+					start <= 0;
+					STATE <= 1;
+				end
+			endcase
+		end
+	end
+
+
 // **** Clocking Wizard ****
 // 
 	clk_wiz_0 dcm_i (
@@ -118,12 +147,15 @@ module sys_top
 
 // **** Camera Configuration (125MHz) ****
 //
+
 	cfg_interface 
 	#(.T_CLK(13) )
 
 	cfg_i (
 	.i_clk   (clk_75MHz     ), // 75 MHz
 	.i_rstn  (db_rstn       ), // active-low sync reset
+	.i_start (start         ),
+	.o_done  (cfg_led       ),
 
 	// i2c pins
 	.i_scl   (i_scl         ), 
@@ -137,6 +169,16 @@ module sys_top
 	assign SDA = (o_sda) ? 1'bz : 1'b0;
 	assign i_scl = SCL;
 	assign i_sda = SDA;
+
+/*
+	camera_configure cfg_i(
+	.clk   (clk_75MHz),
+	.start (start),
+	.sioc  (SCL),
+	.siod  (SDA),
+	.done  (cfg_led)
+	);
+*/
 
 // **** Pixel Capture (24MHz) ****
 //
@@ -257,6 +299,8 @@ module sys_top
     .o_TMDS_P   (o_TMDS_P        ), // HDMI outputs
     .o_TMDS_N   (o_TMDS_N        )
 	);
+
+
 
 
 endmodule

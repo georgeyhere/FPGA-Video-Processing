@@ -10,6 +10,9 @@ module cfg_interface
 	(
 	input  wire i_clk,  // 125 MHz clock
 	input  wire i_rstn, 
+	//
+	input  wire i_start,
+	output reg  o_done,
 
 	// i2c pins
 	input  wire i_scl,
@@ -18,25 +21,27 @@ module cfg_interface
 	output wire o_sda
 	);
 
-	
+//
+	reg         nxt_done;
 
 // ROM
-	reg  [7:0] rom_addr, nxt_rom_addr;
+	reg  [7:0]  rom_addr, nxt_rom_addr;
 	wire [15:0] rom_data;
 
 // i2c master 
-	reg wr, nxt_wr;
+	reg         wr, nxt_wr;
 	
-	reg [7:0] reg_addr, nxt_reg_addr;
-	reg [7:0] wdata, nxt_wdata;
+	reg [7:0]   reg_addr, nxt_reg_addr;
+	reg [7:0]   wdata, nxt_wdata;
 
 	wire busy;
 
 // FSM
 	reg [1:0] STATE, NEXT_STATE;
-	localparam STATE_OP     = 0,
-	           STATE_DONE   = 1,
-	           STATE_TIMER  = 2;
+	localparam STATE_IDLE   = 0,
+			   STATE_OP     = 1,
+	           STATE_DONE   = 2,
+	           STATE_TIMER  = 3;
 	           
 
 	localparam DELAY_VAL   = 1_000_000/T_CLK - 2; // clks for 1ms delay
@@ -49,7 +54,8 @@ module cfg_interface
 	initial begin
 		wr       = 0;
 		rom_addr = 0;
-		STATE    = STATE_OP;
+		nxt_done = 0;
+		STATE    = STATE_IDLE;
 	end
 
 
@@ -57,17 +63,21 @@ module cfg_interface
 // 
 	always@* begin
 		nxt_rom_addr = rom_addr;
-
 		nxt_wr       = 0;
-		
 		nxt_reg_addr = reg_addr;
 		nxt_wdata    = wdata;
-
+		nxt_done     = o_done;
 		nxt_timer    = timer;
 		NEXT_STATE   = STATE;
 
 		case(STATE)
 			
+			STATE_IDLE: begin
+				nxt_rom_addr = 0;
+				nxt_done     = (i_start) ? 0:o_done;
+				NEXT_STATE   = (i_start) ? STATE_OP:STATE_IDLE;
+			end
+
 			STATE_OP: begin
 				if(!busy) begin
 					case(rom_data)
@@ -89,7 +99,7 @@ module cfg_interface
 							nxt_reg_addr = rom_data[15:8];
 							nxt_wdata    = rom_data[7:0];
 							nxt_rom_addr = rom_addr + 1;
-							nxt_timer    = 1;
+							nxt_timer    = 0;
 							NEXT_STATE   = STATE_TIMER;
 						end
 					endcase
@@ -97,7 +107,8 @@ module cfg_interface
 			end
 
 			STATE_DONE: begin
-				// do nothing
+				nxt_done   = 1;
+				NEXT_STATE = STATE_IDLE;
 			end
 
 			STATE_TIMER: begin
@@ -120,6 +131,7 @@ module cfg_interface
 			reg_addr <= 0;
 			wdata    <= 0;
 			timer    <= 0;
+			o_done   <= 0;
 			STATE    <= STATE_OP;
 		end
 		else begin
@@ -128,6 +140,7 @@ module cfg_interface
 			reg_addr <= nxt_reg_addr;
 			wdata    <= nxt_wdata;
 			timer    <= nxt_timer;
+			o_done   <= nxt_done;
 			STATE    <= NEXT_STATE;
 		end
 	end
@@ -155,7 +168,7 @@ module cfg_interface
     // read/write control 
     .i_wr          (wr),       // write enable
     .i_rd          (1'b0),     // read enable (not used)
-    .i_slave_addr  (7'h42),    // 7-bit slave device addr
+    .i_slave_addr  (7'h21),    // 7-bit slave device addr
     .i_reg_addr    (reg_addr), // 8-bit register addr
     .i_wdata       (wdata),    // 8-bit write data
       
@@ -176,6 +189,7 @@ module cfg_interface
     .o_sda         (o_sda)
 	);
 
+// 7'b0100001
 
 
 

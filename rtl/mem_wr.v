@@ -64,6 +64,7 @@ module mem_wr
 			STATE_IDLE: begin
 				if(!i_empty) begin
 					nxt_rd     = 1;
+					nxt_wr     = 1;
 				    NEXT_STATE = STATE_ACTIVE;
 				end
 			end
@@ -103,7 +104,6 @@ module mem_wr
 		end
 	end
 */
-
 //
 //
 	always@(posedge i_clk) begin

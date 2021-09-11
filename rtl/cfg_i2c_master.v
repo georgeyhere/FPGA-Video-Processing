@@ -97,13 +97,13 @@ module cfg_i2c_master#
 
 // **** Timing Parameters ****
 // 
-	localparam T_SU_STA = 600/T_CLK;  // START condition setup time  
-	localparam T_HD_STA = 600/T_CLK;  // START condition hold time
-    localparam T_LOW    = 1300/T_CLK; // SCL low time
-	localparam T_HIGH   = 600/T_CLK;  // SCL high time
-	localparam T_HD_DAT = 300/T_CLK;  // Data-in hold time
-    localparam T_SU_DAT = 100/T_CLK;  // Data-in setup time,
-    localparam T_SU_STO = 600/T_CLK;  // STOP condition setup time 
+	localparam T_SU_STA = 4700/T_CLK;  // START condition setup time  
+	localparam T_HD_STA = 4000/T_CLK;  // START condition hold time
+    localparam T_LOW    = 4700/T_CLK; // SCL low time
+	localparam T_HIGH   = 4000/T_CLK;  // SCL high time
+	localparam T_HD_DAT = 5000/T_CLK;  // Data-in hold time
+    localparam T_SU_DAT = 250/T_CLK;  // Data-in setup time,
+    localparam T_SU_STO = 4000/T_CLK;  // STOP condition setup time 
 
     // timer counter
     localparam TIMER_WIDTH = $clog2(T_LOW);
