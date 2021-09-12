@@ -10,7 +10,7 @@ module capture
 	input  wire        i_pclk,     // 24 MHz; sourced from OV7670 camera
 	input  wire        i_rstn,     // synchronous active low reset
 	input  wire        i_cfg_done, // cam config done flag
-	output wire        o_status,    // asserted when capturing
+	output wire        o_status,   // asserted when capturing
 
 	// OV7670 camera interface
 	input  wire        i_vsync,    // active-high, indicates start of frame
@@ -75,7 +75,7 @@ module capture
 			// camera not outputting 
 			STATE_IDLE: begin
 				nxt_wr         = 0;
-				nxt_pixel_half = 0;
+				nxt_pixel_half = 1;
 				NEXT_STATE = (vsync_negedge) ? STATE_ACTIVE : STATE_IDLE;
 			end
 
