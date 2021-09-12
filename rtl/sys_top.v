@@ -28,12 +28,6 @@ module sys_top
     output wire       capture_led
 	);
 
-	assign o_cam_rstn = 1'b1; // sw reset instead
-	assign o_cam_pwdn = 1'b0;  
-	assign cfg_led    = cfg_done;
-
-// **** Intermediate Wires ****
-//
 
 // DCM
 	wire clk_25MHz;
@@ -79,7 +73,14 @@ module sys_top
 
 // Display Interface
 	wire        req;
-	
+
+//
+//
+	assign o_cam_rstn = 1'b1; // sw reset instead
+	assign o_cam_pwdn = 1'b0;  
+	assign cfg_led    = cfg_done;
+
+
 // **** Debounce Reset button ****
 // -> debounced in camera pclk domain (24MHz)
 //
@@ -95,10 +96,10 @@ module sys_top
 // **** Async Reset Synchronizers ****
 //
 	// 125 MHz
-	reg sync_rstn_75, q_rstn_75;
-	always@(posedge clk_75MHz or negedge db_rstn) begin
-		if(!db_rstn) {sync_rstn_75, q_rstn_75} <= 2'b0;
-		else         {sync_rstn_75, q_rstn_75} <= {q_rstn_75, 1'b1};
+	reg sync_rstn_125, q_rstn_125;
+	always@(posedge i_sysclk or negedge db_rstn) begin
+		if(!db_rstn) {sync_rstn_125, q_rstn_125} <= 2'b0;
+		else         {sync_rstn_125, q_rstn_125} <= {q_rstn_125, 1'b1};
 	end
 
 	// 25 MHz
@@ -112,7 +113,7 @@ module sys_top
 //
 	reg STATE;
 	reg start = 0;
-	always@(posedge clk_75MHz) begin
+	always@(posedge i_sysclk) begin
 		if(!db_rstn) begin
 			start <= 0;
 			STATE <= 0;
@@ -149,10 +150,10 @@ module sys_top
 //
 
 	cfg_interface 
-	#(.T_CLK(13) )
+	#(.T_CLK(8) )
 
 	cfg_i (
-	.i_clk   (clk_75MHz     ), // 75 MHz
+	.i_clk   (i_sysclk      ), // 125 MHz
 	.i_rstn  (db_rstn       ), // active-low sync reset
 	.i_start (start         ),
 	.o_done  (cfg_done      ),
@@ -210,8 +211,8 @@ module sys_top
 	.o_wfill        (), // unused
  	
  	// read interface
-	.i_rclk         (clk_75MHz         ), // 75 MHz clock
-	.i_rrstn        (sync_rstn_75      ), // active-low async reset (75 MHz)
+	.i_rclk         (i_sysclk          ), // 125 MHz clock
+	.i_rrstn        (sync_rstn_125     ), // active-low async reset 
 	.i_rd           (frontFIFO_rd      ), // read enable
 	.o_rdata        (frontFIFO_rdata   ), // read data
 	.o_rempty       (frontFIFO_rempty  ), // empty flag
@@ -228,8 +229,8 @@ module sys_top
 	  .BRAM_DEPTH (307200) 
 	 )
 	mem_i(
-	.i_clk         (clk_75MHz              ), // 75 MHz board clock
-	.i_rstn        (sync_rstn_75           ), // active-low sync reset
+	.i_clk         (i_sysclk               ), // 125 MHz board clock
+	.i_rstn        (sync_rstn_125          ), // active-low sync reset
 
 	// read interface: 24MHz to 125MHz FIFO
 	.o_rd          (frontFIFO_rd           ), // FIFO read enable 
@@ -256,8 +257,8 @@ module sys_top
 	  .ALMOSTEMPTY_OFFSET (2)  )
 	backFIFO_i (
 	// write interface
-	.i_wclk         (clk_75MHz             ), // 75 MHz sys clock
-	.i_wrstn        (sync_rstn_75          ), // active-low async reset
+	.i_wclk         (i_sysclk              ), // 125 MHz sys clock
+	.i_wrstn        (sync_rstn_125         ), // active-low async reset
 	.i_wr           (backFIFO_wr           ), // write enable
 	.i_wdata        (backFIFO_wdata        ), // write data
 	.o_wfull        (backFIFO_wfull        ), // full flag
