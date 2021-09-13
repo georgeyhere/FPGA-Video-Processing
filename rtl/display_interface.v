@@ -3,6 +3,7 @@ module display_interface
 	input  wire        i_p_clk,
 	input  wire        i_tmds_clk,
 	input  wire        i_rstn,
+	input  wire        i_mode,
 
 	// FIFO read interface
 	output reg         o_rd,
@@ -45,9 +46,16 @@ module display_interface
 		end
 		else begin
 			if(active) begin
-				red   <= {i_rgb[11:8], {4{1'b0}} };
-				green <= {i_rgb[7:4],  {4{1'b0}} }; 
-				blue  <= {i_rgb[3:0],  {4{1'b0}} }; 
+				if(mode) begin
+					red   <= i_rgb[11:4];
+					green <= i_rgb[11:4];
+					blue  <= i_rgb[11:4];
+				end
+				else begin
+					red   <= {i_rgb[11:8], {4{1'b0}} };
+					green <= {i_rgb[7:4],  {4{1'b0}} }; 
+					blue  <= {i_rgb[3:0],  {4{1'b0}} }; 
+				end
 			end
 		end
 	end

@@ -1,7 +1,46 @@
 Goal:
 Do edge detection on OV7670 video stream.
+///////////////////////////////////////////////
 
-Intermediate Goal: 
+Intermediate Goal 2:
+-> Implement a preprocessor that converts RGB444 to grayscale
+   prior to framebuffer
+
+-> Add functionality to camera configuration module:
+        - when in greyscale mode, use RGB565
+        - when in color mode, use RGB444
+
+
+   Grayscale Algorithm:
+   - luminosity method
+
+   y = 0.299R + 0.587G + 0.114B
+
+Potential Approaches:
+
+1) Use 32-bit single precision fixed-point arithmetic,
+   then truncate the result for the 12-bit framebuffer.
+
+2) Change the form of the algorithm to:
+    y = (299/100)*R + (587/100)*G + (114/100)*B
+
+3) Use bit shifts to get close to the constants.
+    y = [ (R>>2) + (R>>5) + (R>>6) ] + [ (G>>1) + (G>>4) + (G>>5)] + [ (B>>3) ]
+    y = [  0.25R +  0.03R +  0.01R ] + [  0.5G  + 0.06G  + 0.03G ] + [ 0.12B  ]
+    y = [0.29R] + [0.59G] + [0.12B]
+
+Selected Approach: 3)
+    1) is overkill considering the result will be truncated.
+    2) uses divides and multiplies which are expensive in terms of 
+       dsp slices and is slow.
+    3) uses only shifts and adds, which is fastest and least expensive;
+       however, this comes at cost of precision.
+
+-> use matlab to find maximum error
+
+
+///////////////////////////////////////////////
+Intermediate Goal 1: 
 -> Buffer camera video data in external memory
 -> Read video data from external memory 
 -> Display video data via VGA 
@@ -28,11 +67,7 @@ Intermediate Goal:
         - systemverilog testbench
 
 ///////////////////////////////////////////////
-Log:
-
-
-9/3:
-- 
+Jots:
 
 9/2: 
 - found a bug in async fifo where the wrong inequality was used for computing
