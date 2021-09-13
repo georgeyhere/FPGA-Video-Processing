@@ -52,7 +52,7 @@ module sys_control
 
 	debounce 
 	#(.DB_COUNT(500_000))    // 20ms debounce period
-	db_inst (
+	db_mode_i (
 	.i_clk   (i_clk       ),
 	.i_input (i_btn_mode  ),
 	.o_db    (db_btn_mode )  

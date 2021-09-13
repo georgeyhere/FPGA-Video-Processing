@@ -46,7 +46,7 @@ module display_interface
 		end
 		else begin
 			if(active) begin
-				if(mode) begin
+				if(i_mode) begin
 					red   <= i_rgb[11:4];
 					green <= i_rgb[11:4];
 					blue  <= i_rgb[11:4];
