@@ -1,7 +1,29 @@
 Goal:
 Do edge detection on OV7670 video stream.
-///////////////////////////////////////////////
 
+///////////////////////////////////////////////
+Intermediate Goal 3:
+-> Implement a reconfigurable kernel processor (KP) that applies
+   a kernel to the greyscale video stream prior to frame buffer.
+
+    - KP should be parameterized.
+        - Users should be able to specify kernel size.
+        - Users should be able to specify kernel constants.
+        - Users should be able to specify the video resolution.
+    
+    - KP should have an enable input such that the unaltered
+      video stream is passed through.
+
+    Need to find out what the fmax of system currently is in order
+    to optimize KP. 
+
+    Higher frequency -> more pipeline stages -> higher cycles per op
+                                vs 
+    Lower frequency -> fewer pipeline stages -> fewer cycles per op
+
+
+
+///////////////////////////////////////////////
 Intermediate Goal 2:
 -> Implement a preprocessor that converts RGB444 to grayscale
    prior to framebuffer
@@ -30,7 +52,8 @@ Potential Approaches:
     y = [0.29R] + [0.59G] + [0.12B]
 
 Selected Approach: 3)
-    1) is overkill considering the result will be truncated.
+    1) is overkill considering the result will be truncated and input is 
+       only 12-bit RGB.
     2) uses divides and multiplies which are expensive in terms of 
        dsp slices and is slow.
     3) uses only shifts and adds, which is fastest and least expensive;

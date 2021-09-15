@@ -20,13 +20,19 @@ module mem_bram
 	);
 
 	reg [BRAM_WIDTH-1:0] mem [0:BRAM_DEPTH];
+	reg [BRAM_WIDTH-1:0] dout;
 
 	always@(posedge i_clk) begin
 		if(i_wr) mem[i_waddr] <= i_wdata;
 	end
 
 	always@(posedge i_clk) begin
-		o_rdata <= mem[i_raddr];
+		dout <= mem[i_raddr];
+	end
+
+	// output register
+	always@(posedge i_clk) begin
+		o_rdata <= dout;
 	end
 
 endmodule
