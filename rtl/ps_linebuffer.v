@@ -1,0 +1,86 @@
+// module: ps_linebuffer.v
+//
+// This is pretty much just a FIFO that outputs three
+// words per read. 
+//
+// Should be synthesized as distributed ram w/ an output
+// buffer for better performance -> 1 cycle read latency
+//
+module ps_linebuffer
+	#(
+    parameter LINE_LENGTH = 640
+	) 
+	(
+	input  wire        i_clk,
+	input  wire        i_rstn,
+
+	// Write Interface
+	input  wire        i_wr,
+	input  wire [7:0]  i_wdata,
+	
+	// Read Interface
+	input  wire        i_rd,
+	output reg  [23:0] o_rdata
+	);
+
+// 
+	reg [7:0]  mem [LINE_LENGTH-1:0];
+	reg [23:0] rdata;
+
+	reg [$clog2(LINE_LENGTH)-1:0] wptr, rptr;
+
+
+// infer distributed ram
+	always@(posedge i_clk) begin
+		if(i_wr) begin
+			mem[wptr] <= i_wdata;
+		end
+	end 
+
+	// output three words at a time, starting from rptr
+	always@* begin
+		case(rptr)
+			default: begin
+				rdata = {mem[rptr], mem[rptr+1], mem[rptr+2]};
+			end
+
+			(LINE_LENGTH-2): begin
+				rdata = {mem[rptr], {2{mem[rptr+1]}} };
+			end
+
+			(LINE_LENGTH-1): begin
+			    rdata = {3{mem[rptr]}};
+			end
+		endcase
+	end
+
+	// output register
+	always@(posedge i_clk) begin
+		o_rdata <= rdata;
+	end
+
+// Write Pointer
+	always@(posedge i_clk) begin
+		if(!i_rstn) begin
+			wptr <= 0;
+		end
+		else begin
+			if(i_wr) begin
+				wptr <= (wptr == LINE_LENGTH-1) ? 0 : wptr+1;
+			end
+		end
+	end
+
+// Read Pointer
+	always@(posedge i_clk) begin
+		if(!i_rstn) begin
+			rptr <= 0;
+		end
+		else begin
+			if(i_rd) begin
+				rptr <= (rptr == LINE_LENGTH-1) ? 0 : rptr+1;
+			end
+		end
+	end
+
+endmodule
