@@ -10,9 +10,10 @@ module mem_interface
 	input wire                   i_clk,         // 125 MHz board clock
 	input wire                   i_rstn,        // sync active low reset
 
-	// preprocess module interface
-	input  wire                  i_valid,
-	input  wire [DATA_WIDTH-1:0] i_data,          
+	// preprocess module FIFO interface
+	output reg                   o_rd,
+	input  wire [DATA_WIDTH-1:0] i_data, 
+	input  wire                  i_empty,         
  
 	// Output FIFO interface
 	output wire                  o_wr,          // write enable
@@ -23,29 +24,62 @@ module mem_interface
 	input  wire                  i_req          // asserted when display is active
 	);
 
+	reg  nxt_rd;
+	reg  STATE, NEXT_STATE;
+	localparam STATE_IDLE   = 0,
+               STATE_ACTIVE = 1;
+    initial STATE = STATE_IDLE;
 
-// BRAM write 
-	reg  [$clog2(BRAM_DEPTH)-1:0] mem_waddr;
-	reg                           mem_wr;
+	reg  [$clog2(BRAM_DEPTH)-1:0] nxt_mem_waddr, mem_waddr;
+	reg                           nxt_mem_wr, mem_wr;
 
-// BRAM read 
 	wire [$clog2(BRAM_DEPTH)-1:0] mem_raddr;
 
 
-// Write Logic
+// read whenever input FIFO isn't empty
+	always@* begin
+		nxt_rd        = 0;
+		nxt_mem_wr    = 0;
+		nxt_mem_waddr = mem_waddr;
+		NEXT_STATE    = STATE;
+
+		case(STATE)
+			
+			STATE_IDLE: begin
+				if(!i_empty) begin
+					nxt_rd        = 1;
+					nxt_mem_wr    = 1;
+					NEXT_STATE    = STATE_ACTIVE;
+				end
+			end
+
+			STATE_ACTIVE: begin
+				nxt_rd        = (!i_empty);
+				nxt_mem_wr    = (!i_empty);
+				nxt_mem_waddr = (mem_waddr == BRAM_DEPTH-1) ? 0:mem_waddr+1;
+				NEXT_STATE    = (i_empty) ? STATE_IDLE : STATE_ACTIVE;
+			end
+
+		endcase
+	end
+
+// FSM sync process
 //
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
+			o_rd      <= 0;
 			mem_wr    <= 0;
 			mem_waddr <= 0;
+			STATE     <= STATE_IDLE;
 		end
 		else begin
-			if(i_valid) begin
-				mem_wr    <= 1;
-				mem_waddr <= (mem_waddr == BRAM_DEPTH-1) ? 0:mem_waddr+1;
-			end
+			o_rd      <= nxt_rd;
+			mem_wr    <= nxt_mem_wr;
+			mem_waddr <= nxt_mem_waddr;
+			STATE     <= NEXT_STATE;
 		end
 	end
+
 
 //
 // Submodule Instantiation

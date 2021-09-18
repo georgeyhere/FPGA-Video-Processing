@@ -41,15 +41,15 @@ module ps_linebuffer
 	always@* begin
 		case(rptr)
 			default: begin
-				rdata = {mem[rptr], mem[rptr+1], mem[rptr+2]};
+				rdata = {mem[rptr-1], mem[rptr], mem[rptr+1]};
 			end
 
-			(LINE_LENGTH-2): begin
-				rdata = {mem[rptr], {2{mem[rptr+1]}} };
+			0: begin
+				rdata = {{2{mem[0]}}, mem[1]};
 			end
 
 			(LINE_LENGTH-1): begin
-			    rdata = {3{mem[rptr]}};
+			    rdata = {mem[rptr-1], {2{mem[rptr]}} };
 			end
 		endcase
 	end
@@ -84,3 +84,21 @@ module ps_linebuffer
 	end
 
 endmodule
+
+/*
+INSTANTIATION TEMPLATE
+
+ps_linebuffer
+#(.LINE_LENGTH(640)) 
+LINEBUF0_i (
+.i_clk   (), 
+.i_rstn  (), // sync active low reset
+
+.i_wr    (), // write enable
+.i_wdata (), // 8-bit write data
+
+.i_rd    (), // read enable
+.o_rdata ()  // 72-bit read data
+);
+
+*/

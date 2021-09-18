@@ -62,7 +62,8 @@ module sys_top
 	wire [3:0]  frontFIFO_rfill;
 
 // Preprocessing
-	wire        preprocess_valid;
+	wire        preprocess_rd;
+	wire        preprocess_empty;
 	wire [11:0] preprocess_dout;
 
 // Back Side FIFO: 125MHz to 25MHz 
@@ -226,9 +227,10 @@ module sys_top
     .i_data  (frontFIFO_rdata        ),
     .i_empty (frontFIFO_ralmostempty ),
 
-    // data out interface
-    .o_valid (preprocess_valid       ), // valid flag
-    .o_data  (preprocess_dout        )  // 12-bit dout
+    // internal FIFO out interface
+    .i_rd    (preprocess_rd          ),
+    .o_data  (preprocess_dout        ),
+    .o_empty (preprocess_empty       )
     );
 
 // **** BRAM Buffer (125MHz) ****
@@ -241,8 +243,9 @@ module sys_top
 	.i_rstn        (sync_rstn_PS           ), // active-low sync reset
 
 	// Write interface
-	.i_valid       (preprocess_valid       ), 
+	.o_rd          (preprocess_rd          ),
 	.i_data        (preprocess_dout        ),
+	.i_empty       (preprocess_empty       ),
  
 	// Display FIFO interface
 	.o_wr          (backFIFO_wr            ), // FIFO write enable 

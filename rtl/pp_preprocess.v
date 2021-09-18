@@ -19,12 +19,13 @@ module ps_preprocess
     input  wire [11:0]  i_data,
     input  wire         i_empty,
  
- 	//
-    output reg          o_valid,
-    output reg  [11:0]  o_data
+ 	// Output FIFO interface
+ 	input  wire         i_rd,
+    output wire [11:0]  o_data,
+    output wire         o_empty      
 	);
 
-// FIFO read 
+// Pixel Capture FIFO read 
 	reg         din_valid, nxt_din_valid;
 	reg         nxt_rd;
 
@@ -32,13 +33,19 @@ module ps_preprocess
 	wire        gs_valid;
 	wire [11:0] gs_dout;
 
+// Output FIFO
+	reg         fifo_wr;
+	reg  [11:0] fifo_wdata;
+	wire        fifo_almostfull;
+
+
 // FSM
 	reg STATE, NEXT_STATE;
 	localparam STATE_IDLE   = 0,
                STATE_ACTIVE = 1;
     initial STATE = STATE_IDLE;
 
-// instantiate greyscale converter
+// greyscale converter
     ps_greyscale 
 	gscale_i (
 	.i_clk   (i_clk     ),
@@ -49,6 +56,28 @@ module ps_preprocess
 
 	.o_data  (gs_dout   ),
 	.o_valid (gs_valid  )
+	);
+
+// output FIFO
+	fifo_sync 
+	#(.DATA_WIDTH        (12),
+	  .ADDR_WIDTH        (9),
+	  .ALMOSTFULL_OFFSET (2),
+	  .ALMOSTEMPTY_OFFSET(2))
+	pp_obuf_i (
+	.i_clk         (i_clk           ),
+	.i_rstn        (i_rstn          ),
+            
+	.i_wr          (fifo_wr         ),
+	.i_data        (fifo_wdata      ),
+            
+	.i_rd          (i_rd            ),
+	.o_data        (o_data          ),
+
+	.o_full        (),
+	.o_almostfull  (fifo_almostfull ),
+	.o_empty       (),
+	.o_almostempty (o_empty         )
 	);
 
 
@@ -94,16 +123,16 @@ module ps_preprocess
 	end
 
 
-// assign output data based on mode
+// write to fifo based on mode
 //   
     always@* begin
     	if(i_mode == `MODE_PASSTHROUGH) begin
-    		o_valid = din_valid;
-    		o_data  = i_data;
+    		fifo_wr    = (!fifo_almostfull) ? din_valid : 0;
+    		fifo_wdata = i_data;
     	end
     	else begin
-    		o_valid = gs_valid;
-    		o_data  = gs_dout;
+    		fifo_wr    = (!fifo_almostfull) ? gs_valid : 0;
+    		fifo_wdata = gs_dout;
     	end
     end
 
