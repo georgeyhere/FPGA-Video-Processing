@@ -10,10 +10,14 @@ module mem_interface
 	input wire                   i_clk,         // 125 MHz board clock
 	input wire                   i_rstn,        // sync active low reset
 
-	// preprocess module FIFO interface
+	/*  // input FIFO interface
 	output reg                   o_rd,
 	input  wire [DATA_WIDTH-1:0] i_data, 
-	input  wire                  i_empty,         
+	input  wire                  i_empty, */
+
+	// input interface
+	input  wire                  i_valid,
+	input  wire [DATA_WIDTH-1:0] i_data,        
  
 	// Output FIFO interface
 	output wire                  o_wr,          // write enable
@@ -35,7 +39,7 @@ module mem_interface
 
 	wire [$clog2(BRAM_DEPTH)-1:0] mem_raddr;
 
-
+/*
 // read whenever input FIFO isn't empty
 	always@* begin
 		nxt_rd        = 0;
@@ -62,21 +66,24 @@ module mem_interface
 
 		endcase
 	end
+*/
 
 // FSM sync process
 //
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
-			o_rd      <= 0;
+			// o_rd      <= 0;
 			mem_wr    <= 0;
 			mem_waddr <= 0;
-			STATE     <= STATE_IDLE;
+			// STATE     <= STATE_IDLE;
 		end
 		else begin
-			o_rd      <= nxt_rd;
-			mem_wr    <= nxt_mem_wr;
-			mem_waddr <= nxt_mem_waddr;
-			STATE     <= NEXT_STATE;
+			// o_rd      <= nxt_rd;
+			if(i_valid) begin
+				mem_wr    <= 1;
+				mem_waddr <= (mem_waddr == BRAM_DEPTH-1) ? 0:mem_waddr+1;
+			end
+			// STATE     <= NEXT_STATE;
 		end
 	end
 

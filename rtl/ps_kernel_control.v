@@ -1,60 +1,77 @@
+// module: ps_kernel_control
 //
+// This module stores incoming data in 4x line buffers. 
 //
+// It reads three line buffers at a time and feeds that data
+// to the Gaussian block.
 //
+// The fourth line buffer is pre-loaded while the other three are
+// being read from.
 //
+// It also has a request flag that indicates it needs data to write
+// to the next line buffer.
 //
 module ps_kernel_control 
 	(
-	input wire        i_clk,
-	input wire        i_rstn,
+	input wire        i_clk,     // input clock
+	input wire        i_rstn,    // sync active low reset
+ 	
+ 	// Data in interface
+	input wire [7:0]  i_data,    // 8-bit greyscale data
+	input wire        i_valid,   //
+	output reg        o_req,     // asserted when ready for more data
 
-	input wire [7:0]  i_data,
-	input wire        i_valid,
-	output reg        o_ready,
-
-	output reg [23:0] o_r0_data,
+	// Gaussian MAC interface
+	output reg [23:0] o_r0_data, 
 	output reg [23:0] o_r1_data,
 	output reg [23:0] o_r2_data,
 	output reg        o_valid
 	);
 
 //
-	reg         nxt_ready;
-// 
-	reg  [3:0]  lineBuffer_wr; // line buffer write enables
-	reg  [3:0]  lineBuffer_rd; // line buffer read enables
+	reg         nxt_req;
+
+// LINE BUFFER I/O 
+	reg  [3:0]  lineBuffer_wr;     // line buffer write enables
+	reg  [3:0]  lineBuffer_rd;     // line buffer read enables
 	wire [23:0] lineBuffer0_rdata;
 	wire [23:0] lineBuffer1_rdata;
 	wire [23:0] lineBuffer2_rdata;
 	wire [23:0] lineBuffer3_rdata;
 
-//
+// LINE BUFFER WRITE LOGIC
 	reg  [9:0]  w_pixelCounter;   // counts pixels written to single buffer
 	reg  [1:0]  w_lineBuffer_sel; // keeps track of buffer to write to
 	 
- 
-// 
-	reg  [11:0] r_fill;              // total fill level of all buffers
-	reg  [9:0]  r_pixelCounter,      // counts pixels read from current buffer
+// LINE BUFFER READ LOGIC
+    // total fill level of all buffers
+	reg  [11:0] r_fill;        
+
+	// counts pixels read from current buffer      
+	reg  [9:0]  r_pixelCounter,      
 	            nxt_r_pixelCounter; 
- 
-	reg  [8:0]  r_lineCounter,       // counts # of lines processed
+ 	
+ 	// counts # of lines processed
+	reg  [8:0]  r_lineCounter,       
 	            nxt_r_lineCounter;
- 
-    reg         r_lineBuffer_rd_en,     // overall buffer read enable
+ 	
+ 	// overall buffer read enable
+    reg         r_lineBuffer_rd_en,     
                 nxt_r_lineBuffer_rd_en; 
- 
-    reg  [2:0]  r_lineBuffer_sel,    // keeps track of 'target' read buffer
+ 	
+ 	// keeps track of 'target' read buffer
+    reg  [2:0]  r_lineBuffer_sel,    
                 nxt_r_lineBuffer_sel;
- 
+ 	
+ 	// FSM
     reg         RSTATE, NEXT_RSTATE;
     localparam  RSTATE_IDLE   = 0,
                 RSTATE_ACTIVE = 1;
 
-
 //
 // LINE BUFFER WRITE LOGIC
 //
+	// count every linebuffer write
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
 			w_pixelCounter <= 0;
@@ -66,6 +83,7 @@ module ps_kernel_control
 		end
 	end
 
+	// after writing a full line buffer, select the next line buffer
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
 			w_lineBuffer_sel <= 0;
@@ -82,6 +100,7 @@ module ps_kernel_control
 		end
 	end
 
+	// line buffer i/o
 	always@* begin
 		lineBuffer_wr = 0;
 		lineBuffer_wr[w_lineBuffer_sel] = i_valid;
@@ -113,7 +132,7 @@ module ps_kernel_control
 
 	// read from line buffers only when three lines are full
 	always@* begin
-		nxt_ready               = o_ready;
+		nxt_req                 = o_req;
 		nxt_r_lineBuffer_rd_en  = 0;
 		nxt_r_pixelCounter      = r_pixelCounter;
 		nxt_r_lineCounter       = r_lineCounter;
@@ -122,22 +141,28 @@ module ps_kernel_control
 
 		case(RSTATE)
 
+		// RSTATE_IDLE: 
+		// If there is 3 lines worth of pixel data present, 
+		// begin reading from line buffers
 			RSTATE_IDLE: begin
-				
-				if(r_fill >= 1920) begin
-					nxt_ready               = 0;
+				if(r_fill == 1920) begin
+					nxt_req                 = 0;
 					nxt_r_lineBuffer_rd_en  = 1;
 					NEXT_RSTATE             = RSTATE_ACTIVE;
 				end
 				else begin
-					nxt_ready              = 1;
+					nxt_req                = 1;
 					nxt_r_lineBuffer_rd_en = 0;
 				end
 			end
 
+		// RSTATE_ACTIVE:
+		// If a line of pixels has been read:
+		//    - select next line buffer to read from
+		//    - request more data
 			RSTATE_ACTIVE: begin
 				if(r_pixelCounter >= 639) begin
-					nxt_ready               = 1;
+					nxt_req                 = 1;
 					nxt_r_lineBuffer_rd_en  = 0;
 					nxt_r_pixelCounter      = 0;
 					nxt_r_lineCounter       = (r_lineCounter == 479) ?
@@ -147,7 +172,7 @@ module ps_kernel_control
 					NEXT_RSTATE             = RSTATE_IDLE;
 				end
 				else begin
-					nxt_ready              = 0;
+					nxt_req                = 0;
 					nxt_r_lineBuffer_rd_en = 1;
 					nxt_r_pixelCounter     = r_pixelCounter + 1;
 				end
@@ -155,9 +180,10 @@ module ps_kernel_control
 		endcase
 	end
 
+	// registers
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
-			o_ready            <= 0;
+			o_req              <= 0;
 		 	r_lineBuffer_rd_en <= 0;
 		 	r_pixelCounter     <= 0;
 		 	r_lineCounter      <= 0;
@@ -165,7 +191,7 @@ module ps_kernel_control
 		 	RSTATE             <= RSTATE_IDLE;
 		end 
 		else begin
-			o_ready            <= nxt_ready;
+			o_req              <= nxt_req;
 			r_lineBuffer_rd_en <= nxt_r_lineBuffer_rd_en;
 			r_pixelCounter     <= nxt_r_pixelCounter;
 			r_lineCounter      <= nxt_r_lineCounter;
@@ -177,9 +203,7 @@ module ps_kernel_control
 //
 // LINE BUFFER READ SELECT LOGIC
 //
-
-
-
+	// assign different data to outputs based on what current row is
 	always@* begin
 		o_valid       = r_lineBuffer_rd_en;
 		lineBuffer_rd = {4{r_lineBuffer_rd_en}};
@@ -187,6 +211,7 @@ module ps_kernel_control
 		o_r1_data     = 0;
 		o_r2_data     = 0;
 
+		// first row of image
 		if(r_lineCounter == 0) begin
 			lineBuffer_rd[2] = 0;
 			lineBuffer_rd[3] = 0;
@@ -194,6 +219,8 @@ module ps_kernel_control
 			o_r1_data        = lineBuffer0_rdata;
 			o_r2_data        = lineBuffer1_rdata;
 		end
+
+		// last row of image
 
 		else begin
 			case(r_lineBuffer_sel)

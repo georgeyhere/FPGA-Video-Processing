@@ -25,11 +25,11 @@ module sys_top
 
     // controls
     input  wire       btn_mode,
+    input  wire       sw_gaussian,
     // status
     output wire       led_cfg,
     output wire       led_capture
 	);
-
 
 // DCM
 	wire        clk_25MHz;
@@ -42,6 +42,7 @@ module sys_top
 // System Control
 	wire        cfg_start;
 	wire        sys_mode;
+	wire        gaussian_enable;
 
 // Camera Configuration
 	wire        i_scl, i_sda;
@@ -65,6 +66,11 @@ module sys_top
 	wire        preprocess_rd;
 	wire        preprocess_empty;
 	wire [11:0] preprocess_dout;
+	wire        preprocess_valid;
+
+// Gaussian
+	wire [11:0] gaussian_dout;
+	wire        gaussian_valid;
 
 // Back Side FIFO: 125MHz to 25MHz 
 	// write side
@@ -135,14 +141,16 @@ module sys_top
 // *** System Control ****
 	sys_control 
 	ctrl_i (
-	.i_clk         (clk_25MHz     ), // 25MHz clock, use lowest freq
-	.i_rstn        (sync_rstn_PS  ), // active-low sync reset
+	.i_clk             (clk_25MHz         ), // 25MHz clock, use lowest freq
+	.i_rstn            (sync_rstn_PS      ), // active-low sync reset
 
-	.i_btn_mode    (btn_mode      ), // board button 
+	.i_btn_mode        (btn_mode          ), // board button 
+	.i_sw_gaussian     (sw_gaussian       ),
 
-	.o_cfg_start   (cfg_start     ), // config module start
-	.o_mode        (sys_mode      ),
-	.o_status_leds ()                // unused for now
+	.o_cfg_start       (cfg_start         ), // config module start
+	.o_gaussian_enable (gaussian_enable   ),
+	.o_mode            (sys_mode          ),
+	.o_status_leds     ()                    // unused for now
 	);
 
 // **** Camera Configuration (125MHz) ****
@@ -230,8 +238,26 @@ module sys_top
     // internal FIFO out interface
     .i_rd    (preprocess_rd          ),
     .o_data  (preprocess_dout        ),
+    .o_valid (preprocess_valid       ),
     .o_empty (preprocess_empty       )
     );
+
+// **** Gaussian Blur *****
+	ps_gaussian_top 
+	gaussian_i (
+	.i_clk    (clk_PS),
+	.i_rstn   (sync_rstn_PS),
+	.i_enable (gaussian_enable),
+
+	// input interface
+	.i_data   (preprocess_dout  ),
+	.i_valid  (preprocess_valid ),
+	.o_req    (preprocess_rd    ),
+ 	
+ 	// BRAM interface
+ 	.o_valid  (gaussian_valid   ),
+	.o_data   (gaussian_dout    )
+	); 
 
 // **** BRAM Buffer (125MHz) ****
 	mem_interface 
@@ -243,9 +269,8 @@ module sys_top
 	.i_rstn        (sync_rstn_PS           ), // active-low sync reset
 
 	// Write interface
-	.o_rd          (preprocess_rd          ),
-	.i_data        (preprocess_dout        ),
-	.i_empty       (preprocess_empty       ),
+	.i_valid       (gaussian_valid         ),
+	.i_data        (gaussian_dout          ),
  
 	// Display FIFO interface
 	.o_wr          (backFIFO_wr            ), // FIFO write enable 

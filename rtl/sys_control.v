@@ -6,15 +6,19 @@
 //
 `default_nettype none
 //
+`define MODE_PASSTHROUGH 0
+//
 module sys_control
 	(
 	input  wire       i_clk,
 	input  wire       i_rstn,
 
 	input  wire       i_btn_mode,
+	input  wire       i_sw_gaussian,
 
 	output reg        o_cfg_start,
 	output reg        o_mode,
+	output reg        o_gaussian_enable,
 	output reg  [7:0] o_status_leds
 	);
 
@@ -74,6 +78,14 @@ module sys_control
 		end
 		else begin
 			if(db_btn_posedge) o_mode <= ~o_mode;
+		end
+	end
+
+	always@(posedge i_clk) begin
+		if(o_mode == `MODE_PASSTHROUGH)
+			o_gaussian_enable <= 0;
+		else begin
+			o_gaussian_enable <= (i_sw_gaussian);
 		end
 	end
 

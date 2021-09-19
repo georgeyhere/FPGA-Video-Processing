@@ -42,7 +42,7 @@ module fifo_sync
 	end
 
 // write pointer
-	always@(posedge i_clk, negedge i_rstn) begin
+	always@(posedge i_clk) begin
 		if(!i_rstn) begin
 			wptr <= 0;
 		end
@@ -52,7 +52,7 @@ module fifo_sync
 	end
 
 // read pointer
-	always@(posedge i_clk, negedge i_rstn) begin
+	always@(posedge i_clk) begin
 		if(!i_rstn) begin
 			rptr <= 0;
 		end
@@ -62,7 +62,7 @@ module fifo_sync
 	end
 
 // o_fill and status
-	always@(posedge i_clk, negedge i_rstn) begin
+	always@(posedge i_clk) begin
 		if(!i_rstn) begin
 			o_fill <= 0;
 		end

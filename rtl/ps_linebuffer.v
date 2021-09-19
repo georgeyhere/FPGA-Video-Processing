@@ -38,6 +38,7 @@ module ps_linebuffer
 	end 
 
 	// output three words at a time, starting from rptr
+	/*
 	always@* begin
 		case(rptr)
 			default: begin
@@ -53,7 +54,11 @@ module ps_linebuffer
 			end
 		endcase
 	end
-
+	*/
+	always@* begin
+		rdata = {mem[rptr-1], mem[rptr], mem[rptr+1]};
+	end
+	
 	// output register
 	always@(posedge i_clk) begin
 		o_rdata <= rdata;

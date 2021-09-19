@@ -92,6 +92,10 @@ Intermediate Goal 1:
 ///////////////////////////////////////////////
 Jots:
 
+9/19:
+- ps_preprocess: inspect o_valid and o_empty when i_rd is asserted and fifo is 
+  empty
+
 9/2: 
 - found a bug in async fifo where the wrong inequality was used for computing
   fill level
