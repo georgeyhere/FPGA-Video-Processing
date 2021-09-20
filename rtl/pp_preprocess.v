@@ -29,9 +29,9 @@ module ps_preprocess
  
  	// Output FIFO interface
  	input  wire         i_rd,    // read enable
-    output reg  [11:0]  o_data,  // output data
-    output reg          o_valid, // 
-    output reg          o_empty  //    
+    output wire [11:0]  o_data,  // output data
+    output wire         o_valid, // 
+    output wire         o_empty  //    
 	);
 
 // Pixel Capture FIFO read 
@@ -82,13 +82,14 @@ module ps_preprocess
 	.i_data        (fifo_wdata      ),
             
 	.i_rd          (i_rd            ),
-	.o_data        (fifo_rdata      ),
+	.o_data        (o_data          ),
 
 	.o_full        (),
 	.o_almostfull  (fifo_almostfull ),
 	.o_empty       (),
-	.o_almostempty (fifo_almostempty)
+	.o_almostempty (o_empty         )
 	);
+/*
 always@(posedge i_clk) begin
 	if(!i_rstn) begin
 		o_empty <= 1;
@@ -101,8 +102,9 @@ always@(posedge i_clk) begin
 		o_data  <= fifo_rdata;
 	end
 end
+*/
 
-	// assign o_valid = (i_rd && !o_empty);
+	assign o_valid = (i_rd && !o_empty);
 
 // FSM next state logic for FIFO reads
 //

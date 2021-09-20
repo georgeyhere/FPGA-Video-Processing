@@ -34,10 +34,15 @@ module ps_kernel_control
 // LINE BUFFER I/O 
 	reg  [3:0]  lineBuffer_wr;     // line buffer write enables
 	reg  [3:0]  lineBuffer_rd;     // line buffer read enables
-	wire [23:0] lineBuffer0_rdata;
-	wire [23:0] lineBuffer1_rdata;
-	wire [23:0] lineBuffer2_rdata;
-	wire [23:0] lineBuffer3_rdata;
+	wire [23:0] lB0_rdata;
+	wire [23:0] lB1_rdata;
+	wire [23:0] lB2_rdata;
+	wire [23:0] lB3_rdata;
+	reg  [23:0] lineBuffer0_rdata;
+	reg  [23:0] lineBuffer1_rdata;
+	reg  [23:0] lineBuffer2_rdata;
+	reg  [23:0] lineBuffer3_rdata;
+
 
 // LINE BUFFER WRITE LOGIC
 	reg  [9:0]  w_pixelCounter;   // counts pixels written to single buffer
@@ -78,7 +83,7 @@ module ps_kernel_control
 		end 
 		else begin
 			if(i_valid) begin
-				w_pixelCounter <= (w_pixelCounter == 640) ? 0:w_pixelCounter+1;
+				w_pixelCounter <= (w_pixelCounter == 639) ? 0:w_pixelCounter+1;
 			end
 		end
 	end
@@ -89,7 +94,7 @@ module ps_kernel_control
 			w_lineBuffer_sel <= 0;
 		end
 		else begin
-			if( (w_pixelCounter == 640) && (i_valid)) begin
+			if( (w_pixelCounter == 639) && (i_valid)) begin
 				if(w_lineBuffer_sel == 3) begin
 					w_lineBuffer_sel <= 0;
 				end
@@ -257,6 +262,31 @@ module ps_kernel_control
 	end
 
 //
+	always@* begin
+		case(r_pixelCounter)
+			default: begin
+				lineBuffer0_rdata = lB0_rdata;
+				lineBuffer1_rdata = lB1_rdata;
+				lineBuffer2_rdata = lB2_rdata;
+				lineBuffer3_rdata = lB3_rdata;
+			end
+
+			0: begin
+				lineBuffer0_rdata = { {2{lB0_rdata[15:8]}}, lB0_rdata[7:0]};
+				lineBuffer1_rdata = { {2{lB1_rdata[15:8]}}, lB1_rdata[7:0]};
+				lineBuffer2_rdata = { {2{lB2_rdata[15:8]}}, lB2_rdata[7:0]};
+				lineBuffer3_rdata = { {2{lB3_rdata[15:8]}}, lB3_rdata[7:0]};
+			end
+
+			639: begin
+				lineBuffer0_rdata = { lB0_rdata[23:16], {2{lB0_rdata[15:8]}} };
+				lineBuffer1_rdata = { lB1_rdata[23:16], {2{lB1_rdata[15:8]}} };
+				lineBuffer2_rdata = { lB2_rdata[23:16], {2{lB2_rdata[15:8]}} };
+				lineBuffer3_rdata = { lB3_rdata[23:16], {2{lB3_rdata[15:8]}} };
+			end
+		endcase
+	end
+
 	ps_linebuffer
 	#(.LINE_LENGTH(640)) 
 	LINEBUF0_i (
@@ -267,7 +297,7 @@ module ps_kernel_control
 	.i_wdata (i_data            ), // 8-bit write data
 
 	.i_rd    (lineBuffer_rd[0]  ), // read enable
-	.o_rdata (lineBuffer0_rdata )  // 72-bit read data
+	.o_rdata (lB0_rdata )  // 72-bit read data
 	);
 
 	ps_linebuffer
@@ -280,7 +310,7 @@ module ps_kernel_control
 	.i_wdata (i_data            ), // 8-bit write data
 
 	.i_rd    (lineBuffer_rd[1]  ), // read enable
-	.o_rdata (lineBuffer1_rdata )  // 72-bit read data
+	.o_rdata (lB1_rdata )  // 72-bit read data
 	);
 
 	ps_linebuffer
@@ -293,7 +323,7 @@ module ps_kernel_control
 	.i_wdata (i_data            ), // 8-bit write data
 
 	.i_rd    (lineBuffer_rd[2]  ), // read enable
-	.o_rdata (lineBuffer2_rdata )  // 72-bit read data
+	.o_rdata (lB2_rdata )  // 72-bit read data
 	);
 
 	ps_linebuffer
@@ -306,7 +336,7 @@ module ps_kernel_control
 	.i_wdata (i_data            ), // 8-bit write data
 
 	.i_rd    (lineBuffer_rd[3]  ), // read enable
-	.o_rdata (lineBuffer3_rdata )  // 72-bit read data
+	.o_rdata (lB3_rdata )  // 72-bit read data
 	);
 
 	
