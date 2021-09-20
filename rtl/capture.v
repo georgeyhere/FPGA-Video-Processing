@@ -20,7 +20,9 @@ module capture
 	// FIFO write interface   
 	output reg         o_wr,       // fifo write enable
 	output reg  [11:0] o_wdata,    // fifo write data; {red, green, blue}
-	input  wire        i_full      // fifo full flag
+	input  wire        i_full,     // fifo full flag
+
+	output wire        o_sof       // start of frame flag
 	);
 
 	reg        nxt_wr;
@@ -41,7 +43,6 @@ module capture
 	assign o_status = (STATE == STATE_ACTIVE);
 
 	reg vsync1, vsync2;
-	wire vsync_negedge;
 	wire vsync_posedge;
 
 // **** vsync negedge detector ****
@@ -54,7 +55,7 @@ module capture
 			{vsync1, vsync2} <= {i_vsync, vsync1};
 		end
 	end
-	assign vsync_negedge = ((vsync1 == 0) && (vsync2 == 1));
+	assign o_sof         = ((vsync1 == 0) && (vsync2 == 1)); // vsync negedge
 	assign vsync_posedge = ((vsync1 == 1) && (vsync2 == 0));
 
 // **** Next State Logic ****
@@ -69,14 +70,14 @@ module capture
 		case(STATE)
 
 			STATE_INITIAL: begin
-				NEXT_STATE = (i_cfg_done && vsync_negedge) ? STATE_IDLE : STATE_INITIAL;
+				NEXT_STATE = (i_cfg_done && o_sof) ? STATE_IDLE : STATE_INITIAL;
 			end
 
 			// camera not outputting 
 			STATE_IDLE: begin
 				nxt_wr         = 0;
 				nxt_pixel_half = 1;
-				NEXT_STATE = (vsync_negedge) ? STATE_ACTIVE : STATE_IDLE;
+				NEXT_STATE = (o_sof) ? STATE_ACTIVE : STATE_IDLE;
 			end
 
 			// camera outputting display data

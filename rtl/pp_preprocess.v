@@ -18,6 +18,7 @@ module ps_preprocess
 	(
     input  wire         i_clk,  // input clock
     input  wire         i_rstn, // sync active low reset
+    input  wire         i_flush,
 
     // Mode select
     input  wire         i_mode, // pretty much greyscale enable
@@ -35,6 +36,7 @@ module ps_preprocess
 	);
 
 // Pixel Capture FIFO read 
+	reg  [11:0] din;
 	reg         din_valid, nxt_din_valid;
 	reg         nxt_rd;
 
@@ -62,7 +64,7 @@ module ps_preprocess
 	.i_rstn  (i_rstn    ),
 
 	.i_valid (din_valid ),
-	.i_data  (i_data    ),
+	.i_data  (din       ),
 
 	.o_data  (gs_dout   ),
 	.o_valid (gs_valid  )
@@ -73,21 +75,21 @@ module ps_preprocess
 	#(.DATA_WIDTH        (12),
 	  .ADDR_WIDTH        (9),
 	  .ALMOSTFULL_OFFSET (2),
-	  .ALMOSTEMPTY_OFFSET(2))
+	  .ALMOSTEMPTY_OFFSET(1))
 	pp_obuf_i (
-	.i_clk         (i_clk           ),
-	.i_rstn        (i_rstn          ),
-            
-	.i_wr          (fifo_wr         ),
-	.i_data        (fifo_wdata      ),
-            
-	.i_rd          (i_rd            ),
-	.o_data        (o_data          ),
-
-	.o_full        (),
-	.o_almostfull  (fifo_almostfull ),
+	.i_clk         (i_clk              ),
+	.i_rstn        (i_rstn&&(~i_flush) ),
+             
+	.i_wr          (fifo_wr            ),
+	.i_data        (fifo_wdata         ),
+               
+	.i_rd          (i_rd               ),
+	.o_data        (o_data             ),
+   
+	.o_full        (),   
+	.o_almostfull  (fifo_almostfull    ),
 	.o_empty       (),
-	.o_almostempty (o_empty         )
+	.o_almostempty (o_empty)
 	);
 /*
 always@(posedge i_clk) begin
@@ -138,11 +140,13 @@ end
 		if(!i_rstn) begin
 			o_rd      <= 0;
 			din_valid <= 0;
+			din       <= 0;
 			STATE     <= STATE_IDLE;
 		end
 		else begin
 			o_rd      <= nxt_rd;
 			din_valid <= nxt_din_valid;
+			din       <= i_data;
 			STATE     <= NEXT_STATE;
 		end
 	end
@@ -153,7 +157,7 @@ end
     always@* begin
     	if(i_mode == `MODE_PASSTHROUGH) begin
     		fifo_wr    = (!fifo_almostfull) ? din_valid : 0;
-    		fifo_wdata = i_data;
+    		fifo_wdata = din;
     	end
     	else begin
     		fifo_wr    = (!fifo_almostfull) ? gs_valid : 0;

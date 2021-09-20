@@ -13,11 +13,15 @@ module sys_control
 	input  wire       i_clk,
 	input  wire       i_rstn,
 
+	input  wire       i_sof,
+
 	input  wire       i_btn_mode,
 	input  wire       i_sw_gaussian,
 
 	output reg        o_cfg_start,
 	output reg        o_mode,
+	output reg        o_pipe_flush,
+
 	output reg        o_gaussian_enable,
 	output reg  [7:0] o_status_leds
 	);
@@ -72,20 +76,62 @@ module sys_control
 	end
 	assign db_btn_posedge = ((btn1 == 1) && (btn2 == 0));
 
+// Mode toggle on button posedge
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
-			o_mode <= 0;
+			o_mode <= `MODE_PASSTHROUGH;
 		end
 		else begin
 			if(db_btn_posedge) o_mode <= ~o_mode;
 		end
 	end
 
+// Gaussian enable
 	always@(posedge i_clk) begin
 		if(o_mode == `MODE_PASSTHROUGH)
 			o_gaussian_enable <= 0;
 		else begin
 			o_gaussian_enable <= (i_sw_gaussian);
+		end
+	end
+
+	reg sw_gaussian_q1, sw_gaussian_q2;
+	wire delta_sw_gaussian;
+	always@(posedge i_clk) begin
+		if(!i_rstn) begin
+			{sw_gaussian_q1, sw_gaussian_q2} <= 2'b0;
+		end
+		else begin
+			{sw_gaussian_q1, sw_gaussian_q2} <= {i_sw_gaussian, sw_gaussian_q1};
+		end
+	end
+	assign delta_sw_gaussian = (sw_gaussian_q1 != sw_gaussian_q2);
+
+
+// Flush the pipeline if a filter is applied
+// -> hold the flush until start of frame
+	reg FLUSH_STATE;
+	localparam FLUSH_IDLE=0, FLUSH_ACTIVE=1;
+	always@(posedge i_clk) begin
+		if(!i_rstn) begin
+			o_pipe_flush <= 0;
+			FLUSH_STATE  <= FLUSH_IDLE;
+		end
+		else begin
+			if(o_mode != `MODE_PASSTHROUGH ) begin
+				case(FLUSH_STATE)
+					FLUSH_IDLE: begin
+						o_pipe_flush <= 0;
+						FLUSH_STATE  <= (delta_sw_gaussian) ? FLUSH_ACTIVE:FLUSH_IDLE;
+					end
+	
+					FLUSH_ACTIVE: begin
+						o_pipe_flush <= 1;
+						FLUSH_STATE  <= (i_sof) ? FLUSH_IDLE:FLUSH_ACTIVE;
+					end
+				endcase
+			end
+			else o_pipe_flush <= 0;
 		end
 	end
 

@@ -26,6 +26,7 @@ module sys_top
     // controls
     input  wire       btn_mode,
     input  wire       sw_gaussian,
+
     // status
     output wire       led_cfg,
     output wire       led_capture,
@@ -44,11 +45,15 @@ module sys_top
 	wire        cfg_start;
 	wire        sys_mode;
 	wire        gaussian_enable;
+	wire        pipe_flush;
 
 // Camera Configuration
 	wire        i_scl, i_sda;
 	wire        o_scl, o_sda;
 	wire        cfg_done;
+
+// Capture
+	wire        sof;
 
 // Front Side FIFO: 24MHz to 125MHz 
     // write side
@@ -96,6 +101,7 @@ module sys_top
 	assign o_cam_rstn = 1'b1; // sw reset instead
 	assign o_cam_pwdn = 1'b0;  
 	assign led_cfg    = cfg_done;
+	assign led_gssn   = pipe_flush;
 
 // **** Debounce Reset button ****
 // -> debounced in camera pclk domain (24MHz)
@@ -142,8 +148,10 @@ module sys_top
 // *** System Control ****
 	sys_control 
 	ctrl_i (
-	.i_clk             (clk_25MHz         ), // 25MHz clock, use lowest freq
+	.i_clk             (i_sysclk          ), // 125MHz clock
 	.i_rstn            (sync_rstn_PS      ), // active-low sync reset
+
+	.i_sof             (sof               ),
 
 	.i_btn_mode        (btn_mode          ), // board button 
 	.i_sw_gaussian     (sw_gaussian       ),
@@ -151,16 +159,18 @@ module sys_top
 	.o_cfg_start       (cfg_start         ), // config module start
 	.o_gaussian_enable (gaussian_enable   ),
 	.o_mode            (sys_mode          ),
+	.o_pipe_flush      (pipe_flush        ),
+
 	.o_status_leds     ()                    // unused for now
 	);
-	assign led_gssn = gaussian_enable;
+	
 
 // **** Camera Configuration (125MHz) ****
 	cfg_interface 
 	#(.T_CLK(8) )
 
 	cfg_i (
-	.i_clk   (i_sysclk        ), 
+	.i_clk   (i_sysclk      ), 
 	.i_rstn  (db_rstn       ), // active-low sync reset
 	.i_start (cfg_start     ),
 	.o_done  (cfg_done      ),
@@ -194,7 +204,9 @@ module sys_top
 	// 24MHz to 125MHz FIFO Write interface
 	.o_wr       (frontFIFO_wr    ), // FIFO write enable
 	.o_wdata    (frontFIFO_wdata ), // 12-bit RGB data
-	.i_full     (frontFIFO_wfull )  // FIFO full flag
+	.i_full     (frontFIFO_wfull ), // FIFO full flag
+
+	.o_sof      (sof             )
 	);
 
 
@@ -216,11 +228,11 @@ module sys_top
 	.o_wfill        (), // unused
  	
  	// read interface
-	.i_rclk         (i_sysclk            ), // 
-	.i_rrstn        (sync_rstn_PS      ), // active-low async reset 
-	.i_rd           (frontFIFO_rd      ), // read enable
-	.o_rdata        (frontFIFO_rdata   ), // read data
-	.o_rempty       (frontFIFO_rempty  ), // empty flag
+	.i_rclk         (i_sysclk               ), // 
+	.i_rrstn        (sync_rstn_PS           ), // active-low async reset 
+	.i_rd           (frontFIFO_rd           ), // read enable
+	.o_rdata        (frontFIFO_rdata        ), // read data
+	.o_rempty       (frontFIFO_rempty       ), // empty flag
 	.o_ralmostempty (frontFIFO_ralmostempty ),
 	.o_rfill        () // unused
 	);
@@ -228,9 +240,10 @@ module sys_top
 // **** Preprocessing Module ****
     ps_preprocess 
     preprocess_i (
-    .i_clk   (i_sysclk                 ), // 
+    .i_clk   (i_sysclk               ), // 
     .i_rstn  (sync_rstn_PS           ), // active-low sync reset
     .i_mode  (sys_mode               ), // 0: passthrough, 1:greyscale
+    .i_flush (pipe_flush             ),
 
     // frontFIFO interface
     .o_rd    (frontFIFO_rd           ), 
@@ -248,8 +261,9 @@ module sys_top
 	ps_gaussian_top 
 	gaussian_i (
 	.i_clk    (i_sysclk),
-	.i_rstn   (sync_rstn_PS),
+	.i_rstn   (sync_rstn_PS   ),
 	.i_enable (gaussian_enable),
+	.i_flush  (pipe_flush     ),
 
 	// input interface
 	.i_data   (preprocess_dout  ),
@@ -267,8 +281,9 @@ module sys_top
 	  .BRAM_DEPTH (307200) 
 	 )
 	mem_i(
-	.i_clk         (i_sysclk                 ), // 125 MHz board clock
+	.i_clk         (i_sysclk               ), // 125 MHz board clock
 	.i_rstn        (sync_rstn_PS           ), // active-low sync reset
+	.i_flush       (pipe_flush             ),
 
 	// Write interface
 	.i_valid       (gaussian_valid         ),
@@ -292,21 +307,21 @@ module sys_top
 	  .ALMOSTEMPTY_OFFSET (2)  )
 	backFIFO_i (
 	// write interface
-	.i_wclk         (i_sysclk                ), // 125 MHz sys clock
-	.i_wrstn        (sync_rstn_PS          ), // active-low async reset
-	.i_wr           (backFIFO_wr           ), // write enable
-	.i_wdata        (backFIFO_wdata        ), // write data
-	.o_wfull        (backFIFO_wfull        ), // full flag
-	.o_walmostfull  (backFIFO_walmostfull  ), // almost-full flag
+	.i_wclk         (i_sysclk               ), // 125 MHz sys clock
+	.i_wrstn        (sync_rstn_PS           ), // active-low async reset
+	.i_wr           (backFIFO_wr            ), // write enable
+	.i_wdata        (backFIFO_wdata         ), // write data
+	.o_wfull        (backFIFO_wfull         ), // full flag
+	.o_walmostfull  (backFIFO_walmostfull   ), // almost-full flag
 	.o_wfill        (), // unused
  	
  	// read interface
-	.i_rclk         (clk_25MHz             ), // 25 MHz display clock 
-	.i_rrstn        (sync_rstn_25          ), // active-low async reset
-	.i_rd           (backFIFO_rd           ), // read enable
-	.o_rdata        (backFIFO_rdata        ), // read data
-	.o_rempty       (backFIFO_rempty       ), // empty flag
-	.o_ralmostempty (backFIFO_ralmostempty ), // almost-full flag
+	.i_rclk         (clk_25MHz              ), // 25 MHz display clock 
+	.i_rrstn        (sync_rstn_25           ), // active-low async reset
+	.i_rd           (backFIFO_rd            ), // read enable
+	.o_rdata        (backFIFO_rdata         ), // read data
+	.o_rempty       (backFIFO_rempty        ), // empty flag
+	.o_ralmostempty (backFIFO_ralmostempty  ), // almost-full flag
 	.o_rfill        ()  // unused
 	);
 

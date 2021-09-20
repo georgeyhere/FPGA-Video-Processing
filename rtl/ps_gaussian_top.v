@@ -9,6 +9,7 @@ module ps_gaussian_top
 	input  wire        i_clk,    // input clock
 	input  wire        i_rstn,   // active low sync reset
 	input  wire        i_enable, // filter enable
+	input  wire        i_flush,
  
 	input  wire [11:0] i_data,   // input data, RGB444 or greyscale[11:4]
 	input  wire        i_empty, 
@@ -102,7 +103,7 @@ module ps_gaussian_top
 	// passthrough logic
 	always@* begin
 		if(i_enable) begin
-			o_data  = {4'b0, gaussian_dout};
+			o_data  = {gaussian_dout, 4'b0};
 			o_valid = gaussian_valid;
 		end
 		else begin
@@ -113,31 +114,31 @@ module ps_gaussian_top
 
 	ps_kernel_control 
 	gaus_ctrl_i (
-	.i_clk     (i_clk        ),
-	.i_rstn    (i_rstn       ),
+	.i_clk     (i_clk              ),
+	.i_rstn    (i_rstn&&(~i_flush) ),
   
-	.i_data    (i_data[11:4] ),
-	.i_valid   (din_valid    ),
-	.o_req     (req          ),
-
-	.o_r0_data (r0_data      ),
-	.o_r1_data (r1_data      ),
-	.o_r2_data (r2_data      ),
-	.o_valid   (valid        )
+	.i_data    (i_data[11:4]       ),
+	.i_valid   (din_valid          ),
+	.o_req     (req                ),
+      
+	.o_r0_data (r0_data            ),
+	.o_r1_data (r1_data            ),
+	.o_r2_data (r2_data            ),
+	.o_valid   (valid              )
 	);
 
 	ps_gaussian 
 	gaus_i (
-	.i_clk     (i_clk          ),
-	.i_rstn    (i_rstn         ),
+	.i_clk     (i_clk              ),
+	.i_rstn    (i_rstn&&(~i_flush) ),
 
-	.i_r0_data (r0_data        ),
-	.i_r1_data (r1_data        ),
-	.i_r2_data (r2_data        ),
-	.i_valid   (valid          ),
-
-	.o_data    (gaussian_dout  ),
-	.o_valid   (gaussian_valid )
+	.i_r0_data (r0_data            ),
+	.i_r1_data (r1_data            ),
+	.i_r2_data (r2_data            ),
+	.i_valid   (valid              ),
+    
+	.o_data    (gaussian_dout      ),
+	.o_valid   (gaussian_valid     )
 	);
 
 endmodule

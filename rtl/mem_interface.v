@@ -9,11 +9,7 @@ module mem_interface
 	(
 	input wire                   i_clk,         // 125 MHz board clock
 	input wire                   i_rstn,        // sync active low reset
-
-	/*  // input FIFO interface
-	output reg                   o_rd,
-	input  wire [DATA_WIDTH-1:0] i_data, 
-	input  wire                  i_empty, */
+    input wire                   i_flush,
 
 	// input interface
 	input  wire                  i_valid,
@@ -42,9 +38,9 @@ module mem_interface
 
 // FSM sync process
 //
+/*
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
-			// o_rd      <= 0;
 			mem_wr    <= 0;
 			mem_waddr <= 0;
 		end
@@ -59,7 +55,46 @@ module mem_interface
 			end
 		end
 	end
-
+*/
+	always@(posedge i_clk) begin
+		if(!i_rstn) begin
+			mem_wr    <= 0;
+			mem_waddr <= 0;
+			STATE     <= STATE_IDLE;
+		end
+		else begin
+			if(i_flush) begin
+				mem_wr    <= 0;
+				mem_waddr <= 0;
+				STATE     <= STATE_IDLE;
+			end
+			else begin
+				case(STATE)
+					STATE_IDLE: begin
+						mem_waddr <= 0;
+						if(i_valid) begin
+							mem_wr <= 1;
+							STATE  <= STATE_ACTIVE;
+						end
+						else begin
+							mem_wr <= 0;
+						end
+					end
+	
+					STATE_ACTIVE: begin
+						if(i_valid) begin
+							mem_wr <= 1;
+							mem_waddr <= (mem_waddr == BRAM_DEPTH-1) ? 0:mem_waddr+1;
+						end
+						else begin
+							mem_wr <= 0;
+						end
+						STATE <= (mem_waddr == BRAM_DEPTH-1) ? STATE_IDLE:STATE_ACTIVE;			
+					end
+				endcase
+			end
+		end
+	end
 
 //
 // Submodule Instantiation

@@ -47,11 +47,9 @@ module mem_rd
 		case(STATE)
 
 			STATE_IDLE: begin
-				
-				if(!sync_req) begin
-					nxt_raddr  = 0;
-				end
-				else begin
+				nxt_raddr  = 0;
+				if(sync_req) begin
+					nxt_wr     = 1;
 					NEXT_STATE = STATE_ACTIVE;
 				end
 			end
