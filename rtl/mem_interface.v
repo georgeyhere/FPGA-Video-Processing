@@ -34,10 +34,10 @@ module mem_interface
                STATE_ACTIVE = 1;
     initial STATE = STATE_IDLE;
 
-	reg  [$clog2(BRAM_DEPTH)-1:0] nxt_mem_waddr, mem_waddr;
-	reg                           nxt_mem_wr, mem_wr;
+	reg  [18:0] nxt_mem_waddr, mem_waddr;
+	reg         nxt_mem_wr, mem_wr;
 
-	wire [$clog2(BRAM_DEPTH)-1:0] mem_raddr;
+	wire [18:0] mem_raddr;
 
 /*
 // read whenever input FIFO isn't empty
@@ -92,18 +92,16 @@ module mem_interface
 // Submodule Instantiation
 //	
 	mem_bram
-	#(.BRAM_WIDTH (DATA_WIDTH),
-	  .BRAM_DEPTH (BRAM_DEPTH)
-	)
 	mem_bram_i (
-	.i_clk        (i_clk     ),
+	.clka       (i_clk     ),
+	.clkb       (i_clk     ),
       
-	.i_waddr      (mem_waddr ), // write address
-	.i_wdata      (i_data    ), // write data
-	.i_wr         (mem_wr    ), // write enable
-      
-	.i_raddr      (mem_raddr ), // read address
-	.o_rdata      (o_wdata   )  // read data
+	.addra      (mem_waddr ), // write address
+	.dina       (i_data    ), // write data
+	.wea        (mem_wr    ), // write enable
+     
+	.addrb      (mem_raddr ), // read address
+	.doutb      (o_wdata   )  // read data
 	);
 
 	// read logic
