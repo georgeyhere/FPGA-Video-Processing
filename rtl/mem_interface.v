@@ -39,34 +39,6 @@ module mem_interface
 
 	wire [18:0] mem_raddr;
 
-/*
-// read whenever input FIFO isn't empty
-	always@* begin
-		nxt_rd        = 0;
-		nxt_mem_wr    = 0;
-		nxt_mem_waddr = mem_waddr;
-		NEXT_STATE    = STATE;
-
-		case(STATE)
-			
-			STATE_IDLE: begin
-				if(!i_empty) begin
-					nxt_rd        = 1;
-					nxt_mem_wr    = 1;
-					NEXT_STATE    = STATE_ACTIVE;
-				end
-			end
-
-			STATE_ACTIVE: begin
-				nxt_rd        = (!i_empty);
-				nxt_mem_wr    = (!i_empty);
-				nxt_mem_waddr = (mem_waddr == BRAM_DEPTH-1) ? 0:mem_waddr+1;
-				NEXT_STATE    = (i_empty) ? STATE_IDLE : STATE_ACTIVE;
-			end
-
-		endcase
-	end
-*/
 
 // FSM sync process
 //
@@ -75,15 +47,16 @@ module mem_interface
 			// o_rd      <= 0;
 			mem_wr    <= 0;
 			mem_waddr <= 0;
-			// STATE     <= STATE_IDLE;
 		end
 		else begin
-			// o_rd      <= nxt_rd;
 			if(i_valid) begin
 				mem_wr    <= 1;
 				mem_waddr <= (mem_waddr == BRAM_DEPTH-1) ? 0:mem_waddr+1;
 			end
-			// STATE     <= NEXT_STATE;
+			else begin
+				mem_wr    <= 0;
+				mem_waddr <= mem_waddr;
+			end
 		end
 	end
 
