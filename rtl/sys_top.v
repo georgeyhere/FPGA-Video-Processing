@@ -66,11 +66,11 @@ module sys_top
 	wire [11:0] frontFIFO_rdata;
 	wire        frontFIFO_rempty;
 	wire        frontFIFO_ralmostempty;
-	wire [3:0]  frontFIFO_rfill;
+	wire [9:0]  frontFIFO_rfill;
 
 // Preprocessing
 	wire        preprocess_rd;
-	wire        preprocess_empty;
+	wire [9:0]  preprocess_fill;
 	wire [11:0] preprocess_dout;
 	wire        preprocess_valid;
 
@@ -106,7 +106,8 @@ module sys_top
 // **** Debounce Reset button ****
 // -> debounced in camera pclk domain (24MHz)
 	debounce 
-	#(.DB_COUNT(476190))    // 20ms debounce period
+	//#(.DB_COUNT(476190))    // 20ms debounce period
+	#(.DB_COUNT(1))    // 20ms debounce period
 	db_inst (
 	.i_clk   (i_cam_pclk ),
 	.i_input (~i_rst     ),
@@ -213,7 +214,7 @@ module sys_top
 // **** CDC FIFO (front-side): 24MHz to 125MHz ****
 	fifo_async
 	#(.DATA_WIDTH         (12),
-	  .PTR_WIDTH          (4),
+	  .PTR_WIDTH          (10),
 	  .ALMOSTFULL_OFFSET  (2),
 	  .ALMOSTEMPTY_OFFSET (2) 
 	 )
@@ -234,7 +235,7 @@ module sys_top
 	.o_rdata        (frontFIFO_rdata        ), // read data
 	.o_rempty       (frontFIFO_rempty       ), // empty flag
 	.o_ralmostempty (frontFIFO_ralmostempty ),
-	.o_rfill        () // unused
+	.o_rfill        (frontFIFO_rfill        ) 
 	);
 
 // **** Preprocessing Module ****
@@ -248,13 +249,12 @@ module sys_top
     // frontFIFO interface
     .o_rd    (frontFIFO_rd           ), 
     .i_data  (frontFIFO_rdata        ),
-    .i_empty (frontFIFO_ralmostempty ),
+    .i_rfill (frontFIFO_rfill        ),
 
     // internal FIFO out interface
     .i_rd    (preprocess_rd          ),
     .o_data  (preprocess_dout        ),
-    .o_valid (preprocess_valid       ),
-    .o_empty (preprocess_empty       )
+    .o_fill  (preprocess_fill        )
     );
 
 // **** Gaussian Blur *****
@@ -267,7 +267,7 @@ module sys_top
 
 	// input interface
 	.i_data   (preprocess_dout  ),
-	.i_empty  (preprocess_empty ),
+	.i_rfill  (preprocess_fill  ),
 	.o_rd     (preprocess_rd    ),
  	
  	// BRAM interface

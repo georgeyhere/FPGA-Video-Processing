@@ -38,25 +38,16 @@ module display_interface
 		STATE = STATE_INITIAL;
 	end
 
-	always@(posedge i_p_clk) begin
-		if(!i_rstn) begin
-			red   <= 0;
-			green <= 0;
-			blue  <= 0;
+	always@* begin
+		if(i_mode) begin
+			red   = i_rgb[11:4];
+			green = i_rgb[11:4];
+			blue  = i_rgb[11:4];
 		end
 		else begin
-			if(active) begin
-				if(i_mode) begin
-					red   <= i_rgb[11:4];
-					green <= i_rgb[11:4];
-					blue  <= i_rgb[11:4];
-				end
-				else begin
-					red   <= {i_rgb[11:8], {4{1'b0}} };
-					green <= {i_rgb[7:4],  {4{1'b0}} }; 
-					blue  <= {i_rgb[3:0],  {4{1'b0}} }; 
-				end
-			end
+			red   = {i_rgb[11:8], {4{1'b0}} };
+			green = {i_rgb[7:4],  {4{1'b0}} }; 
+			blue  = {i_rgb[3:0],  {4{1'b0}} }; 
 		end
 	end
 
@@ -76,35 +67,7 @@ module display_interface
 
 			// normal operation: begin reading from FIFO at start of frame
 			STATE_ACTIVE: begin
-
-				// active part of frame
-				if((counterY == 524 || counterY < 480) && (!i_empty)) begin
-				
-					// read prior to SoF
-					if((counterX == 799) && (counterY == 524))
-						nxt_rd = 1;
-
-					// read 1 clock prior to SoR
-					else if((counterX == 799) && (counterY < 480))
-						nxt_rd = 1;
-
-					// stop reading 1 clock prior to EoR
-					else if((counterX >= 639) && (counterY < 480))
-						nxt_rd = 0;
-
-					// read during active region
-					else if(active)
-						nxt_rd = 1; 
-				end
-
-				// empty the fifo during vertical blanking period
-				else begin
-					nxt_rd = (!i_empty);
-				end
-			end
-
-			default: begin
-				NEXT_STATE = STATE;
+				nxt_rd = (active);
 			end
 		endcase
 	end
@@ -112,7 +75,9 @@ module display_interface
 	always@(posedge i_p_clk) begin
 		if(!i_rstn) begin
 			o_rd  <= 0;
-			STATE <= STATE_DELAY;
+			STATE <= STATE_INITIAL;
+			//STATE <= STATE_DELAY;
+			//STATE <= STATE_ACTIVE;
 		end
 		else begin
 			o_rd  <= nxt_rd;

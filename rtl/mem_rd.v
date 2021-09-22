@@ -37,6 +37,7 @@ module mem_rd
 		else {q1_req, sync_req} <= {i_req, q1_req};
 	end
 
+
 // Next state logic
 //
 	always@* begin
@@ -49,29 +50,33 @@ module mem_rd
 			STATE_IDLE: begin
 				nxt_raddr  = 0;
 				if(sync_req) begin
-					nxt_wr     = 1;
 					NEXT_STATE = STATE_ACTIVE;
 				end
 			end
 
 			STATE_ACTIVE: begin
 				if(!i_almostfull) begin
-					nxt_raddr = ((o_raddr == BRAM_DEPTH-1) || (sync_req)) ? 0 : o_raddr+1;
-					nxt_wr    = (!sync_req);
+					nxt_raddr = (o_raddr == BRAM_DEPTH-1) ? 0 : o_raddr+1;
+					nxt_wr    = 1;
 				end
 				NEXT_STATE = (o_raddr == BRAM_DEPTH-1) ? STATE_IDLE : STATE_ACTIVE; 
 			end
 		endcase
 	end
 
+	reg wr_q2, wr_q1;
+
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
+			wr_q1   <= 0;
 			o_wr    <= 0;
+			
 			o_raddr <= 0;
 			STATE   <= STATE_IDLE;
 		end
 		else begin
-			o_wr    <= nxt_wr;
+			wr_q1   <= nxt_wr;
+			o_wr    <= wr_q1;
 			o_raddr <= nxt_raddr;
 			STATE   <= NEXT_STATE;
 		end

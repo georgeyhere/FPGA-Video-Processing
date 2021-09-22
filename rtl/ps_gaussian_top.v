@@ -12,7 +12,7 @@ module ps_gaussian_top
 	input  wire        i_flush,
  
 	input  wire [11:0] i_data,   // input data, RGB444 or greyscale[11:4]
-	input  wire        i_empty, 
+	input  wire [9:0]  i_rfill, 
 	output reg         o_rd,     // 
 
 	output reg  [11:0] o_data,   // 12-bit for passthrough, gaussian is [7:0]
@@ -27,6 +27,7 @@ module ps_gaussian_top
 
 	reg         nxt_rd;
 	reg         nxt_din_valid, din_valid;
+	reg  [9:0]  nxt_rdCounter, rdCounter;
 
 	reg         STATE, NEXT_STATE;
 	localparam  STATE_IDLE   = 0,
@@ -38,46 +39,37 @@ module ps_gaussian_top
 	always@* begin
 		nxt_rd        = 0;
 		nxt_din_valid = 0;
+		nxt_rdCounter = rdCounter;
 		NEXT_STATE    = STATE;
 
 		case(STATE)
 			
 			STATE_IDLE: begin
-				case(i_enable)
-					0: begin
-						if(!i_empty) begin
-							nxt_rd        = 1;
-							nxt_din_valid = 1;
-							NEXT_STATE    = STATE_ACTIVE;
-						end
-					end
-
-					1: begin
-						if(!i_empty && req) begin
-							nxt_rd        = 1;
-							nxt_din_valid = 1;
-							NEXT_STATE    = STATE_ACTIVE;
-						end
-					end
-				endcase	
+				nxt_rdCounter = 0;
+				if(i_rfill > 639) begin
+					NEXT_STATE    = STATE_ACTIVE;
+				end
 			end
 
 			STATE_ACTIVE: begin
 				case(i_enable)
 					0: begin
-						nxt_rd        = (!i_empty);
-						nxt_din_valid = (!i_empty);
-						NEXT_STATE    = (i_empty) ? STATE_IDLE : STATE_ACTIVE;
+						nxt_rd        = 1;
+						nxt_din_valid = 1;
+						nxt_rdCounter = (rdCounter == 639) ? 0:rdCounter+1;
+						NEXT_STATE    = (rdCounter == 639) ? STATE_IDLE : STATE_ACTIVE;
 					end
 
 					1: begin
-						nxt_rd        = (!i_empty && req);
-						nxt_din_valid = (!i_empty && req);
-						NEXT_STATE    = (i_empty || !req) ? STATE_IDLE : STATE_ACTIVE;
+						if(req) begin
+							nxt_rd        = 1;
+							nxt_din_valid = 1;
+							//nxt_rdCounter = (rdCounter == 639) ? 0:rdCounter+1;
+							NEXT_STATE    = (!req) ? STATE_IDLE : STATE_ACTIVE;
+						end
 					end
 				endcase
 			end
-
 		endcase
 	end
 
@@ -87,18 +79,16 @@ module ps_gaussian_top
 		if(!i_rstn) begin
 			o_rd      <= 0;
 			din_valid <= 0;
+			rdCounter <= 0;
 			STATE     <= STATE_IDLE;
 		end
 		else begin
 			o_rd      <= nxt_rd;
 			din_valid <= nxt_din_valid;
+			rdCounter <= nxt_rdCounter;
 			STATE     <= NEXT_STATE;
 		end
 	end
-
-
-
-
 
 	// passthrough logic
 	always@* begin

@@ -87,8 +87,8 @@ module capture
 
 					// RGB444: Second Byte (green, blue)
 					if(pixel_half) begin
-						nxt_wr         = 1;
-						nxt_wdata      = {byte1_data[3:0], i_data};
+						nxt_wr    = 1;
+						nxt_wdata = {byte1_data[3:0], i_data};
 					end
 
 					// RGB444: First Byte (red)
@@ -110,6 +110,7 @@ module capture
 			byte1_data   <= 0;
 			pixel_half   <= 0;
 			STATE        <= STATE_INITIAL;
+			//STATE        <= STATE_IDLE;
 		end
 		else begin
 			o_wr         <= nxt_wr;

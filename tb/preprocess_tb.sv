@@ -4,7 +4,7 @@ module preprocess_tb();
 	logic i_cam_pclk = 0;
 	logic i_sysclk = 0;
 	logic rstn;
-	logic mode = 1;
+	logic mode = 0;
 
 	logic cfg_done = 1;
 
@@ -20,11 +20,15 @@ module preprocess_tb();
 	logic [11:0] frontFIFO_rdata;
 	logic        frontFIFO_rempty;
 	logic        frontFIFO_ralmostempty;
-	logic [3:0]  frontFIFO_rfill;
+	logic [9:0]  frontFIFO_rfill;
 
 // Preprocessing
 	logic        preprocess_valid;
 	logic [11:0] preprocess_dout;
+	logic [9:0]  preprocess_fill;
+
+	logic        pp_rd = 0;
+
 
 // **** Pixel Capture (24MHz) ****
 	capture capture_i (
@@ -48,7 +52,7 @@ module preprocess_tb();
 // **** CDC FIFO (front-side): 24MHz to 125MHz ****
 	fifo_async
 	#(.DATA_WIDTH         (12),
-	  .PTR_WIDTH          (4),
+	  .PTR_WIDTH          (10),
 	  .ALMOSTFULL_OFFSET  (2),
 	  .ALMOSTEMPTY_OFFSET (2) 
 	 )
@@ -67,25 +71,27 @@ module preprocess_tb();
 	.i_rrstn        (sync_rstn_125     ), // active-low async reset 
 	.i_rd           (frontFIFO_rd      ), // read enable
 	.o_rdata        (frontFIFO_rdata   ), // read data
-	.o_rempty       (frontFIFO_rempty  ), // empty flag
-	.o_ralmostempty (frontFIFO_ralmostempty ),
-	.o_rfill        () // unused
+	.o_rempty       (),
+	.o_ralmostempty (),
+	.o_rfill        (frontFIFO_rfill) // unused
 	);
 
 // **** Preprocessing Module ****
     ps_preprocess 
     preprocess_i (
     .i_clk   (i_sysclk               ), // 125 MHz clock
-    .i_rstn  (sync_rstn_125          ), // active-low sync reset
-    .i_mode  (mode               ), // 0: passthrough, 1:greyscale
+    .i_rstn  (rstn                   ), // active-low sync reset
+    .i_flush (1'b0                   ), 
+    .i_mode  (mode                   ), // 0: passthrough, 1:greyscale
 
     // frontFIFO interface
     .o_rd    (frontFIFO_rd           ), 
     .i_data  (frontFIFO_rdata        ),
-    .i_empty (frontFIFO_ralmostempty ),
+    .i_rfill (frontFIFO_rfill        ),
 
     // data out interface
-    .o_valid (preprocess_valid       ), // valid flag
+    .i_rd    (pp_rd                  ), 
+    .o_fill  (preprocess_fill        ),
     .o_data  (preprocess_dout        )  // 12-bit dout
     );
 

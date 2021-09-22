@@ -18,10 +18,13 @@ module fifo_sync
     output reg  [DATA_WIDTH-1:0]  o_data,
 
     output reg  [ADDR_WIDTH:0]    o_fill,
+    
     output wire                   o_full,
     output wire                   o_almostfull,
     output wire                   o_empty,
-    output wire                   o_almostempty
+    output wire                   o_almostempty,
+    
+    output wire                   o_error
 	);
 
 	localparam FIFO_DEPTH = (1<<ADDR_WIDTH);
@@ -78,6 +81,8 @@ module fifo_sync
 	assign o_almostfull  = (o_fill == FIFO_DEPTH-ALMOSTFULL_OFFSET);
 	assign o_empty       = (o_fill == 0);
 	assign o_almostempty = (o_fill <= ALMOSTEMPTY_OFFSET);
+	assign o_error       = ((o_fill == 0) && (i_rd)) ||
+	                       ((o_fill == FIFO_DEPTH) && (i_wr));
 
 endmodule // fifo_sync
 

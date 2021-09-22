@@ -26,19 +26,19 @@ module ps_preprocess
     // Pixel Capture FIFO interface
     output reg          o_rd,    // read enable
     input  wire [11:0]  i_data,  // input data (RGB444)
-    input  wire         i_empty, // empty flag
+    input  wire [9:0]   i_rfill, 
  
  	// Output FIFO interface
  	input  wire         i_rd,    // read enable
     output wire [11:0]  o_data,  // output data
-    output wire         o_valid, // 
-    output wire         o_empty  //    
+    output wire [9:0]   o_fill  //    
 	);
 
 // Pixel Capture FIFO read 
 	reg  [11:0] din;
 	reg         din_valid, nxt_din_valid;
 	reg         nxt_rd;
+	reg  [9:0]  nxt_rdCounter, rdCounter;
 
 // greyscale signals
 	wire        gs_valid;
@@ -73,7 +73,7 @@ module ps_preprocess
 // output FIFO
 	fifo_sync 
 	#(.DATA_WIDTH        (12),
-	  .ADDR_WIDTH        (9),
+	  .ADDR_WIDTH        (10),
 	  .ALMOSTFULL_OFFSET (2),
 	  .ALMOSTEMPTY_OFFSET(1))
 	pp_obuf_i (
@@ -85,52 +85,39 @@ module ps_preprocess
                
 	.i_rd          (i_rd               ),
 	.o_data        (o_data             ),
-   
+   	
+	.o_fill        (o_fill             ),
+
 	.o_full        (),   
 	.o_almostfull  (fifo_almostfull    ),
 	.o_empty       (),
-	.o_almostempty (o_empty)
+	.o_almostempty ()
 	);
-/*
-always@(posedge i_clk) begin
-	if(!i_rstn) begin
-		o_empty <= 1;
-		o_valid <= 0;
-		o_data  <= 0;
-	end
-	else begin
-		o_empty <= fifo_almostempty;
-		o_valid <= (i_rd && !o_empty);
-		o_data  <= fifo_rdata;
-	end
-end
-*/
 
-	assign o_valid = (i_rd && !o_empty);
 
 // FSM next state logic for FIFO reads
 //
 	always@* begin
 		nxt_rd        = 0;
 		nxt_din_valid = 0;
+		nxt_rdCounter = rdCounter;
 		NEXT_STATE    = STATE;
 
 		case(STATE)
 			
 			STATE_IDLE: begin
-				if(!i_empty) begin
-					nxt_rd        = 1;
-					nxt_din_valid = 1;
-					NEXT_STATE    = STATE_ACTIVE;
+				nxt_rdCounter = 0;
+				if(i_rfill > 639) begin
+					NEXT_STATE = STATE_ACTIVE;
 				end
 			end
 
 			STATE_ACTIVE: begin
-				nxt_rd        = (!i_empty);
-				nxt_din_valid = (!i_empty);
-				NEXT_STATE    = (i_empty) ? STATE_IDLE : STATE_ACTIVE;
+				nxt_rdCounter = (rdCounter == 639) ? 0:rdCounter+1;
+				nxt_rd        = 1;
+				nxt_din_valid = 1;
+				NEXT_STATE    = (rdCounter == 639) ? STATE_IDLE:STATE_ACTIVE;
 			end
-
 		endcase
 	end
 
@@ -141,12 +128,14 @@ end
 			o_rd      <= 0;
 			din_valid <= 0;
 			din       <= 0;
+			rdCounter <= 0;
 			STATE     <= STATE_IDLE;
-		end
-		else begin
+		end    
+		else begin    
 			o_rd      <= nxt_rd;
 			din_valid <= nxt_din_valid;
 			din       <= i_data;
+			rdCounter <= nxt_rdCounter;
 			STATE     <= NEXT_STATE;
 		end
 	end
@@ -157,7 +146,7 @@ end
     always@* begin
     	if(i_mode == `MODE_PASSTHROUGH) begin
     		fifo_wr    = (!fifo_almostfull) ? din_valid : 0;
-    		fifo_wdata = din;
+    		fifo_wdata = i_data;
     	end
     	else begin
     		fifo_wr    = (!fifo_almostfull) ? gs_valid : 0;

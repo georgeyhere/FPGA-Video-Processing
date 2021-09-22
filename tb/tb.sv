@@ -38,6 +38,9 @@ module tb();
 	.SCL         (SCL),
 	.SDA         (SDA),
 
+	.btn_mode    (1'b0),
+	.sw_gaussian (1'b0),
+
 	.o_TMDS_P    (o_TMDS_P),
 	.o_TMDS_N    (o_TMDS_N)
 	);
@@ -158,22 +161,23 @@ module tb();
 		end
 	end
 
+/*
 	// check data written to BRAM is always correct
-	always@(posedge DUT.clk_75MHz) begin
+	always@(posedge i_sysclk) begin
 		if(DUT.mem_i.mem_wr) begin
 			t_expected_fiffo_data = t_ffifo_data.pop_back();
-			assert(DUT.mem_i.i_rdata == t_expected_fiffo_data)
+			assert(DUT.mem_i.o_wdata == t_expected_fiffo_data)
 			else begin
 				$error("BRAM wdata check failed: Expected data = %b, Actual data = %b", 
-		        	   t_expected_fiffo_data, DUT.mem_i.i_rdata);
+		        	   t_expected_fiffo_data, DUT.mem_i.o_wdata);
 				$stop;
 			end 
 		end
 	end
-
+*/
 	// check that BRAM address always increments
 	logic [18:0] t_mem_waddr = DUT.mem_i.mem_waddr;
-	always@(posedge DUT.clk_75MHz) begin
+	always@(posedge i_sysclk) begin
 		if(DUT.mem_i.mem_wr) begin
 			if($past(t_mem_waddr)!=307199 && $past(t_mem_waddr)>0) begin
 				assert(t_mem_waddr == ($past(t_mem_waddr)+1))
@@ -202,7 +206,10 @@ module tb();
 			test_expected = test_queue.pop_back();
 			// $display("Expected data: %h, Actual data: %h", test_expected, display_i.i_rgb);
 			assert(DUT.display_i.i_rgb == test_expected)
-			else $error("Checking failed: Expected data = %h, Actual data = %h", test_expected, DUT.display_i.i_rgb);
+			else begin
+				$error("Checking failed: Expected data = %h, Actual data = %h", test_expected, DUT.display_i.i_rgb);
+				$stop;
+			end
 
 		end
 	end
