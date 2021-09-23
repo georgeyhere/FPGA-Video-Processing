@@ -133,13 +133,13 @@ module tb();
 	logic [7:0] t_b1_data;
 	logic [7:0] t_i_camdata;
 	always@(posedge i_cam_pclk) begin
-		if(DUT.capture_i.o_wr) begin
+		if(DUT.cam_i.capture_i.o_wr) begin
 			t_b1_data   = $past(i_cam_data,2);
 			t_i_camdata = $past(i_cam_data,1);
-			assert(DUT.capture_i.o_wdata == {t_b1_data[3:0],t_i_camdata})
+			assert(DUT.cam_i.capture_i.o_wdata == {t_b1_data[3:0],t_i_camdata})
 			else begin
 				$error("Capture wdata check failed: Expected data = %b, Actual data = %b", 
-		        {t_b1_data[3:0],t_i_camdata}, DUT.capture_i.o_wdata);
+		        {t_b1_data[3:0],t_i_camdata}, DUT.cam_i.capture_i.o_wdata);
 				$display("t_b1_data: %0b", t_b1_data);
 				$display("t_i_camdata: %0b", t_i_camdata);
 				$stop;
@@ -156,8 +156,8 @@ module tb();
 
 	// load queue on FIFO write
 	always@(posedge i_cam_pclk) begin
-		if(DUT.capture_i.o_wr) begin
-			t_ffifo_data.push_front(DUT.capture_i.o_wdata);
+		if(DUT.cam_i.capture_i.o_wr) begin
+			t_ffifo_data.push_front(DUT.cam_i.capture_i.o_wdata);
 		end
 	end
 
@@ -205,18 +205,13 @@ module tb();
 		if((DUT.display_i.active) && (DUT.display_i.STATE == 2)) begin
 			test_expected = test_queue.pop_back();
 			// $display("Expected data: %h, Actual data: %h", test_expected, display_i.i_rgb);
-			assert(DUT.display_i.i_rgb == test_expected)
+			assert(DUT.display_i.ibuf_rdata == test_expected)
 			else begin
-				$error("Checking failed: Expected data = %h, Actual data = %h", test_expected, DUT.display_i.i_rgb);
+				$error("Checking failed: Expected data = %h, Actual data = %h", test_expected, DUT.display_i.ibuf_rdata);
 				$stop;
 			end
 
 		end
 	end
-
-
-// FIFO checks
-//
-	// assert()
 
 endmodule

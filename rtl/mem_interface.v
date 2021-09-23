@@ -18,7 +18,7 @@ module mem_interface
 	// Input FIFO read interface
 	output reg                   o_rd,
 	input  wire [DATA_WIDTH-1:0] i_rdata,
-	input  wire [FILL_WIDTH-1:0] i_rfill,
+	input  wire                  i_almostempty,
  
 	// Output FIFO interface
 	output reg                   o_wr,         // write enable
@@ -52,16 +52,16 @@ module mem_interface
 // 			         Submodule Instantiation:
 // =============================================================
 	mem_bram
+	#(.BRAM_DEPTH(BRAM_DEPTH))
 	mem_bram_i (
-	.clka       (i_clk     ),
-	.clkb       (i_clk     ),
+	.i_clk      (i_clk     ),
       
-	.addra      (mem_waddr ), // write address
-	.dina       (i_rdata   ), // write data
-	.wea        (mem_wr    ), // write enable
+	.i_waddr    (mem_waddr ), // write address
+	.i_wdata    (i_rdata   ), // write data
+	.i_wr       (mem_wr    ), // write enable
      
-	.addrb      (mem_raddr ), // read address
-	.doutb      (o_wdata   )  // read data
+	.i_raddr    (mem_raddr ), // read address
+	.o_rdata    (o_wdata   )  // read data
 	);
 
 // =============================================================
@@ -77,15 +77,12 @@ module mem_interface
 		nxt_mem_wr     = 0;
 		nxt_mem_waddr  = mem_waddr;
 		//
-		nxt_wCounter = wCounter;
 		NEXT_WSTATE    = WSTATE;
 		//
 		case(WSTATE)
 
 			WSTATE_IDLE: begin
-				nxt_wCounter = 0;
-				//
-				if(i_rfill == 640) begin
+				if(!i_almostempty) begin
 					nxt_rd      = 1;
 					nxt_mem_wr  = 1;
 					NEXT_WSTATE = WSTATE_ACTIVE;
@@ -93,14 +90,10 @@ module mem_interface
 			end
 
 			WSTATE_ACTIVE: begin
-				nxt_wCounter = (wCounter==640) ? 0:wCounter+1;
-				//
-				if(wCounter != 640) begin
-					nxt_rd        = 1;
-					nxt_mem_wr    = 1;
-					nxt_mem_waddr = (mem_waddr == BRAM_DEPTH-1) ? 0:mem_waddr+1;
-				end
-				else begin
+				nxt_rd        = (!i_almostempty);
+				nxt_mem_wr    = (!i_almostempty);
+				nxt_mem_waddr = (mem_waddr == BRAM_DEPTH-1) ? 0:mem_waddr+1;
+				if(i_almostempty) begin
 					NEXT_WSTATE = WSTATE_IDLE;
 				end
 			end
@@ -112,14 +105,12 @@ module mem_interface
 			o_rd      <= 0;
 			mem_wr    <= 0;
 			mem_waddr <= 0;
-			wCounter  <= 0;
 			WSTATE    <= WSTATE_IDLE;
 		end
 		else begin
 			o_rd      <= nxt_rd;
 			mem_wr    <= nxt_mem_wr;
 			mem_waddr <= nxt_mem_waddr;
-			wCounter  <= nxt_wCounter;
 			WSTATE    <= NEXT_WSTATE;
 		end
 	end
@@ -136,7 +127,7 @@ module mem_interface
 
     initial RSTATE = RSTATE_IDLE;
     always@* begin
-    	nxt3_wr       = 0;
+    	nxt2_wr       = 0;
     	nxt_mem_raddr = mem_raddr;
     	NEXT_RSTATE   = RSTATE;
 
@@ -149,10 +140,10 @@ module mem_interface
 
     		RSTATE_ACTIVE: begin
     			if(!i_almostfull) begin
-    				nxt_mem_raddr = (mem_raddr == BRAM_DEPTH-1) ? 0:mem_raddr+1;
-    				nxt3_wr       = 1;
+    				nxt_mem_raddr = ((mem_raddr==BRAM_DEPTH-1)||(req_q2)) ? 0:mem_raddr+1;
+    				nxt2_wr       = (!req_q2);
     			end
-    			NEXT_RSTATE = (mem_raddr == BRAM_DEPTH-1) ? RSTATE_IDLE:RSTATE_ACTIVE;
+    			NEXT_RSTATE = (mem_raddr==BRAM_DEPTH-1) ? RSTATE_IDLE:RSTATE_ACTIVE;
     		end
     	endcase
     end
@@ -161,14 +152,12 @@ module mem_interface
     	if(!i_rstn || i_flush) begin
     		o_wr      <= 0;
     		nxt_wr    <= 0;
-    		nxt2_wr   <= 0;
     		mem_raddr <= 0;
     		RSTATE    <= RSTATE_IDLE;
     	end
     	else begin
     		o_wr      <= nxt_wr;
     		nxt_wr    <= nxt2_wr;
-    		nxt2_wr   <= nxt3_wr;
     		mem_raddr <= nxt_mem_raddr;
     		RSTATE    <= NEXT_RSTATE;
     	end

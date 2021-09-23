@@ -93,7 +93,7 @@ module cam_top
 //---------------------------------------------------
 	fifo_async
 	#(.DATA_WIDTH         (12),
-	  .PTR_WIDTH          (10),
+	  .PTR_WIDTH          (4),
 	  .ALMOSTFULL_OFFSET  (2),
 	  .ALMOSTEMPTY_OFFSET (2) 
 	 )

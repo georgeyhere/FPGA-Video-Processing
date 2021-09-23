@@ -55,7 +55,7 @@ module sys_top
 	wire        sof;
 	wire        cam_obuf_rd;
 	wire [11:0] cam_obuf_rdata;
-	wire [9:0]  cam_obuf_rfill;
+	wire        cam_obuf_almostempty;
 	wire        cfg_done;
 
 
@@ -174,8 +174,8 @@ module sys_top
 	.i_obuf_rd          (cam_obuf_rd     ),
 	.o_obuf_data        (cam_obuf_rdata  ),
 	.o_obuf_empty       (),  
-	.o_obuf_almostempty (),  
-	.o_obuf_fill        (cam_obuf_rfill  )
+	.o_obuf_almostempty (cam_obuf_almostempty ),  
+	.o_obuf_fill        ()
 
 	);
 
@@ -197,7 +197,7 @@ module sys_top
 	// Input FIFO read interface
 	.o_rd          (cam_obuf_rd            ),
 	.i_rdata       (cam_obuf_rdata         ),
-	.i_rfill       (cam_obuf_rfill         ),
+	.i_almostempty (cam_obuf_almostempty   ),
 
 
 	// Display FIFO interface
