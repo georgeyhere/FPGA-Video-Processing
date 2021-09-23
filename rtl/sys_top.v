@@ -28,11 +28,13 @@ module sys_top
     input  wire       sw_gaussian,
 
     // status
-    output wire       led_cfg,
-    output wire       led_capture,
-    output wire       led_gssn
+    output wire       led_cfg
 	);
 
+
+// =============================================================
+// 			    Parameters, Registers, and Wires
+// =============================================================
 // DCM
 	wire        clk_25MHz;
 	wire        clk_250MHz;
@@ -47,62 +49,30 @@ module sys_top
 	wire        gaussian_enable;
 	wire        pipe_flush;
 
-// Camera Configuration
+// Camera Block
 	wire        i_scl, i_sda;
 	wire        o_scl, o_sda;
+	wire        sof;
+	wire        cam_obuf_rd;
+	wire [11:0] cam_obuf_rdata;
+	wire [9:0]  cam_obuf_rfill;
 	wire        cfg_done;
 
-// Capture
-	wire        sof;
-
-// Front Side FIFO: 24MHz to 125MHz 
-    // write side
-	wire        frontFIFO_wr;
-	wire [11:0] frontFIFO_wdata;
-	wire        frontFIFO_wfull;
-
-	// read side
-	wire        frontFIFO_rd;
-	wire [11:0] frontFIFO_rdata;
-	wire        frontFIFO_rempty;
-	wire        frontFIFO_ralmostempty;
-	wire [9:0]  frontFIFO_rfill;
-
-// Preprocessing
-	wire        preprocess_rd;
-	wire [9:0]  preprocess_fill;
-	wire [11:0] preprocess_dout;
-	wire        preprocess_valid;
-
-// Gaussian
-	wire [11:0] gaussian_dout;
-	wire        gaussian_valid;
-
-// Back Side FIFO: 125MHz to 25MHz 
-	// write side
-	wire        backFIFO_wrstn;
-	wire        backFIFO_wr;
-	wire [11:0] backFIFO_wdata;
-	wire        backFIFO_wfull;
-	wire        backFIFO_walmostfull;
-	wire [7:0]  backFIFO_wfill;
-
-	// read side
-	wire        backFIFO_rd;
-	wire [11:0] backFIFO_rdata;
-	wire        backFIFO_rempty;
-	wire        backFIFO_ralmostempty;
-	wire [7:0]  backFIFO_rfill;
 
 // Display Interface
-	wire        req;
+	wire        disp_req;
+	wire        disp_ibuf_wr;
+	wire [11:0] disp_ibuf_wdata;
+	wire        disp_ibuf_almostfull;
 
-//
+
+// =============================================================
+// 			          Implementation:
+// =============================================================
 	assign o_cam_rstn = 1'b1; // sw reset instead
 	assign o_cam_pwdn = 1'b0;  
 	assign led_cfg    = cfg_done;
-	assign led_gssn   = pipe_flush;
-
+	
 // **** Debounce Reset button ****
 // -> debounced in camera pclk domain (24MHz)
 	debounce 
@@ -130,152 +100,88 @@ module sys_top
 		else         {sync_rstn_25, q_rstn_25} <= {q_rstn_25, 1'b1};
 	end
 
-//
-//
-	
 
-
-// **** Clocking Wizard ****
+// =============================================================
+// 			          Submodule Instantiation:
+// =============================================================
+	//---------------------------------------------------
+	//                 Clocking Wizard:
+	//---------------------------------------------------
 	clk_wiz_0 
 	dcm_i (
-	.clk_in1    (i_sysclk      ), // 125MHz board clock
-	.reset      (1'b0          ),
-	.clk_24MHz  (o_cam_xclk    ), // camera reference clock output
-	.clk_25MHz  (clk_25MHz     ), // display pixel clock
-	.clk_250MHz (clk_250MHz    ), // display TMDS clock
-	.clk_PS     (clk_PS        )  // processing system clock
+		.clk_in1    (i_sysclk      ), // 125MHz board clock
+		.reset      (1'b0          ),
+		.clk_24MHz  (o_cam_xclk    ), // camera reference clock output
+		.clk_25MHz  (clk_25MHz     ), // display pixel clock
+		.clk_250MHz (clk_250MHz    ), // display TMDS clock
+		.clk_PS     (clk_PS        )  // processing system clock
 	);
 
-// *** System Control ****
+	//---------------------------------------------------
+    //                 System Control:
+    //---------------------------------------------------
 	sys_control 
 	ctrl_i (
-	.i_clk             (i_sysclk          ), // 125MHz clock
-	.i_rstn            (sync_rstn_PS      ), // active-low sync reset
-
-	.i_sof             (sof               ),
-
-	.i_btn_mode        (btn_mode          ), // board button 
-	.i_sw_gaussian     (sw_gaussian       ),
-
-	.o_cfg_start       (cfg_start         ), // config module start
-	.o_gaussian_enable (gaussian_enable   ),
-	.o_mode            (sys_mode          ),
-	.o_pipe_flush      (pipe_flush        ),
-
-	.o_status_leds     ()                    // unused for now
+		.i_sysclk          (i_sysclk        ), // 125MHz clock
+		.i_rstn            (sync_rstn_PS    ), // active-low sync reset
+	
+		.i_sof             (sof             ),
+	
+		.i_btn_mode        (btn_mode        ), // board button 
+		.i_sw_gaussian     (sw_gaussian     ),
+	
+		.o_cfg_start       (cfg_start       ), // config module start
+		.o_gaussian_enable (gaussian_enable ),
+		.o_mode            (sys_mode        ),
+		.o_pipe_flush      (pipe_flush      ),
+	
+		.o_status_leds     ()                   
 	);
 	
-
-// **** Camera Configuration (125MHz) ****
-	cfg_interface 
-	#(.T_CLK(8) )
-
-	cfg_i (
-	.i_clk   (i_sysclk      ), 
-	.i_rstn  (db_rstn       ), // active-low sync reset
-	.i_start (cfg_start     ),
-	.o_done  (cfg_done      ),
-
-	// i2c pins
-	.i_scl   (i_scl         ), 
-	.i_sda   (i_sda         ),
-	.o_scl   (o_scl         ),
-	.o_sda   (o_sda         )
-	);
-
-	// setup inout pins
+	//---------------------------------------------------
+    //                 Camera Block:
+    //---------------------------------------------------
 	assign SCL = (o_scl) ? 1'bz : 1'b0;
 	assign SDA = (o_sda) ? 1'bz : 1'b0;
 	assign i_scl = SCL;
 	assign i_sda = SDA;
 
+	cam_top 
+	#(.T_CFG_CLK(8))
+	cam_i (
+	.i_cfg_clk          (i_sysclk        ),
+	.i_rstn             (sync_rstn_PS    ),
+    
+    // OV7670 external inputs    
+	.i_cam_pclk         (i_cam_pclk      ),
+	.i_cam_vsync        (i_cam_vsync     ),
+	.i_cam_href         (i_cam_href      ),
+	.i_cam_data         (i_cam_data      ),
 
-// **** Pixel Capture (24MHz) ****
-	capture capture_i (
-	.i_pclk     (i_cam_pclk      ), // camera pclk
-	.i_rstn     (db_rstn         ), // active-low sync reset
-	.i_cfg_done (cfg_done        ), // config module done flag
-	.o_status   (led_capture     ), // indicates capturing data
+	// i2c bidirectional pins
+	.i_scl              (i_scl           ),
+	.i_sda              (i_sda           ),
+	.o_scl              (o_scl           ),
+	.o_sda              (o_sda           ),
 
-	// Camera Interface
-	.i_vsync    (i_cam_vsync     ), // vsync from camera
-	.i_href     (i_cam_href      ), // href from camera
-	.i_data     (i_cam_data      ), // 8-bit data
-	
-	// 24MHz to 125MHz FIFO Write interface
-	.o_wr       (frontFIFO_wr    ), // FIFO write enable
-	.o_wdata    (frontFIFO_wdata ), // 12-bit RGB data
-	.i_full     (frontFIFO_wfull ), // FIFO full flag
+	// Controls
+	.i_cfg_init         (cfg_start       ),
+	.o_cfg_done         (cfg_done        ),
 
-	.o_sof      (sof             )
+	// output buffer read interface
+	.i_obuf_rclk        (i_sysclk        ),
+	.i_obuf_rstn        (sync_rstn_PS    ),
+	.i_obuf_rd          (cam_obuf_rd     ),
+	.o_obuf_data        (cam_obuf_rdata  ),
+	.o_obuf_empty       (),  
+	.o_obuf_almostempty (),  
+	.o_obuf_fill        (cam_obuf_rfill  )
+
 	);
 
-
-// **** CDC FIFO (front-side): 24MHz to 125MHz ****
-	fifo_async
-	#(.DATA_WIDTH         (12),
-	  .PTR_WIDTH          (10),
-	  .ALMOSTFULL_OFFSET  (2),
-	  .ALMOSTEMPTY_OFFSET (2) 
-	 )
-	frontFIFO_i (
-	// write interface
-	.i_wclk         (i_cam_pclk        ), // 24 MHz camera pclk
-	.i_wrstn        (db_rstn           ), // active-low async reset (24MHz)
-	.i_wr           (frontFIFO_wr      ), // write enable
-	.i_wdata        (frontFIFO_wdata   ), // write data
-	.o_wfull        (frontFIFO_wfull   ), // full flag
-	.o_walmostfull  (), // unused
-	.o_wfill        (), // unused
- 	
- 	// read interface
-	.i_rclk         (i_sysclk               ), // 
-	.i_rrstn        (sync_rstn_PS           ), // active-low async reset 
-	.i_rd           (frontFIFO_rd           ), // read enable
-	.o_rdata        (frontFIFO_rdata        ), // read data
-	.o_rempty       (frontFIFO_rempty       ), // empty flag
-	.o_ralmostempty (frontFIFO_ralmostempty ),
-	.o_rfill        (frontFIFO_rfill        ) 
-	);
-
-// **** Preprocessing Module ****
-    ps_preprocess 
-    preprocess_i (
-    .i_clk   (i_sysclk               ), // 
-    .i_rstn  (sync_rstn_PS           ), // active-low sync reset
-    .i_mode  (sys_mode               ), // 0: passthrough, 1:greyscale
-    .i_flush (pipe_flush             ),
-
-    // frontFIFO interface
-    .o_rd    (frontFIFO_rd           ), 
-    .i_data  (frontFIFO_rdata        ),
-    .i_rfill (frontFIFO_rfill        ),
-
-    // internal FIFO out interface
-    .i_rd    (preprocess_rd          ),
-    .o_data  (preprocess_dout        ),
-    .o_fill  (preprocess_fill        )
-    );
-
-// **** Gaussian Blur *****
-	ps_gaussian_top 
-	gaussian_i (
-	.i_clk    (i_sysclk),
-	.i_rstn   (sync_rstn_PS   ),
-	.i_enable (gaussian_enable),
-	.i_flush  (pipe_flush     ),
-
-	// input interface
-	.i_data   (preprocess_dout  ),
-	.i_rfill  (preprocess_fill  ),
-	.o_rd     (preprocess_rd    ),
- 	
- 	// BRAM interface
- 	.o_valid  (gaussian_valid   ),
-	.o_data   (gaussian_dout    )
-	); 
-
-// **** BRAM Buffer (125MHz) ****
+    //---------------------------------------------------
+    //                 Memory Interface:
+    //---------------------------------------------------
 	mem_interface 
 	#(.DATA_WIDTH (12),
 	  .BRAM_DEPTH (307200) 
@@ -285,65 +191,47 @@ module sys_top
 	.i_rstn        (sync_rstn_PS           ), // active-low sync reset
 	.i_flush       (pipe_flush             ),
 
-	// Write interface
-	.i_valid       (gaussian_valid         ),
-	.i_data        (gaussian_dout          ),
- 
-	// Display FIFO interface
-	.o_wr          (backFIFO_wr            ), // FIFO write enable 
-	.o_wdata       (backFIFO_wdata         ), // FIFO write data 
-	.i_almostfull  (backFIFO_walmostfull   ), // almost-full flag
-
 	// data request from display interface
-	.i_req         (req                    )  
+	.i_req         (disp_req               ), 
+
+	// Input FIFO read interface
+	.o_rd          (cam_obuf_rd            ),
+	.i_rdata       (cam_obuf_rdata         ),
+	.i_rfill       (cam_obuf_rfill         ),
+
+
+	// Display FIFO interface
+	.o_wr          (disp_ibuf_wr           ), // FIFO write enable 
+	.o_wdata       (disp_ibuf_wdata        ), // FIFO write data 
+	.i_almostfull  (disp_ibuf_almostfull   )  // almost-full flag
 	); 
 
 
-// **** CDC FIFO: 125MHz to 25MHz ****
-	fifo_async
-	#(.DATA_WIDTH         (12),
-	  .PTR_WIDTH          (8),
-	  .ALMOSTFULL_OFFSET  (4),
-	  .ALMOSTEMPTY_OFFSET (2)  )
-	backFIFO_i (
-	// write interface
-	.i_wclk         (i_sysclk               ), // 125 MHz sys clock
-	.i_wrstn        (sync_rstn_PS           ), // active-low async reset
-	.i_wr           (backFIFO_wr            ), // write enable
-	.i_wdata        (backFIFO_wdata         ), // write data
-	.o_wfull        (backFIFO_wfull         ), // full flag
-	.o_walmostfull  (backFIFO_walmostfull   ), // almost-full flag
-	.o_wfill        (), // unused
- 	
- 	// read interface
-	.i_rclk         (clk_25MHz              ), // 25 MHz display clock 
-	.i_rrstn        (sync_rstn_25           ), // active-low async reset
-	.i_rd           (backFIFO_rd            ), // read enable
-	.o_rdata        (backFIFO_rdata         ), // read data
-	.o_rempty       (backFIFO_rempty        ), // empty flag
-	.o_ralmostempty (backFIFO_ralmostempty  ), // almost-full flag
-	.o_rfill        ()  // unused
-	);
-
-// **** Display Interface ****
+	//---------------------------------------------------
+    //                 Display Interface:
+    //---------------------------------------------------
 	display_interface 
 	display_i(
-    .i_p_clk    (clk_25MHz       ), // 25 MHz display clock
-    .i_tmds_clk (clk_250MHz      ), // 250 MHz TMDS clock
-    .i_rstn     (db_rstn         ), // active-low async reset
-    .i_mode     (sys_mode        ), // mode; color or greyscale
- 
-    .o_rd       (backFIFO_rd     ), // FIFO read enable
-    .i_rgb      (backFIFO_rdata  ), // FIFO read data
-    .i_empty    (backFIFO_rempty ), // FIFO empty flag
-   
-    .o_req      (req             ), // Request flag to memory interface
-      
-    .o_TMDS_P   (o_TMDS_P        ), // HDMI outputs
-    .o_TMDS_N   (o_TMDS_N        )
+    .i_p_clk       (clk_25MHz       ), // 25 MHz display clock
+    .i_tmds_clk    (clk_250MHz      ), // 250 MHz TMDS clock
+    .i_rstn        (db_rstn         ), 
+    .i_mode        (sys_mode        ), // mode; color or greyscale
+ 	
+ 	// input buffer interface
+    .i_wclk        (i_sysclk             ), // memory clock
+    .i_wrstn       (sync_rstn_PS         ), 
+    .i_wr          (disp_ibuf_wr         ), // input fifo write enable
+    .i_wdata       (disp_ibuf_wdata      ), // write data
+    .o_wfull       (),
+    .o_walmostfull (disp_ibuf_almostfull ), // almost-full flag
+    .o_wfill       (),
+   	
+   	// input buffer data request
+    .o_req         (disp_req        ), // Request flag to memory interface
+       
+    // TMDS out   
+    .o_TMDS_P      (o_TMDS_P        ), // HDMI outputs
+    .o_TMDS_N      (o_TMDS_N        )
 	);
-
-
-
 
 endmodule

@@ -5,10 +5,14 @@ module display_interface
 	input  wire        i_rstn,
 	input  wire        i_mode,
 
-	// FIFO read interface
-	output reg         o_rd,
-	input  wire [11:0] i_rgb,   // {red, green, blue}
-	input  wire        i_empty,
+	// input FIFO interface
+    input  wire        i_wclk,
+    input  wire        i_wrstn,
+    input  wire        i_wr,
+    input  wire [11:0] i_wdata,
+    output wire        o_wfull,
+    output wire        o_walmostfull,
+    output wire [7:0]  o_wfill,
 
 	// Memory Data Request
 	output wire        o_req,
@@ -18,41 +22,52 @@ module display_interface
 	output wire [3:0]  o_TMDS_N
 	);
 
-	reg        nxt_rd;
 
-	wire       vsync, hsync, active;
-	wire [9:0] counterX, counterY;
-	reg [7:0] red, green, blue;
+// =============================================================
+// 			    Parameters, Registers, and Wires
+// =============================================================
+	reg         nxt_ibuf_rd, ibuf_rd;
+ 	wire [11:0] ibuf_rdata;
 
-	reg  [1:0] STATE, NEXT_STATE;
-	localparam STATE_INITIAL = 0,
-	           STATE_DELAY   = 1,
-	           STATE_ACTIVE  = 2;
+	wire        vsync, hsync, active;
+	wire [9:0]  counterX, counterY;
+	reg  [7:0]  red, green, blue;
+ 
+	reg  [1:0]  STATE, NEXT_STATE;
+	localparam  STATE_INITIAL = 0,
+	            STATE_DELAY   = 1,
+	            STATE_ACTIVE  = 2;
 
+
+// =============================================================
+// 			          Implementation:
+// =============================================================
 
 	// request six clocks prior to SoF
 	assign o_req = ((counterX == 794) && (counterY == 524) && (STATE==STATE_ACTIVE)); 
 
 	initial begin
-		o_rd  = 0;
+		ibuf_rd  = 0;
 		STATE = STATE_INITIAL;
 	end
 
+	// assign rgb based on mode; rgb or greyscale
 	always@* begin
 		if(i_mode) begin
-			red   = i_rgb[11:4];
-			green = i_rgb[11:4];
-			blue  = i_rgb[11:4];
+			red   = ibuf_rdata[11:4];
+			green = ibuf_rdata[11:4];
+			blue  = ibuf_rdata[11:4];
 		end
 		else begin
-			red   = {i_rgb[11:8], {4{1'b0}} };
-			green = {i_rgb[7:4],  {4{1'b0}} }; 
-			blue  = {i_rgb[3:0],  {4{1'b0}} }; 
+			red   = {ibuf_rdata[11:8], {4{1'b0}} };
+			green = {ibuf_rdata[7:4],  {4{1'b0}} }; 
+			blue  = {ibuf_rdata[3:0],  {4{1'b0}} }; 
 		end
 	end
 
+	// next state combo logic
 	always@* begin
-		nxt_rd     = 0;
+		nxt_ibuf_rd     = 0;
 		NEXT_STATE = STATE;
 		case(STATE)
 
@@ -67,26 +82,50 @@ module display_interface
 
 			// normal operation: begin reading from FIFO at start of frame
 			STATE_ACTIVE: begin
-				nxt_rd = (active);
+				nxt_ibuf_rd = ((counterX < 640) && (counterY < 480));
 			end
 		endcase
 	end
 
+	// registered logic
 	always@(posedge i_p_clk) begin
 		if(!i_rstn) begin
-			o_rd  <= 0;
+			ibuf_rd  <= 0;
 			STATE <= STATE_INITIAL;
-			//STATE <= STATE_DELAY;
-			//STATE <= STATE_ACTIVE;
 		end
 		else begin
-			o_rd  <= nxt_rd;
+			ibuf_rd  <= nxt_ibuf_rd;
 			STATE <= NEXT_STATE;
 		end
 	end
 
 //
 //
+	fifo_async
+	#(.DATA_WIDTH         (12),
+	  .PTR_WIDTH          (8),
+	  .ALMOSTFULL_OFFSET  (9),
+	  .ALMOSTEMPTY_OFFSET (2)  )
+	disp_ibuf_i (
+	// write interface
+	.i_wclk         (i_wclk        ), // write clock
+	.i_wrstn        (i_wrstn       ), // active-low async reset
+	.i_wr           (i_wr          ), // write enable
+	.i_wdata        (i_wdata       ), // write data
+	.o_wfull        (o_wfull       ), // full flag
+	.o_walmostfull  (o_walmostfull ), // almost-full flag
+	.o_wfill        (o_wfill       ), // unused
+ 	
+ 	// read interface
+	.i_rclk         (i_p_clk    ),    // 25 MHz display clock 
+	.i_rrstn        (i_rstn     ),    // active-low async reset
+	.i_rd           (ibuf_rd    ),    // read enable
+	.o_rdata        (ibuf_rdata ),    // read data
+	.o_rempty       (), 
+	.o_ralmostempty (), 
+	.o_rfill        ()  
+	);
+
 	vtc #(
 	.COUNTER_WIDTH(10)
 	)

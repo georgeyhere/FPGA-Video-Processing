@@ -110,7 +110,6 @@ module capture
 			byte1_data   <= 0;
 			pixel_half   <= 0;
 			STATE        <= STATE_INITIAL;
-			//STATE        <= STATE_IDLE;
 		end
 		else begin
 			o_wr         <= nxt_wr;

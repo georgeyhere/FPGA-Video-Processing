@@ -102,9 +102,9 @@ module cfg_rom
                 73: o_data <= 16'haa_94; // HAECC7
                 74: o_data <= 16'h13_a7; // COM8, enable AGC / AEC
                 75: o_data <= 16'h1E_23; // mirror image
-                76: o_data <= 16'h70_00; // test pattern enable x
-                77: o_data <= 16'h71_00; // test pattern enable y
-                78: o_data <= 16'h69_06;
+                //76: o_data <= 16'h70_80; // test pattern enable x
+                //77: o_data <= 16'h71_FF; // test pattern enable y
+                76: o_data <= 16'h69_06;
                 default: o_data <= 16'hFF_FF;  //mark end of ROM
 			endcase
 		end
