@@ -20,7 +20,6 @@ module capture
 	// FIFO write interface   
 	output reg         o_wr,       // fifo write enable
 	output reg  [11:0] o_wdata,    // fifo write data; {red, green, blue}
-	input  wire        i_full,     // fifo full flag
 
 	output wire        o_sof       // start of frame flag
 	);
