@@ -30,7 +30,9 @@ module capture_tb();
 
     .o_wr    (o_wr),
     .o_wdata (o_wdata),
-    .i_full  (full)
+    .i_full  (full),
+
+    .o_sof   ()
 	);
 
 
@@ -104,6 +106,7 @@ module capture_tb();
         $finish;
 	end
 
+// check that data matches data in
 	always@(posedge clk) begin
 		if(o_wr) begin
 			test_expected = test_queue.pop_back();

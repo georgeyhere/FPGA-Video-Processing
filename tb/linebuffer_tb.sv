@@ -43,21 +43,8 @@ module linebuffer_tb();
 
 		for(int i=1; i<641; i++) begin
 			@(posedge clk) begin
-				wr <= 1;
+				wr    <= 1;
 				wdata <= wdata + 1;
-			/*
-				if(i%3 == 0) begin
-					wdata <= test_data[7:0];
-				end
-				else if(i%2 == 0) begin
-					wdata <= test_data[15:8];
-				end 
-				else begin
-					test_data = $urandom;
-					test_queue.push_front(test_data);
-					wdata <= test_data[23:16];
-				end
-			*/
 			end
 		end
 		@(posedge clk) wr <= 0;

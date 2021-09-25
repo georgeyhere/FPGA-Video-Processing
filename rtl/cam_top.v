@@ -27,7 +27,7 @@ module cam_top
 	output wire [11:0] o_obuf_data,
 	output wire        o_obuf_empty,
 	output wire        o_obuf_almostempty,
-	output wire [9:0]  o_obuf_fill,
+	output wire [3:0]  o_obuf_fill,
 
 	// Configuration Control
 	input  wire        i_cfg_init, // initialize cam registers to ROM
@@ -104,8 +104,8 @@ module cam_top
 	.i_wr           (obuf_wr          ), // write enable
 	.i_wdata        (obuf_wdata       ), // write data
 	.o_wfull        (), 
-	.o_walmostfull  (), 
-	.o_wfill        (obuf_walmostfull ), // almost-full flag
+	.o_walmostfull  (obuf_walmostfull ), // almost-full flag
+	.o_wfill        (), 
  	
  	// read interface
 	.i_rclk         (i_obuf_rclk        ), // read clock

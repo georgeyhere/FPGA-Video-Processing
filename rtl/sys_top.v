@@ -60,11 +60,8 @@ module sys_top
 
 
 // Display Interface
-	wire        disp_req;
-	wire        disp_ibuf_wr;
-	wire [11:0] disp_ibuf_wdata;
-	wire        disp_ibuf_almostfull;
-
+	wire [18:0] framebuf_raddr;
+	wire [11:0] framebuf_rdata;
 
 // =============================================================
 // 			          Implementation:
@@ -191,19 +188,16 @@ module sys_top
 	.i_rstn        (sync_rstn_PS           ), // active-low sync reset
 	.i_flush       (pipe_flush             ),
 
-	// data request from display interface
-	.i_req         (disp_req               ), 
-
 	// Input FIFO read interface
 	.o_rd          (cam_obuf_rd            ),
 	.i_rdata       (cam_obuf_rdata         ),
 	.i_almostempty (cam_obuf_almostempty   ),
 
 
-	// Display FIFO interface
-	.o_wr          (disp_ibuf_wr           ), // FIFO write enable 
-	.o_wdata       (disp_ibuf_wdata        ), // FIFO write data 
-	.i_almostfull  (disp_ibuf_almostfull   )  // almost-full flag
+	// frame buffer read interface
+	.i_rclk        (clk_25MHz              ),
+	.i_raddr       (framebuf_raddr         ),
+	.o_rdata       (framebuf_rdata         )
 	); 
 
 
@@ -217,18 +211,10 @@ module sys_top
     .i_rstn        (db_rstn         ), 
     .i_mode        (sys_mode        ), // mode; color or greyscale
  	
- 	// input buffer interface
-    .i_wclk        (i_sysclk             ), // memory clock
-    .i_wrstn       (sync_rstn_PS         ), 
-    .i_wr          (disp_ibuf_wr         ), // input fifo write enable
-    .i_wdata       (disp_ibuf_wdata      ), // write data
-    .o_wfull       (),
-    .o_walmostfull (disp_ibuf_almostfull ), // almost-full flag
-    .o_wfill       (),
-   	
-   	// input buffer data request
-    .o_req         (disp_req        ), // Request flag to memory interface
-       
+ 	// frame buffer read interface
+   	.o_raddr       (framebuf_raddr  ),
+   	.i_rdata       (framebuf_rdata  ),
+
     // TMDS out   
     .o_TMDS_P      (o_TMDS_P        ), // HDMI outputs
     .o_TMDS_N      (o_TMDS_N        )
