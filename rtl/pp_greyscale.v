@@ -22,7 +22,7 @@
 //
 `default_nettype none
 //
-module ps_greyscale 
+module pp_greyscale 
 	(
 	input  wire        i_clk,
 	input  wire        i_rstn,
