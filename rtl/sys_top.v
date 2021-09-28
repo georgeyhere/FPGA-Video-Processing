@@ -58,6 +58,10 @@ module sys_top
 	wire        cam_obuf_almostempty;
 	wire        cfg_done;
 
+// Greyscale Block
+	wire        pp_obuf_rd;
+	wire [11:0] pp_obuf_rdata;
+	wire        pp_obuf_almostempty;
 
 // Display Interface
 	wire [18:0] framebuf_raddr;
@@ -176,6 +180,31 @@ module sys_top
 
 	);
 
+	//---------------------------------------------------
+    //               Greyscale Converter:
+    //---------------------------------------------------
+    pp_preprocess pp_i (
+    .i_clk         (i_sysclk             ),
+    .i_rstn        (sync_rstn_PS         ),
+    .i_flush       (pipe_flush           ),
+
+    // greyscale algorithm enable
+    .i_mode        (sys_mode             ),
+
+    // input interface
+    .o_rd          (cam_obuf_rd          ),
+    .i_data        (cam_obuf_rdata       ),
+    .i_almostempty (cam_obuf_almostempty ),
+
+    // output buffer interface
+    .i_rd          (pp_obuf_rd           ),
+    .o_data        (pp_obuf_rdata        ),
+    .o_fill        (), 
+    .o_almostempty (pp_obuf_almostempty  ),
+    .o_valid       ()
+    );
+
+
     //---------------------------------------------------
     //                 Memory Interface:
     //---------------------------------------------------
@@ -189,9 +218,9 @@ module sys_top
 	.i_flush       (pipe_flush             ),
 
 	// Input FIFO read interface
-	.o_rd          (cam_obuf_rd            ),
-	.i_rdata       (cam_obuf_rdata         ),
-	.i_almostempty (cam_obuf_almostempty   ),
+	.o_rd          (pp_obuf_rd             ),
+	.i_rdata       (pp_obuf_rdata          ),
+	.i_almostempty (pp_obuf_almostempty    ),
 
 
 	// frame buffer read interface

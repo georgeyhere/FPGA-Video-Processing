@@ -78,7 +78,7 @@ module pp_preprocess
 	#(.DATA_WIDTH        (12),
 	  .ADDR_WIDTH        (10),
 	  .ALMOSTFULL_OFFSET (2),
-	  .ALMOSTEMPTY_OFFSET(2))
+	  .ALMOSTEMPTY_OFFSET(1))
 	pp_obuf_i (
 	.i_clk         (i_clk              ),
 	.i_rstn        (i_rstn&&(~i_flush) ),

@@ -49,11 +49,14 @@ module pp_greyscale
 		end
 		else if(i_valid) begin
 			o_valid <= 1;
+			/*
 			o_data  <= {((r>>2) + (r>>5) + (r>>6) +
                          (g>>1) + (g>>4) + (g>>5) + 
                          (b>>3)),
 			             4'b0 // bottom 4 bits padded with 0s
 			           };
+			*/
+			o_data <= (r>>2)+(r>>5)+(r>>6)+(g>>1)+(g>>4)+(g>>5)+(b>>3);
 		end 
 		else begin
 			o_valid <= 0;
