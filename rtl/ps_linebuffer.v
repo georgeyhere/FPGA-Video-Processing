@@ -37,24 +37,6 @@ module ps_linebuffer
 		end
 	end 
 
-	// output three words at a time, starting from rptr
-	/*
-	always@* begin
-		case(rptr)
-			default: begin
-				rdata = {mem[rptr-1], mem[rptr], mem[rptr+1]};
-			end
-
-			0: begin
-				rdata = {{2{mem[0]}}, mem[1]};
-			end
-
-			(LINE_LENGTH-1): begin
-			    rdata = {mem[rptr-1], {2{mem[rptr]}} };
-			end
-		endcase
-	end
-	*/
 	always@* begin
 		rdata = {mem[rptr-1], mem[rptr], mem[rptr+1]};
 	end

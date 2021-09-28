@@ -42,7 +42,6 @@ module cam_top
 // =============================================================
 	wire        obuf_wr;
 	wire [11:0] obuf_wdata;
-	wire        obuf_walmostfull;
 		 
 
 //==============================================================
@@ -83,7 +82,6 @@ module cam_top
 	// 24MHz to 125MHz FIFO Write interface
 	.o_wr       (obuf_wr          ), // FIFO write enable
 	.o_wdata    (obuf_wdata       ), // 12-bit RGB data
-	.i_full     (obuf_walmostfull ), // FIFO almost full flag
 
 	.o_sof      (o_sof            )
 	); 
@@ -104,7 +102,7 @@ module cam_top
 	.i_wr           (obuf_wr          ), // write enable
 	.i_wdata        (obuf_wdata       ), // write data
 	.o_wfull        (), 
-	.o_walmostfull  (obuf_walmostfull ), // almost-full flag
+	.o_walmostfull  (), 
 	.o_wfill        (), 
  	
  	// read interface

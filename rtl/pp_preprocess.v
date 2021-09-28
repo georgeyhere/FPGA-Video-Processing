@@ -14,24 +14,26 @@
 //
 `define MODE_PASSTHROUGH 0
 //
-module ps_preprocess 
+module pp_preprocess 
 	(
-    input  wire         i_clk,  // input clock
-    input  wire         i_rstn, // sync active low reset
+    input  wire         i_clk,   // input clock
+    input  wire         i_rstn,  // sync active low reset
     input  wire         i_flush,
 
     // Mode select
-    input  wire         i_mode, // pretty much greyscale enable
+    input  wire         i_mode,  // pretty much greyscale enable
 
     // Pixel Capture FIFO interface
     output reg          o_rd,    // read enable
     input  wire [11:0]  i_data,  // input data (RGB444)
-    input  wire [9:0]   i_rfill, 
+    input  wire         i_almostempty, 
  
  	// Output FIFO interface
  	input  wire         i_rd,    // read enable
     output wire [11:0]  o_data,  // output data
-    output wire [9:0]   o_fill  //    
+    output wire [10:0]  o_fill,  //
+    output wire         o_almostempty,
+    output reg          o_valid
 	);
 
 // Pixel Capture FIFO read 
@@ -50,6 +52,7 @@ module ps_preprocess
 	wire [11:0] fifo_rdata;
 	wire        fifo_almostempty;
 	wire        fifo_almostfull;
+	wire        fifo_empty;
 
 // FSM
 	reg STATE, NEXT_STATE;
@@ -58,13 +61,13 @@ module ps_preprocess
     initial STATE = STATE_IDLE;
 
 // greyscale converter
-    ps_greyscale 
+    pp_greyscale 
 	gscale_i (
 	.i_clk   (i_clk     ),
 	.i_rstn  (i_rstn    ),
 
 	.i_valid (din_valid ),
-	.i_data  (din       ),
+	.i_data  (i_data    ),
 
 	.o_data  (gs_dout   ),
 	.o_valid (gs_valid  )
@@ -90,8 +93,8 @@ module ps_preprocess
 
 	.o_full        (),   
 	.o_almostfull  (fifo_almostfull    ),
-	.o_empty       (),
-	.o_almostempty ()
+	.o_empty       (fifo_empty         ),
+	.o_almostempty (o_almostempty      )
 	);
 
 
@@ -106,17 +109,19 @@ module ps_preprocess
 		case(STATE)
 			
 			STATE_IDLE: begin
-				nxt_rdCounter = 0;
-				if(i_rfill > 639) begin
-					NEXT_STATE = STATE_ACTIVE;
+				if(!i_almostempty) begin
+					nxt_rd        = 1;
+					nxt_din_valid = 1;
+					NEXT_STATE    = STATE_ACTIVE;
 				end
 			end
 
 			STATE_ACTIVE: begin
-				nxt_rdCounter = (rdCounter == 639) ? 0:rdCounter+1;
-				nxt_rd        = 1;
-				nxt_din_valid = 1;
-				NEXT_STATE    = (rdCounter == 639) ? STATE_IDLE:STATE_ACTIVE;
+				nxt_rd        = (!i_almostempty);
+				nxt_din_valid = (!i_almostempty);
+				if(i_almostempty) begin
+					NEXT_STATE = STATE_IDLE;
+				end
 			end
 		endcase
 	end
@@ -127,15 +132,15 @@ module ps_preprocess
 		if(!i_rstn) begin
 			o_rd      <= 0;
 			din_valid <= 0;
-			din       <= 0;
 			rdCounter <= 0;
+			o_valid   <= 0;
 			STATE     <= STATE_IDLE;
 		end    
 		else begin    
 			o_rd      <= nxt_rd;
 			din_valid <= nxt_din_valid;
-			din       <= i_data;
 			rdCounter <= nxt_rdCounter;
+			o_valid   <= (fifo_empty) ? 0:i_rd;
 			STATE     <= NEXT_STATE;
 		end
 	end

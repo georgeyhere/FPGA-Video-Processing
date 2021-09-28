@@ -26,13 +26,21 @@ module linebuffer_tb();
 
 // Testbench Setup
 //
-	logic [23:0] test_data;
-	logic [23:0] test_queue[$];
+	logic [7:0] test_data1, test_data2, test_data3;
+
+	logic [7:0] test_queue[$];
 	logic [23:0] test_expected;
+	integer i;
 
 	always#(6) clk = ~clk;
 
 //
+	always@(posedge clk) begin
+		if(wr) begin
+			test_queue.push_front(wdata);
+		end
+	end
+
 	initial begin
 		rstn  = 0;
 		wr    = 0;
@@ -40,35 +48,76 @@ module linebuffer_tb();
 		rd    = 0;
 		#100;
 		@(posedge clk) rstn <= 1;
-
-		for(int i=1; i<641; i++) begin
+        
+		// fill the linebuffer
+		$display("Writing data to linebuffer.");
+		for(i=0; i<640; i=i+1) begin
 			@(posedge clk) begin
 				wr    <= 1;
-				wdata <= wdata + 1;
+				wdata <= $urandom;
 			end
 		end
 		@(posedge clk) wr <= 0;
 
-		repeat(5) @(posedge clk);
-	
-		for(int i=1; i<=640; i++) begin
+		// read back data
+		$display("Reading data from linebuffer.");
+		@(posedge clk) rd <= 1;
+		for(i=0; i<640; i=i+1) begin
 			@(posedge clk) begin
-				rd <= 1;
+				rd <= (i<639);
+			end
+			@(negedge clk) begin
 
-				if(i%3 == 0) begin
-					test_expected = test_expected;
+				// special case: first pixel in row
+				if(i==0) begin
+                    test_data1 = test_queue.pop_back();
+                    test_data2 = test_queue.pop_back();
+                    test_data3 = test_queue.pop_back();
+                    test_expected[15:0] = {test_data1, test_data2};
+                    assert(rdata[15:0] == test_expected[15:0])
+                    else begin
+                    	$error("Output data mismatch: Expected data = %h, Actual data = %h", test_expected, rdata);
+                    	$stop;
+                    end
 				end
-				else if(i%2 == 0) begin
-					test_expected = test_expected;
-				end 
+
+				// special case: second pixel in row
+				else if(i==1) begin
+                    test_expected = {test_data1, test_data2, test_data3};
+                    assert(rdata == test_expected)
+                    else begin
+                    	$error("Output data mismatch: Expected data = %h, Actual data = %h", test_expected, rdata);
+                    	$stop;
+                    end
+				end
+                
+                // special case: last pixel in row
+				else if(i==639) begin
+                    test_expected[23:8] = {test_data2, test_data3};
+                    assert(rdata[23:8] == test_expected[23:8])
+                    else begin
+                    	$error("Output data mismatch: Expected data = %h, Actual data = %h", test_expected, rdata);
+                    	$stop;
+                    end
+				end
+
+				// default
 				else begin
-					test_expected = test_queue.pop_back();
-					$display("Expected data: %h, Actual data: %h", test_expected, rdata);
+					test_data1 = test_data2;
+					test_data2 = test_data3;
+					test_data3 = test_queue.pop_back();
+					test_expected = {test_data1, test_data2, test_data3};
+					assert(rdata == test_expected)
+                    else begin
+                    	$error("Output data mismatch: Expected data = %h, Actual data = %h", test_expected, rdata);
+                    	$stop;
+                    end
 				end
 			end
 		end
-
-		@(posedge clk) rd <= 0;
+        repeat(5) @(posedge clk);
+        $display("Linebuffer read/write tests passed!");
+        $stop;
 	end
 
 
