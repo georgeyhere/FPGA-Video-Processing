@@ -25,13 +25,18 @@ module sys_top
 
     // controls
     input  wire       btn_mode,
+    input  wire       btn_decSobel,
+    input  wire       btn_incSobel,
+
     input  wire       sw_gaussian,
     input  wire       sw_sobel,
+    input  wire       sw_freeze,
 
     // status
     output wire       led_mode,
     output wire       led_gaussian,
-    output wire       led_sobel
+    output wire       led_sobel,
+    output wire       led_threshold
 	);
 
 
@@ -52,6 +57,7 @@ module sys_top
 	wire        gaussian_enable;
 	wire        sobel_enable;
 	wire        pipe_flush;
+	wire [21:0] sobel_threshold;
 
 // Camera Block
 	wire        i_scl, i_sda;
@@ -88,9 +94,10 @@ module sys_top
 	assign o_cam_rstn = 1'b1; // sw reset instead
 	assign o_cam_pwdn = 1'b0;  
 
-	assign led_mode     = sys_mode;
-	assign led_gaussian = gaussian_enable;
-	assign led_sobel    = sobel_enable;
+	assign led_mode      = sys_mode;
+	assign led_gaussian  = gaussian_enable;
+	assign led_sobel     = sobel_enable;
+	assign led_threshold = (sobel_threshold==0) || (sobel_threshold>2080000);
 	
 // **** Debounce Reset button ****
 // -> debounced in camera pclk domain (24MHz)
@@ -149,12 +156,15 @@ module sys_top
 		.i_btn_mode        (btn_mode        ), // board button 
 		.i_sw_gaussian     (sw_gaussian     ),
 		.i_sw_sobel        (sw_sobel        ),
+		.i_btn_incSobel    (btn_incSobel    ),
+		.i_btn_decSobel    (btn_decSobel    ),
 	
 		.o_cfg_start       (cfg_start       ), // config module start
 		.o_gaussian_enable (gaussian_enable ),
 		.o_sobel_enable    (sobel_enable    ),
 		.o_mode            (sys_mode        ),
-		.o_pipe_flush      (pipe_flush      )              
+		.o_pipe_flush      (pipe_flush      ),
+		.o_sobel_threshold (sobel_threshold )              
 	);
 	
 	//---------------------------------------------------
@@ -205,7 +215,7 @@ module sys_top
     pp_preprocess pp_i (
     .i_clk         (i_sysclk             ),
     .i_rstn        (sync_rstn_PS         ),
-    .i_flush       (pipe_flush           ),
+    .i_flush       (pipe_flush||sw_freeze),
 
     // greyscale algorithm enable
     .i_mode        (sys_mode             ),
@@ -229,7 +239,7 @@ module sys_top
     .i_clk              (i_sysclk),
     .i_rstn             (sync_rstn_PS),
     .i_enable           (gaussian_enable),
-    .i_flush            (pipe_flush),
+    .i_flush            (pipe_flush||sw_freeze),
           
     .i_data             (pp_obuf_rdata),
     .i_almostempty      (pp_obuf_almostempty),
@@ -251,7 +261,8 @@ module sys_top
     .i_clk              (i_sysclk),
     .i_rstn             (sync_rstn_PS),
     .i_enable           (sobel_enable),
-    .i_flush            (pipe_flush),
+    .i_flush            (pipe_flush||sw_freeze),
+    .i_threshold        (sobel_threshold),
           
     .i_data             (gssn_obuf_rdata),
     .i_almostempty      (gssn_obuf_almostempty),
@@ -277,7 +288,7 @@ module sys_top
 	mem_i(
 	.i_clk         (i_sysclk               ), // 125 MHz board clock
 	.i_rstn        (sync_rstn_PS           ), // active-low sync reset
-	.i_flush       (pipe_flush             ),
+	.i_flush       (pipe_flush||sw_freeze  ),
 
 	// Input FIFO read interface
 	.o_rd          (sobel_obuf_rd          ),

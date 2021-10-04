@@ -10,6 +10,8 @@ module ps_sobel_top
 	input  wire        i_rstn,   // active low sync reset
 	input  wire        i_enable, // filter enable
 	input  wire        i_flush,
+
+	input  wire [21:0] i_threshold,
  
 	input  wire [11:0] i_data,   
 	input  wire        i_almostempty, 
@@ -136,17 +138,18 @@ module ps_sobel_top
 
 	ps_sobel 
 	sobel_i (
-	.i_clk     (i_clk              ),
-	.i_rstn    (i_rstn&&(~i_flush) ),
+	.i_clk       (i_clk              ),
+	.i_rstn      (i_rstn&&(~i_flush) ),
+	.i_threshold (i_threshold        ),
 
-	.i_r0_data (r0_data            ),
-	.i_r1_data (r1_data            ),
-	.i_r2_data (r2_data            ),
-	.i_valid   (valid              ),
-    
-	.o_data    (sobel_dout      ),
-	.o_valid   (sobel_valid     )
-	);
+	.i_r0_data   (r0_data            ),
+	.i_r1_data   (r1_data            ),
+	.i_r2_data   (r2_data            ),
+	.i_valid     (valid              ),
+      
+	.o_data      (sobel_dout         ),
+	.o_valid     (sobel_valid        )
+	);  
 
 	fifo_sync 
 	#(.DATA_WIDTH        (12),

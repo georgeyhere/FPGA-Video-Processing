@@ -19,12 +19,16 @@ module sys_control
 	input  wire       i_sw_gaussian,
 	input  wire       i_sw_sobel,
 
+	input  wire       i_btn_incSobel,
+	input  wire       i_btn_decSobel,
+
 	output reg        o_cfg_start,
 	output reg        o_mode,
 	output reg        o_pipe_flush,
 
 	output reg        o_gaussian_enable,
-	output reg        o_sobel_enable
+	output reg        o_sobel_enable,
+	output reg [21:0] o_sobel_threshold
 	);
 
 // =============================================================
@@ -37,6 +41,10 @@ module sys_control
 	wire       db_btn_mode;
 	reg        btn1, btn2;
 	wire       db_btn_posedge;
+	wire       db_btn_incSobel, db_btn_decSobel;
+	reg        incSobel_q1, incSobel_q2;
+	reg        decSobel_q1, decSobel_q2;
+	wire       incSobel_posedge, decSobel_posedge;
 
 	reg        FLUSH_STATE;
 	localparam FLUSH_IDLE   = 0, 
@@ -54,6 +62,22 @@ module sys_control
 	.i_clk   (i_sysclk    ),
 	.i_input (i_btn_mode  ),
 	.o_db    (db_btn_mode )  
+	);
+
+	debounce 
+	#(.DB_COUNT(500_000))    // 20ms debounce period
+	db_incSobel_i (
+	.i_clk   (i_sysclk        ),
+	.i_input (i_btn_incSobel  ),
+	.o_db    (db_btn_incSobel )  
+	);
+
+	debounce 
+	#(.DB_COUNT(500_000))    // 20ms debounce period
+	db_dcSobel_i (
+	.i_clk   (i_sysclk        ),
+	.i_input (i_btn_decSobel  ),
+	.o_db    (db_btn_decSobel )  
 	);
 
 // =============================================================
@@ -170,6 +194,48 @@ module sys_control
 				endcase
 			end
 			else o_pipe_flush <= 0;
+		end
+	end
+
+// Sobel Thresholding Control
+//
+
+// Enable edge detectors
+// 
+	always@(posedge i_sysclk) begin
+		if(!i_rstn) begin
+			{incSobel_q1, incSobel_q2} <= 2'b0;
+		end
+		else begin
+			{incSobel_q1, incSobel_q2} <= {db_btn_incSobel, incSobel_q1};
+		end
+	end
+	assign incSobel_posedge = (incSobel_q1==1)&&(incSobel_q2==0);
+
+	always@(posedge i_sysclk) begin
+		if(!i_rstn) begin
+			{decSobel_q1, decSobel_q2} <= 2'b0;
+		end
+		else begin
+			{decSobel_q1, decSobel_q2} <= {db_btn_decSobel, decSobel_q1};
+		end
+	end
+	assign decSobel_posedge = (decSobel_q1==1)&&(decSobel_q2==0);
+
+
+	always@(posedge i_sysclk) begin
+		if(!i_rstn) begin
+			o_sobel_threshold <= 500000;
+		end
+		else begin
+			if(incSobel_posedge) begin
+				o_sobel_threshold <= (o_sobel_threshold>=2090000) ? 
+				                     o_sobel_threshold:o_sobel_threshold+50000;
+			end
+			else if(decSobel_posedge) begin
+				o_sobel_threshold <= (o_sobel_threshold<=25) ? 
+				                     0:o_sobel_threshold-50000;
+			end
 		end
 	end
 
