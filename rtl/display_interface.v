@@ -47,9 +47,9 @@ module display_interface
 			blue  = i_rdata;
 		end
 		else begin
-			red   = {i_rdata[11:8], {4'b1} };
-			green = {i_rdata[7:4],  {4'b1} }; 
-			blue  = {i_rdata[3:0],  {4'b1} }; 
+			red   = {i_rdata[11:8], {4'hF} };
+			green = {i_rdata[7:4],  {4'hF} }; 
+			blue  = {i_rdata[3:0],  {4'hF} }; 
 		end
 	end
 

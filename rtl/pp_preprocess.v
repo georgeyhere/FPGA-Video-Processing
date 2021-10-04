@@ -32,8 +32,7 @@ module pp_preprocess
  	input  wire         i_rd,    // read enable
     output wire [11:0]  o_data,  // output data
     output wire [10:0]  o_fill,  //
-    output wire         o_almostempty,
-    output reg          o_valid
+    output wire         o_almostempty
 	);
 
 // Pixel Capture FIFO read 
@@ -133,14 +132,12 @@ module pp_preprocess
 			o_rd      <= 0;
 			din_valid <= 0;
 			rdCounter <= 0;
-			o_valid   <= 0;
 			STATE     <= STATE_IDLE;
 		end    
 		else begin    
 			o_rd      <= nxt_rd;
 			din_valid <= nxt_din_valid;
 			rdCounter <= nxt_rdCounter;
-			o_valid   <= (fifo_empty) ? 0:i_rd;
 			STATE     <= NEXT_STATE;
 		end
 	end

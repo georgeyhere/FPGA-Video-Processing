@@ -62,6 +62,12 @@ module sys_top
 	wire        pp_obuf_rd;
 	wire [11:0] pp_obuf_rdata;
 	wire        pp_obuf_almostempty;
+	wire [10:0] pp_obuf_fill;
+
+// Kernel Block
+	wire        ps_obuf_rd;
+	wire [11:0] ps_obuf_rdata;
+	wire        ps_obuf_almostempty;
 
 // Display Interface
 	wire [18:0] framebuf_raddr;
@@ -152,6 +158,7 @@ module sys_top
 	cam_i (
 	.i_cfg_clk          (i_sysclk        ),
 	.i_rstn             (sync_rstn_PS    ),
+	.o_sof              (sof             ),
     
     // OV7670 external inputs    
 	.i_cam_pclk         (i_cam_pclk      ),
@@ -200,8 +207,29 @@ module sys_top
     .i_rd          (pp_obuf_rd           ),
     .o_data        (pp_obuf_rdata        ),
     .o_fill        (), 
-    .o_almostempty (pp_obuf_almostempty  ),
-    .o_valid       ()
+    .o_almostempty (pp_obuf_almostempty  )
+    );
+
+    //---------------------------------------------------
+    //                 Kernel Processor:
+    //---------------------------------------------------
+    ps_gaussian_top kernel_i (
+    .i_clk              (i_sysclk),
+    .i_rstn             (sync_rstn_PS),
+    .i_enable           (gaussian_enable),
+    .i_flush            (pipe_flush),
+          
+    .i_data             (pp_obuf_rdata),
+    .i_almostempty      (pp_obuf_almostempty),
+    .o_rd               (pp_obuf_rd),
+
+    .i_obuf_rd          (ps_obuf_rd),
+    .o_obuf_data        (ps_obuf_rdata),
+    .o_obuf_fill        (),
+    .o_obuf_full        (),
+    .o_obuf_almostfull  (),
+    .o_obuf_empty       (),
+    .o_obuf_almostempty (ps_obuf_almostempty)
     );
 
 
@@ -218,9 +246,9 @@ module sys_top
 	.i_flush       (pipe_flush             ),
 
 	// Input FIFO read interface
-	.o_rd          (pp_obuf_rd             ),
-	.i_rdata       (pp_obuf_rdata          ),
-	.i_almostempty (pp_obuf_almostempty    ),
+	.o_rd          (ps_obuf_rd             ),
+	.i_rdata       (ps_obuf_rdata          ),
+	.i_almostempty (ps_obuf_almostempty    ),
 
 
 	// frame buffer read interface

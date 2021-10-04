@@ -1,8 +1,3 @@
-// module: ps_kernel.v
-//
-//
-//
-//
 module ps_gaussian 
 	(
 	input  wire        i_clk,     // input clock
