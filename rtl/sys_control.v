@@ -17,13 +17,14 @@ module sys_control
 
 	input  wire       i_btn_mode,
 	input  wire       i_sw_gaussian,
+	input  wire       i_sw_sobel,
 
 	output reg        o_cfg_start,
 	output reg        o_mode,
 	output reg        o_pipe_flush,
 
 	output reg        o_gaussian_enable,
-	output reg  [7:0] o_status_leds
+	output reg        o_sobel_enable
 	);
 
 // =============================================================
@@ -43,6 +44,9 @@ module sys_control
 
     reg        sw_gaussian_q1, sw_gaussian_q2;
 	wire       delta_sw_gaussian;
+
+	reg        sw_sobel_q1, sw_sobel_q2;
+	wire       delta_sw_sobel;
 
 	debounce 
 	#(.DB_COUNT(500_000))    // 20ms debounce period
@@ -103,7 +107,7 @@ module sys_control
 	end
 
 //
-// Gaussian enable
+// Filter enables
 //
 	always@(posedge i_sysclk) begin
 		if(o_mode == `MODE_PASSTHROUGH)
@@ -112,7 +116,16 @@ module sys_control
 			o_gaussian_enable <= (i_sw_gaussian);
 		end
 	end
+	always@(posedge i_sysclk) begin
+		if(o_mode == `MODE_PASSTHROUGH)
+			o_sobel_enable <= 0;
+		else begin
+			o_sobel_enable <= (i_sw_sobel);
+		end
+	end
 
+// Enable edge detectors
+// 
 	always@(posedge i_sysclk) begin
 		if(!i_rstn) begin
 			{sw_gaussian_q1, sw_gaussian_q2} <= 2'b0;
@@ -122,6 +135,16 @@ module sys_control
 		end
 	end
 	assign delta_sw_gaussian = (sw_gaussian_q1 != sw_gaussian_q2);
+
+	always@(posedge i_sysclk) begin
+		if(!i_rstn) begin
+			{sw_sobel_q1, sw_sobel_q2} <= 2'b0;
+		end
+		else begin
+			{sw_sobel_q1, sw_sobel_q2} <= {i_sw_sobel, sw_sobel_q1};
+		end
+	end
+	assign delta_sw_sobel = (sw_sobel_q1 != sw_sobel_q2);
 
 //
 // Flush the pipeline if a filter is applied
@@ -137,7 +160,7 @@ module sys_control
 				case(FLUSH_STATE)
 					FLUSH_IDLE: begin
 						o_pipe_flush <= 0;
-						FLUSH_STATE  <= (delta_sw_gaussian) ? FLUSH_ACTIVE:FLUSH_IDLE;
+						FLUSH_STATE  <= (delta_sw_gaussian||delta_sw_sobel) ? FLUSH_ACTIVE:FLUSH_IDLE;
 					end
 	
 					FLUSH_ACTIVE: begin

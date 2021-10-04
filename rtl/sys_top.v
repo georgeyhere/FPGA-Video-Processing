@@ -26,9 +26,12 @@ module sys_top
     // controls
     input  wire       btn_mode,
     input  wire       sw_gaussian,
+    input  wire       sw_sobel,
 
     // status
-    output wire       led_cfg
+    output wire       led_mode,
+    output wire       led_gaussian,
+    output wire       led_sobel
 	);
 
 
@@ -47,6 +50,7 @@ module sys_top
 	wire        cfg_start;
 	wire        sys_mode;
 	wire        gaussian_enable;
+	wire        sobel_enable;
 	wire        pipe_flush;
 
 // Camera Block
@@ -64,10 +68,15 @@ module sys_top
 	wire        pp_obuf_almostempty;
 	wire [10:0] pp_obuf_fill;
 
-// Kernel Block
-	wire        ps_obuf_rd;
-	wire [11:0] ps_obuf_rdata;
-	wire        ps_obuf_almostempty;
+// Gaussian Block
+	wire        gssn_obuf_rd;
+	wire [11:0] gssn_obuf_rdata;
+	wire        gssn_obuf_almostempty;
+
+// Sobel Block
+	wire        sobel_obuf_rd;
+	wire [11:0] sobel_obuf_rdata;
+	wire        sobel_obuf_almostempty;
 
 // Display Interface
 	wire [18:0] framebuf_raddr;
@@ -78,7 +87,10 @@ module sys_top
 // =============================================================
 	assign o_cam_rstn = 1'b1; // sw reset instead
 	assign o_cam_pwdn = 1'b0;  
-	assign led_cfg    = cfg_done;
+
+	assign led_mode     = sys_mode;
+	assign led_gaussian = gaussian_enable;
+	assign led_sobel    = sobel_enable;
 	
 // **** Debounce Reset button ****
 // -> debounced in camera pclk domain (24MHz)
@@ -136,13 +148,13 @@ module sys_top
 	
 		.i_btn_mode        (btn_mode        ), // board button 
 		.i_sw_gaussian     (sw_gaussian     ),
+		.i_sw_sobel        (sw_sobel        ),
 	
 		.o_cfg_start       (cfg_start       ), // config module start
 		.o_gaussian_enable (gaussian_enable ),
+		.o_sobel_enable    (sobel_enable    ),
 		.o_mode            (sys_mode        ),
-		.o_pipe_flush      (pipe_flush      ),
-	
-		.o_status_leds     ()                   
+		.o_pipe_flush      (pipe_flush      )              
 	);
 	
 	//---------------------------------------------------
@@ -211,9 +223,9 @@ module sys_top
     );
 
     //---------------------------------------------------
-    //                 Kernel Processor:
+    //                Gaussian Operator:
     //---------------------------------------------------
-    ps_gaussian_top kernel_i (
+    ps_gaussian_top gaussian_i (
     .i_clk              (i_sysclk),
     .i_rstn             (sync_rstn_PS),
     .i_enable           (gaussian_enable),
@@ -223,13 +235,35 @@ module sys_top
     .i_almostempty      (pp_obuf_almostempty),
     .o_rd               (pp_obuf_rd),
 
-    .i_obuf_rd          (ps_obuf_rd),
-    .o_obuf_data        (ps_obuf_rdata),
+    .i_obuf_rd          (gssn_obuf_rd),
+    .o_obuf_data        (gssn_obuf_rdata),
     .o_obuf_fill        (),
     .o_obuf_full        (),
     .o_obuf_almostfull  (),
     .o_obuf_empty       (),
-    .o_obuf_almostempty (ps_obuf_almostempty)
+    .o_obuf_almostempty (gssn_obuf_almostempty)
+    );
+
+    //---------------------------------------------------
+    //                Sobel Operator:
+    //---------------------------------------------------
+    ps_sobel_top sobel_i (
+    .i_clk              (i_sysclk),
+    .i_rstn             (sync_rstn_PS),
+    .i_enable           (sobel_enable),
+    .i_flush            (pipe_flush),
+          
+    .i_data             (gssn_obuf_rdata),
+    .i_almostempty      (gssn_obuf_almostempty),
+    .o_rd               (gssn_obuf_rd),
+
+    .i_obuf_rd          (sobel_obuf_rd),
+    .o_obuf_data        (sobel_obuf_rdata),
+    .o_obuf_fill        (),
+    .o_obuf_full        (),
+    .o_obuf_almostfull  (),
+    .o_obuf_empty       (),
+    .o_obuf_almostempty (sobel_obuf_almostempty)
     );
 
 
@@ -246,9 +280,9 @@ module sys_top
 	.i_flush       (pipe_flush             ),
 
 	// Input FIFO read interface
-	.o_rd          (ps_obuf_rd             ),
-	.i_rdata       (ps_obuf_rdata          ),
-	.i_almostempty (ps_obuf_almostempty    ),
+	.o_rd          (sobel_obuf_rd          ),
+	.i_rdata       (sobel_obuf_rdata       ),
+	.i_almostempty (sobel_obuf_almostempty ),
 
 
 	// frame buffer read interface

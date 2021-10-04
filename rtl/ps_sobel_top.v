@@ -1,19 +1,19 @@
-// module: ps_gaussian_top
+// module: ps_sobel_top
 //
-// Wraps ps_kernel_control and ps_gaussian.
+// Wraps ps_kernel_control and ps_sobel.
 //
-// Contains passthrough logic for when gaussian filter is disabled.
+// Contains passthrough logic for when filter is disabled.
 //
-module ps_gaussian_top 
+module ps_sobel_top 
 	(
 	input  wire        i_clk,    // input clock
 	input  wire        i_rstn,   // active low sync reset
 	input  wire        i_enable, // filter enable
 	input  wire        i_flush,
  
-	input  wire [11:0] i_data,   // input data, RGB444 or greyscale[11:4]
+	input  wire [11:0] i_data,   
 	input  wire        i_almostempty, 
-	output reg         o_rd,     // 
+	output reg         o_rd,    
 
 	input  wire        i_obuf_rd,
 	output wire [11:0] o_obuf_data,
@@ -27,8 +27,8 @@ module ps_gaussian_top
 	wire [23:0] r0_data, r1_data, r2_data;
 	wire        valid;
 	wire        req;
-	wire [7:0]  gaussian_dout;
-	wire        gaussian_valid;
+	wire [7:0]  sobel_dout;
+	wire        sobel_valid;
 
 	reg         nxt_rd;
 	reg         nxt_din_valid, din_valid;
@@ -110,8 +110,8 @@ module ps_gaussian_top
 	// passthrough logic
 	always@* begin
 		if(i_enable) begin
-			obuf_wdata = {gaussian_dout, 4'b0};
-			obuf_wr    = gaussian_valid;
+			obuf_wdata = {sobel_dout, 4'b0};
+			obuf_wr    = sobel_valid;
 		end
 		else begin
 			obuf_wdata = i_data;
@@ -120,7 +120,7 @@ module ps_gaussian_top
 	end
 
 	ps_kernel_control 
-	gaus_ctrl_i (
+	sobel_ctrl_i (
 	.i_clk     (i_clk              ),
 	.i_rstn    (i_rstn&&(~i_flush) ),
   
@@ -134,8 +134,8 @@ module ps_gaussian_top
 	.o_valid   (valid              )
 	);
 
-	ps_gaussian 
-	gaus_i (
+	ps_sobel 
+	sobel_i (
 	.i_clk     (i_clk              ),
 	.i_rstn    (i_rstn&&(~i_flush) ),
 
@@ -144,8 +144,8 @@ module ps_gaussian_top
 	.i_r2_data (r2_data            ),
 	.i_valid   (valid              ),
     
-	.o_data    (gaussian_dout      ),
-	.o_valid   (gaussian_valid     )
+	.o_data    (sobel_dout      ),
+	.o_valid   (sobel_valid     )
 	);
 
 	fifo_sync 
