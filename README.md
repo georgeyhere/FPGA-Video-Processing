@@ -6,11 +6,11 @@
 __High-level Overview__
 - High level system design
 - Will be made more readable once project is complete, apologies for poor handwriting
-![system top level design](https://github.com/georgeyhere/Edge-Detection/tree/master/docs/images/sys_top.jpg)
+![](docs/images/sys_top.jpg)
 
 
 - Kernel Processor high-level design
-![kernel top level design](https://github.com/georgeyhere/Edge-Detection/tree/master/docs/images/kp_top.jpg)
+![](docs/images/kp_top.jpg)
 
 - Each block has a 'flush' control signal that's driven by a top-level control module (sys_control) that is not pictured. FIFOs are cleared and memory pointers where applicable are cleared.
 
