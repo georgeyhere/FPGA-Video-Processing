@@ -18,7 +18,7 @@ __High-level Overview__
 
 __Demos__
 - These demos reflect a work in progress until no longer noted here:
-![Gaussian Filter](https://img.youtube.com/vi/dFgFBZIkOFI/0.jpg)(https://www.youtube.com/watch?v=dFgFBZIkOFI)
-![Sobel Filter](https://img.youtube.com/vi/bhdkd0tR6hU/0.jpg)(https://www.youtube.com/watch?v=bhdkd0tR6hU)
+[![Gaussian Filter](https://img.youtube.com/vi/dFgFBZIkOFI/0.jpg)](https://www.youtube.com/watch?v=dFgFBZIkOFI)
+[![Sobel Filter](https://img.youtube.com/vi/bhdkd0tR6hU/0.jpg)](https://www.youtube.com/watch?v=bhdkd0tR6hU)
 
 
