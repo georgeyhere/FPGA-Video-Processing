@@ -17,7 +17,8 @@ __High-level Overview__
 - Line buffers use a synthesis directive to forcibly synthesize DRAM.
 
 __Demos__
-- These demos reflect a work in progress until no longer noted here:
+- These demos reflect a work in progress until no longer noted here.
+- Click the images below to view Youtube videos.
 [![Gaussian Filter](https://img.youtube.com/vi/dFgFBZIkOFI/0.jpg)](https://www.youtube.com/watch?v=dFgFBZIkOFI)
 [![Sobel Filter](https://img.youtube.com/vi/bhdkd0tR6hU/0.jpg)](https://www.youtube.com/watch?v=bhdkd0tR6hU)
 
