@@ -120,6 +120,9 @@ module ps_gaussian_top
 	end
 
 	ps_kernel_control 
+	#(.LINE_LENGTH(640),
+	  .LINE_COUNT (480),
+	  .DATA_WIDTH (8))
 	gaus_ctrl_i (
 	.i_clk     (i_clk              ),
 	.i_rstn    (i_rstn&&(~i_flush) ),
