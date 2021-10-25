@@ -1,8 +1,10 @@
 # Video Filtering on Artix-7 FPGA
 
+![](docs/images/sobelDemo.jpg)
+
 - This project implements a video processing pipeline that captures video data from an OV7670 camera and applies a Gaussian lowpass filter and a Sobel edge detection filter.
 
-- Documentation is pretty messy at this point, will be cleaned up when project is complete.
+- Documentation is pretty messy at this point, will be cleaned up soon.
 
 __High-level Overview__
 - High level system design
@@ -20,6 +22,6 @@ __Demos__
 - These demos reflect a work in progress until no longer noted here.
 - Click the images below to view Youtube videos.
 [![Gaussian Filter](https://img.youtube.com/vi/dFgFBZIkOFI/0.jpg)](https://www.youtube.com/watch?v=dFgFBZIkOFI)
-[![Sobel Filter](https://img.youtube.com/vi/bhdkd0tR6hU/0.jpg)](https://www.youtube.com/watch?v=bhdkd0tR6hU)
+[![Full Demo](https://img.youtube.com/vi/nitLR1SwYG0/0.jpg)](https://www.youtube.com/watch?v=nitLR1SwYG0)
 
 
