@@ -28,12 +28,16 @@ module sys_control
 
 	output reg        o_gaussian_enable,
 	output reg        o_sobel_enable,
-	output reg [21:0] o_sobel_threshold
+	output reg [25:0] o_sobel_threshold,
+	output reg        o_thresholdBounds
 	);
 
 // =============================================================
 // 			    Parameters, Registers, and Wires
 // =============================================================
+	localparam THRESHOLD_WIDTH = 26;
+	localparam THRESHOLD_STEPSIZE = 500;
+
 	reg        STATE;
 	localparam STATE_CFG    = 0,
 	           STATE_ACTIVE = 1;
@@ -225,16 +229,28 @@ module sys_control
 
 	always@(posedge i_sysclk) begin
 		if(!i_rstn) begin
-			o_sobel_threshold <= 500000;
+			o_sobel_threshold <= 10;
 		end
 		else begin
 			if(incSobel_posedge) begin
-				o_sobel_threshold <= (o_sobel_threshold>=2090000) ? 
-				                     o_sobel_threshold:o_sobel_threshold+50000;
+				if(o_sobel_threshold < 100) begin
+					o_sobel_threshold <= o_sobel_threshold+1;
+					o_thresholdBounds <= 0;
+				end
+				else begin
+					o_sobel_threshold <= o_sobel_threshold;
+					o_thresholdBounds <= 1;
+				end
 			end
 			else if(decSobel_posedge) begin
-				o_sobel_threshold <= (o_sobel_threshold<=25) ? 
-				                     0:o_sobel_threshold-50000;
+				if(o_sobel_threshold > 0) begin
+					o_sobel_threshold <= o_sobel_threshold-1;
+					o_thresholdBounds <= 0;
+				end
+				else begin
+					o_sobel_threshold <= o_sobel_threshold;
+					o_thresholdBounds <= 1;
+				end
 			end
 		end
 	end

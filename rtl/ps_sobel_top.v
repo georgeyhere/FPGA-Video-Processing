@@ -11,7 +11,7 @@ module ps_sobel_top
 	input  wire        i_enable, // filter enable
 	input  wire        i_flush,
 
-	input  wire [21:0] i_threshold,
+	input  wire [23:0] i_threshold,
  
 	input  wire [11:0] i_data,   
 	input  wire        i_almostempty, 
@@ -122,6 +122,9 @@ module ps_sobel_top
 	end
 
 	ps_kernel_control 
+	#(.LINE_LENGTH(640),
+	  .LINE_COUNT (480),
+	  .DATA_WIDTH (8))
 	sobel_ctrl_i (
 	.i_clk     (i_clk              ),
 	.i_rstn    (i_rstn&&(~i_flush) ),

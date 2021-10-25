@@ -57,7 +57,8 @@ module sys_top
 	wire        gaussian_enable;
 	wire        sobel_enable;
 	wire        pipe_flush;
-	wire [21:0] sobel_threshold;
+	wire [25:0] sobel_threshold;
+	wire        thresholdBounds;
 
 // Camera Block
 	wire        i_scl, i_sda;
@@ -97,7 +98,7 @@ module sys_top
 	assign led_mode      = sys_mode;
 	assign led_gaussian  = gaussian_enable;
 	assign led_sobel     = sobel_enable;
-	assign led_threshold = (sobel_threshold==0) || (sobel_threshold>2080000);
+	assign led_threshold = thresholdBounds;
 	
 // **** Debounce Reset button ****
 // -> debounced in camera pclk domain (24MHz)
@@ -164,7 +165,8 @@ module sys_top
 		.o_sobel_enable    (sobel_enable    ),
 		.o_mode            (sys_mode        ),
 		.o_pipe_flush      (pipe_flush      ),
-		.o_sobel_threshold (sobel_threshold )              
+		.o_sobel_threshold (sobel_threshold ),
+		.o_thresholdBounds (thresholdBounds )              
 	);
 	
 	//---------------------------------------------------

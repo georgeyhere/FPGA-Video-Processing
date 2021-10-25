@@ -8,24 +8,25 @@
 //
 module ps_linebuffer
 	#(
-    parameter LINE_LENGTH = 640
+    parameter LINE_LENGTH = 640,
+    parameter DATA_WIDTH  = 8
 	) 
 	(
-	input  wire        i_clk,
-	input  wire        i_rstn,
-
-	// Write Interface
-	input  wire        i_wr,
-	input  wire [7:0]  i_wdata,
+	input  wire                    i_clk,
+	input  wire                    i_rstn,
+            
+	// Write Interface            
+	input  wire                    i_wr,
+	input  wire [DATA_WIDTH-1:0]   i_wdata,
 	
 	// Read Interface
-	input  wire        i_rd,
-	output reg  [23:0] o_rdata
+	input  wire                    i_rd,
+	output reg  [3*DATA_WIDTH-1:0] o_rdata
 	);
 
 // 
-	reg [7:0]  mem [LINE_LENGTH-1:0];
-	reg [23:0] rdata;
+	reg [DATA_WIDTH-1:0] mem [LINE_LENGTH-1:0];
+	reg [3*DATA_WIDTH-1:0] rdata;
 
 	reg [$clog2(LINE_LENGTH)-1:0] wptr, rptr;
 
@@ -37,22 +38,6 @@ module ps_linebuffer
 		end
 	end 
 
-	// output three words at a time, starting from rptr
-	/*
-	always@* begin
-		case(rptr)
-			default: begin
-				rdata = {mem[rptr-1], mem[rptr], mem[rptr+1]};
-			end
-			0: begin
-				rdata = {{2{mem[0]}}, mem[1]};
-			end
-			(LINE_LENGTH-1): begin
-			    rdata = {mem[rptr-1], {2{mem[rptr]}} };
-			end
-		endcase
-	end
-	*/
 	always@* begin
 		rdata = {mem[rptr-1], mem[rptr], mem[rptr+1]};
 	end

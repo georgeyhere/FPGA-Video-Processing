@@ -9,7 +9,7 @@ module ps_sobel
 	input  wire [23:0] i_r2_data,
 	input  wire        i_valid,
 
-	input  wire [21:0] i_threshold,
+	input  wire [25:0] i_threshold,
 
 	// output interface
 	output reg  [7:0]  o_data,    // 8-bit result 
@@ -24,24 +24,24 @@ module ps_sobel
 
 // stage 1: multiply
     wire [71:0] rowdata;
-	reg  [10:0] stage1_dataX_reg [8:0];
-	reg  [10:0] stage1_dataY_reg [8:0];
+	reg  [15:0] stage1_dataX_reg [8:0];
+	reg  [15:0] stage1_dataY_reg [8:0];
 	reg         stage1_valid;
 
 	
-	reg  [10:0] stage1_dataX [8:0];
-	reg  [10:0] stage1_dataY [8:0];
+	reg  [15:0] stage1_dataX [8:0];
+	reg  [15:0] stage1_dataY [8:0];
 	reg         stage1_reg_valid;      
 	
 
 // stage 2: accumulate
-	reg  [10:0] stage2_accumulatorX, stage2_accumulatorY;
-	reg  [10:0] stage2_dataX, stage2_dataY;
+	reg  [15:0] stage2_accumulatorX, stage2_accumulatorY;
+	reg  [15:0] stage2_dataX, stage2_dataY;
 	reg         stage2_valid;
 
-// stage 3: divide by 16
-	reg  [20:0] stage3_dataX_reg, stage3_dataY_reg;
-	wire [21:0] stage3_data;
+// stage 3: convolve
+	reg  [25:0] stage3_dataX_reg, stage3_dataY_reg;
+	wire [25:0] stage3_data;
 	reg         stage3_valid;
 
 
@@ -121,6 +121,8 @@ module ps_sobel
 	// sum all the stage 1 data
 	always@* begin
 		stage2_accumulatorX = 0;
+		stage2_accumulatorY = 0;
+
 		for(i=0;  i<9; i=i+1) begin
 			stage2_accumulatorX = $signed(stage2_accumulatorX) +
 			                      $signed(stage1_dataX[i]);
@@ -147,6 +149,7 @@ module ps_sobel
 
 // PIPELINE STAGE 3 (1 cycle)
 //
+	// square X and Y kernel results
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
 			stage3_dataX_reg <= 0;
@@ -159,10 +162,13 @@ module ps_sobel
 			stage3_valid     <= stage2_valid;
 		end
 	end
+
+	// and sum them
 	assign stage3_data = stage3_dataX_reg + stage3_dataY_reg;
 
 // PIPELINE STAGE 4 (1 cycle)
 //
+	// threshold the summation instead of taking square root
 	always@(posedge i_clk) begin
 		if(!i_rstn) begin
 			o_valid <= 0;
