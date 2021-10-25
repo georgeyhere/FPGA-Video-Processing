@@ -229,12 +229,12 @@ module sys_control
 
 	always@(posedge i_sysclk) begin
 		if(!i_rstn) begin
-			o_sobel_threshold <= 4000;
+			o_sobel_threshold <= 10;
 		end
 		else begin
 			if(incSobel_posedge) begin
-				if(o_sobel_threshold < THRESHOLD_WIDTH**2-5000) begin
-					o_sobel_threshold <= o_sobel_threshold+500;
+				if(o_sobel_threshold < 100) begin
+					o_sobel_threshold <= o_sobel_threshold+1;
 					o_thresholdBounds <= 0;
 				end
 				else begin
@@ -243,8 +243,8 @@ module sys_control
 				end
 			end
 			else if(decSobel_posedge) begin
-				if(o_sobel_threshold <= 500) begin
-					o_sobel_threshold <= o_sobel_threshold-500;
+				if(o_sobel_threshold > 0) begin
+					o_sobel_threshold <= o_sobel_threshold-1;
 					o_thresholdBounds <= 0;
 				end
 				else begin
