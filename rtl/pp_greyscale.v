@@ -23,45 +23,45 @@
 `default_nettype none
 //
 module pp_greyscale 
-	(
-	input  wire        i_clk,
-	input  wire        i_rstn,
+    (
+    input  wire        i_clk,
+    input  wire        i_rstn,
 
-	// data in interface
-	input  wire        i_valid,
-	input  wire [11:0] i_data,
+    // data in interface
+    input  wire        i_valid,
+    input  wire [11:0] i_data,
 
-	// Output interface
-	output reg  [11:0] o_data,
-	output reg         o_valid
-	);
+    // Output interface
+    output reg  [11:0] o_data,
+    output reg         o_valid
+    );
 
-	wire [7:0] r = {i_data[11:8], 4'b0};
-	wire [7:0] g = {i_data[7:4],  4'b0};
-	wire [7:0] b = {i_data[3:0],  4'b0};
+    wire [7:0] r = {i_data[11:8], 4'b0};
+    wire [7:0] g = {i_data[7:4],  4'b0};
+    wire [7:0] b = {i_data[3:0],  4'b0};
 
-	initial o_valid = 0;
+    initial o_valid = 0;
 
-	always@(posedge i_clk) begin
-		if(!i_rstn) begin
-			o_data  <= 0;
-			o_valid <= 0;
-		end
-		else if(i_valid) begin
-			o_valid <= 1;
-			/*
-			o_data  <= {((r>>2) + (r>>5) + (r>>6) +
+    always@(posedge i_clk) begin
+        if(!i_rstn) begin
+            o_data  <= 0;
+            o_valid <= 0;
+        end
+        else if(i_valid) begin
+            o_valid <= 1;
+            /*
+            o_data  <= {((r>>2) + (r>>5) + (r>>6) +
                          (g>>1) + (g>>4) + (g>>5) + 
                          (b>>3)),
-			             4'b0 // bottom 4 bits padded with 0s
-			           };
-			*/
-			o_data <= (r>>2)+(r>>5)+(r>>6)+(g>>1)+(g>>4)+(g>>5)+(b>>3);
-		end 
-		else begin
-			o_valid <= 0;
-			o_data  <= 0;
-		end
-	end
+                         4'b0 // bottom 4 bits padded with 0s
+                       };
+            */
+            o_data <= (r>>2)+(r>>5)+(r>>6)+(g>>1)+(g>>4)+(g>>5)+(b>>3);
+        end 
+        else begin
+            o_valid <= 0;
+            o_data  <= 0;
+        end
+    end
 
 endmodule
