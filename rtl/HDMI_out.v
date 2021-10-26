@@ -35,7 +35,7 @@ module HDMI_out(
     );
     
 // ===========================================================================
-// 			            Parameters, Registers, and Wires
+//                      Parameters, Registers, and Wires
 // ===========================================================================   
    
    reg [9:0] SR_tmds_red;
@@ -45,7 +45,7 @@ module HDMI_out(
    reg [3:0] tmds_counter;    
    
 // ===========================================================================
-// 			                      Implementation
+//                                Implementation
 // ===========================================================================    
     initial begin
         SR_tmds_red <= 0;
@@ -76,7 +76,7 @@ module HDMI_out(
     end
     
 // ===========================================================================
-// 			               Differential Output Buffers
+//                         Differential Output Buffers
 // =========================================================================== 
     OBUFDS OBUFDS_Red(
     .I    (SR_tmds_red[0]),
