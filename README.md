@@ -2,24 +2,43 @@
 
 ![](docs/images/sobelDemo.jpg)
 
-- This project implements a video processing pipeline that captures video data from an OV7670 camera and applies a Gaussian lowpass filter and a Sobel edge detection filter.
+__Description:__
+This project implements a video processing pipeline that captures video data from an OV7670 camera and applies a Gaussian lowpass filter and a Sobel edge detection filter. 
 
-- Documentation is pretty messy at this point, will be cleaned up soon.
+Users can use the buttons and switches on the dev board to interact with the video processing system.
+- Video processing can be toggled on and off (video passthrough)
+- Gaussian and Sobel filters can be enabled or disabled seperately
+- Sobel filter thresholding can be changed by using the board buttons.
 
-__High-level Overview__
-- High level system design
-![](docs/images/sys_top.jpg)
-- Each block has a 'flush' control signal that's driven by a top-level control module (sys_control) that is not pictured. FIFOs are cleared and memory pointers where applicable are cleared.
-- The flush signal is held until the next start of frame indicated by the OV7670 camera.
-- The pipeline is flushed whenever a filter is enabled/disabled. 
-- Note: mem_bram infers FPGA block memory.
+The project is completed; more documentation to come when I have time.
 
-- Kernel Processor high-level design
-![](docs/images/kp_top.jpg)
-- Line buffers use a synthesis directive to forcibly synthesize DRAM.
+__High-level Overview:__
+![](docs/images/top_diagram.jpg)
+- The system is comprised of a camera interface block, preprocessing block, and gaussian and sobel filtering blocks.
+- Processed video data is stored into a framebuffer synthesized as block memory where it is retrieved for display over HDMI.
+- In RGB video passthrough mode, pixels are represented in RGB444 format and extended to RGB888 for TMDS encoding.
+- In video processing modes, pixels are represented as eight-bit greyscale values. 
+- Display format is 640x480 30FPS.
+
+__Camera Interface:__
+![](docs/images/cam_diagram.jpg)
+- The camera interface configures the OV7670 camera via i2c and captures pixel data (RGB444) into an asynchronous FIFO.
+
+__Preprocessing (RGB to Greyscale):__
+![](docs/images/preprocess_diagram.jpg)
+- The preprocessing block converts RGB444 to greyscale for filtering. It uses the algorithm ```y = 0.299*R + 0.587*G + 0.114*B```. 
+- The algorithm is implemented using bit-shifts, see ```docs/notes.txt```.
+
+__Kernel Processing:__
+![](docs/images/kerneltop_diagram.jpg)
+Both the Gaussian and Sobel filters are implemented using the design shown above. 
+- A kernel control module (ps_kernel_control) fetches data from the FIFO of the previous stage in the 
+system pipeline and fills the line buffers sequentially. 
+- Once three line buffers are full, it begins to feed pixel data 9 pixels at a time (3 from each line) 
+to the kernel processing pipeline. 
+- The output from the kernel processing pipeline is written to a synchronous FIFO.
 
 __Demos__
-- These demos reflect a work in progress until no longer noted here.
 - Click the images below to view Youtube videos.
 [![Gaussian Filter](https://img.youtube.com/vi/dFgFBZIkOFI/0.jpg)](https://www.youtube.com/watch?v=dFgFBZIkOFI)
 [![Full Demo](https://img.youtube.com/vi/nitLR1SwYG0/0.jpg)](https://www.youtube.com/watch?v=nitLR1SwYG0)
