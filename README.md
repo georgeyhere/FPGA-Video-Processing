@@ -3,6 +3,7 @@
 ![](docs/images/sobelDemo.jpg)
 
 __Description:__
+
 This project implements a video processing pipeline that captures video data from an OV7670 camera and applies a Gaussian lowpass filter and a Sobel edge detection filter. 
 
 Users can use the buttons and switches on the dev board to interact with the video processing system.
