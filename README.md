@@ -44,6 +44,9 @@ Gaussian:
 
 Sobel:
 ![](docs/images/sobel.jpg)
+Some noteworthy design features:
+- Technically, the Sobel operator is expressed as ```G = sqrt(Gx^2 + Gy^2)``` .
+- To avoid doing the square root (doable, but would need a CORDIC), thresholding is used instead.
 
 __Demos__
 - Click the images below to view Youtube videos.
