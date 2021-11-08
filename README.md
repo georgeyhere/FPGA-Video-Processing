@@ -32,7 +32,8 @@ __Preprocessing (RGB to Greyscale):__
 
 __Kernel Processing:__
 ![](docs/images/kerneltop_diagram.jpg)
-Both the Gaussian and Sobel filters are implemented using the design shown above. 
+![](docs/images/gaussian.jpg)
+Both the Gaussian and Sobel filters are implemented using the designs shown above. 
 - A kernel control module (ps_kernel_control) fetches data from the FIFO of the previous stage in the 
 system pipeline and fills the line buffers sequentially. 
 - Once three line buffers are full, it begins to feed pixel data 9 pixels at a time (3 from each line) 
